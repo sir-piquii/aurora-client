@@ -1,0 +1,12 @@
+@keyframes borderAnimation {
+	0% {
+		border-bottom-width: 0;
+	}
+	100% {
+		border-bottom-width: 2px;
+	}
+}
+
+.input-animation {
+	animation: borderAnimation 1s ease-in-out forwards;
+}
