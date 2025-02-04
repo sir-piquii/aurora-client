@@ -1,6 +1,10 @@
+import React, { useEffect } from 'react';
 import Team from './../components/TeamComponent';
 import './AboutView.css';
 export default function AboutUs() {
+	useEffect(() => {
+		document.title = 'About Us | Aurora';
+	}, []);
 	return (
 		<section className="container mx-auto px-4 py-12">
 			{/* Our Story */}

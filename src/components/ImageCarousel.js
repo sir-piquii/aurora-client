@@ -7,19 +7,21 @@ import carousel3 from './../assets/carousel_3.jpg';
 export default function Banner() {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
-	// Store image, title, and description in an array of objects
 	const slides = [
 		{
 			image: carousel1,
 			title: 'Everything you need to harvest energy from the Sun.',
+			description: 'Your reliable partner for solar solutions.',
 		},
 		{
 			image: carousel2,
 			title: 'We Are Experts In Residential & Commercial Solar Energy',
+			description: 'Powering homes and businesses with renewable energy.',
 		},
 		{
 			image: carousel3,
 			title: 'Why choose Aurora Energy',
+			description: 'Experience innovation and sustainability with us.',
 		},
 	];
 
@@ -34,7 +36,7 @@ export default function Banner() {
 	};
 
 	return (
-		<div className="relative w-full h-screen overflow-hidden">
+		<div className="relative w-full h-[900px] overflow-hidden">
 			{/* Image Carousel */}
 			<div
 				className="flex transition-transform duration-1000"
@@ -48,7 +50,7 @@ export default function Banner() {
 						<img
 							src={slide.image}
 							alt={`Banner ${index + 1}`}
-							className="w-full h-full object-cover"
+							className="w-full h-full object-contain"
 						/>
 					</div>
 				))}
@@ -62,9 +64,12 @@ export default function Banner() {
 				<p className="text-lg mb-6">
 					{slides[currentIndex].description}
 				</p>
-				<button className="bg-orange-500 text-white py-3 px-6 rounded-full hover:bg-orange-600 transition-all">
-					<a href="/about">Learn More</a>
-				</button>
+				<a
+					href="/about"
+					className="inline-block bg-gradient-to-r from-orange-500 to-navy-900 text-white text-lg py-3 px-8 rounded-lg hover:from-navy-900 hover:to-orange-500 transition-transform transform hover:scale-105"
+				>
+					Explore Now
+				</a>
 			</div>
 
 			{/* Custom Orange Navigation Buttons */}
@@ -80,6 +85,16 @@ export default function Banner() {
 			>
 				<FaChevronRight size={24} />
 			</button>
+
+			{/* Orange Flag for Get a Free Quote */}
+			<div className="absolute top-4 right-4 z-20">
+				<a
+					href="/free-quote"
+					className="block transform -rotate-6 px-6 py-3 text-sm font-bold text-white bg-gradient-to-l from-orange-600 to-orange-400 rounded-tr-full rounded-bl-full shadow-lg hover:scale-105 transition"
+				>
+					Get a Free Quote
+				</a>
+			</div>
 		</div>
 	);
 }

@@ -34,7 +34,11 @@ const products = [
 		icon: <FaMountain size={40} />,
 		link: '/product/mounting-equipment',
 	},
-	{ name: 'Cabling', icon: <FaPlug size={40} />, link: '/product/cabling' },
+	{
+		name: 'Cabling',
+		icon: <FaPlug size={40} />,
+		link: '/product/cabling',
+	},
 ];
 
 export default function ProductSection() {
@@ -48,12 +52,14 @@ export default function ProductSection() {
 					<Link
 						to={product.link}
 						key={index}
-						className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all border border-gray-200 hover:border-orange-500"
+						className="group flex flex-col items-center p-6 bg-navy-900 rounded-lg shadow-lg transition-transform transform hover:scale-105 border border-gray-200 hover:border-orange-500 hover:text-orange-500 hover:shadow-[0_0_20px_rgba(251,146,60,0.7)]"
 					>
-						<div className="text-orange-500 mb-3">
+						<div className="mb-3 transition-transform duration-500 group-hover:text-orange-500 group-hover:rotate-[360deg] group-hover:scale-110">
 							{product.icon}
 						</div>
-						<p className="text-lg font-semibold">{product.name}</p>
+						<p className="text-lg text-white font-semibold">
+							{product.name}
+						</p>
 					</Link>
 				))}
 			</div>
