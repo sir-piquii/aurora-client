@@ -27,7 +27,7 @@ export default function Navbar() {
 		<>
 			{/* Top Orange Bar */}
 			<div className="bg-orange-500 text-white">
-				<div className="container mx-auto flex justify-between items-center py-2 px-4 text-sm">
+				<div className="container mx-auto flex justify-between items-center py-1 px-4 text-sm">
 					{/* Contact Details */}
 					<div className="flex items-center space-x-4">
 						<div className="flex items-center space-x-1">

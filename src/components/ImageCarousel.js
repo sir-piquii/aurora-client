@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import carousel1 from './../assets/carousel_1.jpg';
+import carousel1 from './../assets/house_animation.mp4';
 import carousel2 from './../assets/carousel_2.jpg';
 import carousel3 from './../assets/carousel_3.jpg';
 
@@ -9,20 +9,24 @@ export default function Banner() {
 
 	const slides = [
 		{
-			image: carousel1,
+			type: 'video',
+			source: carousel1,
 			title: 'Everything you need to harvest energy from the Sun.',
 			description: 'Your reliable partner for solar solutions.',
 		},
-		{
-			image: carousel2,
-			title: 'We Are Experts In Residential & Commercial Solar Energy',
-			description: 'Powering homes and businesses with renewable energy.',
-		},
-		{
-			image: carousel3,
-			title: 'Why choose Aurora Energy',
-			description: 'Experience innovation and sustainability with us.',
-		},
+		// Uncomment these for multiple slides:
+		// {
+		// 	type: 'image',
+		// 	source: carousel2,
+		// 	title: 'We Are Experts In Residential & Commercial Solar Energy',
+		// 	description: 'Powering homes and businesses with renewable energy.',
+		// },
+		// {
+		// 	type: 'image',
+		// 	source: carousel3,
+		// 	title: 'Why choose Aurora Energy',
+		// 	description: 'Experience innovation and sustainability with us.',
+		// },
 	];
 
 	const handleNext = () => {
@@ -37,7 +41,7 @@ export default function Banner() {
 
 	return (
 		<div className="relative w-full h-[900px] overflow-hidden">
-			{/* Image Carousel */}
+			{/* Media Carousel */}
 			<div
 				className="flex transition-transform duration-1000"
 				style={{
@@ -46,12 +50,29 @@ export default function Banner() {
 				}}
 			>
 				{slides.map((slide, index) => (
-					<div key={index} className="w-full h-full flex-shrink-0">
-						<img
-							src={slide.image}
-							alt={`Banner ${index + 1}`}
-							className="w-full h-full object-contain"
-						/>
+					<div
+						key={index}
+						className="w-full h-full flex-shrink-0 relative"
+					>
+						{slide.type === 'video' ? (
+							<video
+								autoPlay
+								loop
+								muted
+								playsInline
+								className="w-full h-full object-cover"
+							>
+								<source src={slide.source} type="video/mp4" />
+								Your browser does not support the video tag.
+							</video>
+						) : (
+							<img
+								src={slide.source}
+								alt={`Banner ${index + 1}`}
+								className="w-full h-full object-cover"
+							/>
+						)}
+						<div className="absolute inset-0 bg-black/40"></div>
 					</div>
 				))}
 			</div>
@@ -72,19 +93,23 @@ export default function Banner() {
 				</a>
 			</div>
 
-			{/* Custom Orange Navigation Buttons */}
-			<button
-				onClick={handlePrev}
-				className="absolute top-1/2 left-5 transform -translate-y-1/2 text-white bg-orange-500 p-4 rounded-full hover:bg-orange-600 transition-all hover:scale-110"
-			>
-				<FaChevronLeft size={24} />
-			</button>
-			<button
-				onClick={handleNext}
-				className="absolute top-1/2 right-5 transform -translate-y-1/2 text-white bg-orange-500 p-4 rounded-full hover:bg-orange-600 transition-all hover:scale-110"
-			>
-				<FaChevronRight size={24} />
-			</button>
+			{/* Navigation Arrows - Only show if multiple slides */}
+			{slides.length > 1 && (
+				<>
+					<button
+						onClick={handlePrev}
+						className="absolute top-1/2 left-5 transform -translate-y-1/2 text-white bg-orange-500 p-4 rounded-full hover:bg-orange-600 transition-all hover:scale-110"
+					>
+						<FaChevronLeft size={24} />
+					</button>
+					<button
+						onClick={handleNext}
+						className="absolute top-1/2 right-5 transform -translate-y-1/2 text-white bg-orange-500 p-4 rounded-full hover:bg-orange-600 transition-all hover:scale-110"
+					>
+						<FaChevronRight size={24} />
+					</button>
+				</>
+			)}
 
 			{/* Orange Flag for Get a Free Quote */}
 			<div className="absolute top-4 right-4 z-20">
