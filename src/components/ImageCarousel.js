@@ -112,13 +112,42 @@ export default function Banner() {
 			)}
 
 			{/* Orange Flag for Get a Free Quote */}
-			<div className="absolute top-4 right-4 z-20">
-				<a
-					href="/free-quote"
-					className="block transform -rotate-6 px-6 py-3 text-sm font-bold text-white bg-gradient-to-l from-orange-600 to-orange-400 rounded-tr-full rounded-bl-full shadow-lg hover:scale-105 transition"
-				>
-					Get a Free Quote
-				</a>
+			<div className="absolute top-4 right-10 z-20 flex items-center justify-center">
+				<div className="relative">
+					<a
+						href="https://wa.me/263771683662"
+						className="block transform -rotate-6 px-6 py-3 text-sm font-bold text-white bg-gradient-to-l from-orange-600 to-orange-400 rounded-tr-full rounded-bl-full shadow-lg hover:scale-105 transition"
+						style={{
+							position: 'relative',
+							display: 'inline-block',
+							textAlign: 'center',
+							boxShadow: '0px 4px 10px rgba(0,0,0,0.2)',
+						}}
+					>
+						{' '}
+						Get a Free Quote
+					</a>
+
+					{/* Strings */}
+					<div
+						className="absolute w-1 h-12 bg-gray-800 left-2 top-[-32px]"
+						style={{
+							transformOrigin: 'bottom',
+							transform: 'rotate(-10deg)',
+						}}
+					></div>
+					<div
+						className="absolute w-1 h-9 bg-gray-800 right-8 top-[-32px]"
+						style={{
+							transformOrigin: 'bottom',
+							transform: 'rotate(10deg)',
+						}}
+					></div>
+
+					{/* Holes */}
+					<div className="absolute w-3 h-3 bg-gray-800 rounded-full left-1 top-[10px]"></div>
+					<div className="absolute w-3 h-3 bg-gray-800 rounded-full right-7 top-[-3px]"></div>
+				</div>
 			</div>
 		</div>
 	);

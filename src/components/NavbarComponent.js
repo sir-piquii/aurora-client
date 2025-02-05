@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, ChevronDown, Instagram, Mail, Twitter } from 'lucide-react';
+import { Menu, ChevronDown, Instagram, Mail } from 'lucide-react';
 import { FaXTwitter, FaFacebook, FaWhatsapp } from 'react-icons/fa6';
 import Logo from './../logo.png';
 
@@ -28,12 +28,13 @@ export default function Navbar() {
 			{/* Top Orange Bar */}
 			<div className="bg-orange-500 text-white">
 				<div className="container mx-auto flex justify-between items-center py-1 px-4 text-sm">
-					{/* Contact Details */}
 					<div className="flex items-center space-x-4">
-						<div className="flex items-center space-x-1">
-							<FaWhatsapp size={16} />
-							<span>+263 771 683 662</span>
-						</div>
+						<a href="https://wa.me/263771683662">
+							<div className="flex items-center space-x-1">
+								<FaWhatsapp size={16} />
+								<span>+263 771 683 662</span>
+							</div>
+						</a>
 						<div className="flex items-center space-x-1">
 							<Mail size={16} />
 							<span>info@auroraenergy.co.zw</span>
@@ -68,9 +69,9 @@ export default function Navbar() {
 			</div>
 
 			{/* Navbar */}
-			<nav className="relative bg-black/40 shadow-md z-50">
+			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
 				<div className="container mx-auto flex items-center justify-between p-4">
-					<img src={Logo} alt="Logo" style={{ width: '130px' }} />
+					<img src={Logo} alt="Logo" style={{ width: '175px' }} />
 
 					{/* Mobile Menu Button */}
 					<button
@@ -103,11 +104,7 @@ export default function Navbar() {
 							</div>
 
 							{isDropdownOpen && (
-								<ul
-									onMouseEnter={handleMouseEnter}
-									onMouseLeave={handleMouseLeave}
-									className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50"
-								>
+								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
 									{[
 										'Solar Panels',
 										'Inverters',
@@ -133,7 +130,7 @@ export default function Navbar() {
 							)}
 						</li>
 						<li className="hover:text-orange-500 cursor-pointer">
-							<a href="/about">Insights</a>
+							<a href="/insights">Insights</a>
 						</li>
 						<li className="hover:text-orange-500 cursor-pointer">
 							<a href="/contact">Contact Us</a>
@@ -174,43 +171,6 @@ export default function Navbar() {
 									</li>
 								),
 							)}
-							<li
-								className="py-2 border-b hover:text-orange-500 cursor-pointer"
-								onClick={() =>
-									setIsDropdownOpen(!isDropdownOpen)
-								}
-							>
-								<div className="flex justify-between items-center">
-									Products{' '}
-									<ChevronDown size={18} className="ml-1" />
-								</div>
-								{isDropdownOpen && (
-									<ul className="mt-2 pl-4 space-y-2">
-										{[
-											'Solar Panels',
-											'Inverters',
-											'Energy Storage',
-											'Balance of Systems',
-											'Mounting Equipment',
-											'Cabling',
-										].map((item, index) => (
-											<li
-												key={index}
-												className="py-2 hover:text-orange-500"
-												onClick={handleLinkClick}
-											>
-												<a
-													href={`/product/${item
-														.toLowerCase()
-														.replace(/ /g, '-')}`}
-												>
-													{item}
-												</a>
-											</li>
-										))}
-									</ul>
-								)}
-							</li>
 						</ul>
 					</motion.div>
 				)}
