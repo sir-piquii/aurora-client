@@ -46,13 +46,21 @@ export default function Navbar() {
 						>
 							<div className="flex items-center space-x-1">
 								<FaWhatsapp size={16} />
-								<span>+263 771 683 662</span>
+								<span className="hidden md:inline">
+									+263 771 683 662
+								</span>
 							</div>
 						</a>
-						<div className="flex items-center space-x-1">
+						<a
+							href="mailto:info@auroraenergy.co.zw"
+							target="_blank"
+							className="flex items-center space-x-1"
+						>
 							<Mail size={16} />
-							<span>info@auroraenergy.co.zw</span>
-						</div>
+							<span className="hidden md:inline">
+								info@auroraenergy.co.zw
+							</span>
+						</a>
 					</div>
 
 					{/* Social Icons */}

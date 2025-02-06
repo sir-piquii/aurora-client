@@ -74,11 +74,21 @@ export default function Footer() {
 									size={40}
 									className="mx-auto text-white mb-3 transition-all duration-300 hover:text-orange-500"
 								/>
-								<p className="text-lg">
+								<a
+									href="mailto:info@auroraenergy.co.zw"
+									target="_blank"
+									className="text-lg"
+								>
 									info@auroraenergy.co.zw
-								</p>
-								<p className="text-lg">
-									sales@auroraenergy.co.zw
+								</a>
+								<p>
+									<a
+										href="mailto:sales@auroraenergy.co.zw"
+										target="_blank"
+										className="text-lg"
+									>
+										sales@auroraenergy.co.zw
+									</a>
 								</p>
 							</div>
 
@@ -115,8 +125,12 @@ export default function Footer() {
 					</div>
 
 					{/* Social Links Sidebar spanning 2 columns on medium/large screens */}
-					<div className="md:col-span-2 flex flex-col items-center md:items-center justify-center">
-						<div className="flex flex-col space-y-4">
+					<div className="md:col-span-2 flex items-center justify-center">
+						{/* 
+              On mobile, display links in a row with space between them.
+              On medium and up, display links in a column.
+            */}
+						<div className="flex flex-row space-x-4 md:flex-col md:space-y-4 md:space-x-0">
 							<a
 								href="https://www.facebook.com/share/15imcziZ2b/"
 								target="_blank"

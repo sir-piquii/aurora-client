@@ -11,8 +11,7 @@ export default function Banner() {
 		{
 			type: 'video',
 			source: carousel1,
-			title: 'Everything you need to harvest energy from the Sun.',
-			description: 'Your reliable partner for solar solutions.',
+			title: 'Welcome to Aurora Energy, we offer everything you need to harvest energy from the sun.',
 		},
 		// Uncomment these for multiple slides:
 		// {
