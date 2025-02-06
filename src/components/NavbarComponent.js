@@ -16,6 +16,14 @@ export default function Navbar() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const closeDropdownTimer = useRef(null);
 
+	// Dummy user for demonstration. Replace with your actual auth logic.
+	// Set isLoggedIn to true if a user is logged in.
+	// Set isAdmin to true if the logged in user has admin roles.
+	const user = {
+		isLoggedIn: false,
+		isAdmin: false,
+	};
+
 	const handleLinkClick = () => setIsOpen(false);
 
 	const handleMouseEnter = () => {
@@ -158,20 +166,44 @@ export default function Navbar() {
 							)}
 						</li>
 						<li className="hover:text-orange-500 cursor-pointer">
-							<a href="/insights">Insights</a>
+							<a href="/insights">Insights & News</a>
 						</li>
 						<li className="hover:text-orange-500 cursor-pointer">
 							<a href="/contact">Contact Us</a>
 						</li>
-						{/* Dealer Portal Button */}
-						<li>
-							<a
-								href="/dealer-portal"
-								className="bg-orange-200 text-navy-900 px-3 py-1 rounded hover:bg-orange-300 transition"
-							>
-								Dealer Portal
-							</a>
-						</li>
+
+						{/* Conditional Auth Links */}
+						{!user.isLoggedIn ? (
+							<>
+								<li>
+									<a
+										href="/login"
+										className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+									>
+										Login
+									</a>
+								</li>
+								<li>
+									<a
+										href="/signup"
+										className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+									>
+										Sign Up
+									</a>
+								</li>
+							</>
+						) : (
+							user.isAdmin && (
+								<li>
+									<a
+										href="/admin-portal"
+										className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+									>
+										Admin Portal
+									</a>
+								</li>
+							)
+						)}
 						{/* Cart Element (non-clickable) */}
 						<li>
 							<a
@@ -194,7 +226,6 @@ export default function Navbar() {
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.3 }}
 							className="fixed inset-0 z-50"
-							// Clicking on the backdrop will close the menu
 							onClick={() => setIsOpen(false)}
 						>
 							<motion.div
@@ -218,7 +249,7 @@ export default function Navbar() {
 									{[
 										'Home',
 										'About Us',
-										'Insights',
+										'Insights & News',
 										'Contact Us',
 									].map((item, index) => (
 										<li
@@ -235,18 +266,47 @@ export default function Navbar() {
 											</a>
 										</li>
 									))}
-									{/* Dealer Portal Button */}
-									<li
-										className="py-2 border-b hover:text-orange-500 cursor-pointer"
-										onClick={handleLinkClick}
-									>
-										<a
-											href="/dealer-portal"
-											className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-										>
-											Dealer Portal
-										</a>
-									</li>
+									{/* Conditional Auth Links for Mobile */}
+									{!user.isLoggedIn ? (
+										<>
+											<li
+												className="py-2 border-b hover:text-orange-500 cursor-pointer"
+												onClick={handleLinkClick}
+											>
+												<a
+													href="/login"
+													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+												>
+													Login
+												</a>
+											</li>
+											<li
+												className="py-2 border-b hover:text-orange-500 cursor-pointer"
+												onClick={handleLinkClick}
+											>
+												<a
+													href="/signup"
+													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+												>
+													Sign Up
+												</a>
+											</li>
+										</>
+									) : (
+										user.isAdmin && (
+											<li
+												className="py-2 border-b hover:text-orange-500 cursor-pointer"
+												onClick={handleLinkClick}
+											>
+												<a
+													href="/admin-portal"
+													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+												>
+													Admin Portal
+												</a>
+											</li>
+										)
+									)}
 									{/* Cart Element (non-clickable) */}
 									<li
 										className="py-2 border-b"

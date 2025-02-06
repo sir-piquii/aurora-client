@@ -35,11 +35,11 @@ const products = [
 		icon: <FaPlug size={40} />,
 		link: '/product/cabling',
 	},
-	{
-		name: 'Accessories',
-		icon: <FaToolbox size={40} />,
-		link: '/product/accessories',
-	},
+	// {
+	// 	name: 'Accessories',
+	// 	icon: <FaToolbox size={40} />,
+	// 	link: '/product/accessories',
+	// },
 	{
 		name: 'Switch Gear',
 		icon: <FaGear size={40} />,
