@@ -4,14 +4,16 @@ import { FaUserCircle } from 'react-icons/fa';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import testimonial from './../assets/team_1.jpg';
+import solar_support from './../assets/solar_support.JPG';
+import irradiant from './../assets/irradiant.JPG';
+import lentaway from './../assets/lentaway.JPG';
 
 const testimonials = [
 	{
 		id: 1,
 		name: 'Eng Geral Kwinjo',
 		role: 'Operations Manager',
-		image: testimonial,
+		image: solar_support,
 		feedback:
 			'Solar Support ZW Aurora Energy has been a steadfast and trustworthy partner in renewable energy solutions. Their exceptional technical support has been instrumental in building confidence with our customers and installation teams. Our four-year collaboration has not only fueled our business growth but also elevated the quality of our work. I wholeheartedly recommend Aurora Energy to anyone seeking reliable and expert renewable energy solutions.',
 	},
@@ -19,7 +21,7 @@ const testimonials = [
 		id: 2,
 		name: 'Pride Gandah',
 		role: 'Chief Technical Officer',
-		image: '', // No image provided
+		image: irradiant, // No image provided
 		feedback:
 			'As IRRADIANT ENERGY, our long standing relationship with Aurora Energy enabled us to offer solar energy products and services of the highest quality to our clients. Our working together has been very fruitful and we continue to support and trust each other in order to continue offering products and services that are unmatched in quality. ',
 	},
@@ -27,7 +29,7 @@ const testimonials = [
 		id: 3,
 		name: 'Lloyd E.N. Nyemba (Pr.Eng)',
 		role: 'Director',
-		image: testimonial,
+		image: lentaway,
 		feedback:
 			"Lentaway is a solar and renewable and solar energy EPC serving a wide spectrum of clientele in Zimbabwe. Aurora is our main distributor, and technology supply partner since 2020, providing us with solar modules, inverter technology, lithium ion batteries and balance of systems. Aurora's service is top notch, and have reliably supplied us with solar products for our high end clientele which includes developmental organisations like the UN, commercial and upmarket residential. Aurora also supports us promptly with 24/7 after-sales support and critical spares back-up which is vital for long term sustainability of our operating solar systems.",
 	},

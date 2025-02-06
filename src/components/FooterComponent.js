@@ -56,6 +56,8 @@ export default function Footer() {
 							<a
 								className="p-8 bg-black/40 rounded-lg shadow-lg text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-xl"
 								href="https://wa.me/263771683662"
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								<div>
 									<FaWhatsapp
@@ -116,25 +118,33 @@ export default function Footer() {
 					<div className="md:col-span-2 flex flex-col items-center md:items-center justify-center">
 						<div className="flex flex-col space-y-4">
 							<a
-								href="#"
+								href="https://www.facebook.com/share/15imcziZ2b/"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
 							>
 								<FaFacebookF />
 							</a>
 							<a
-								href="#"
+								href="https://x.com/AuroraEnergyZW?s=09"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
 							>
 								<FaXTwitter />
 							</a>
 							<a
-								href="#"
+								href="https://www.instagram.com/auroraenergyzimbabwe?igsh=MXNpOTFvZnRubTljcQ=="
+								target="_blank"
+								rel="noopener noreferrer"
 								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
 							>
 								<FaInstagram />
 							</a>
 							<a
-								href="#"
+								href="https://www.linkedin.com/company/aurora-energy1/"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
 							>
 								<FaLinkedin />

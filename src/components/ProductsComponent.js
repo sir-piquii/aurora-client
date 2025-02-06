@@ -2,10 +2,11 @@ import {
 	FaSolarPanel,
 	FaBolt,
 	FaBatteryFull,
-	FaTools,
+	FaToolbox,
 	FaMountain,
 	FaPlug,
-} from 'react-icons/fa';
+	FaGear,
+} from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
 const products = [
@@ -15,19 +16,14 @@ const products = [
 		link: '/product/solar-panels',
 	},
 	{
-		name: 'Inverters',
+		name: 'Hybrid Inverters',
 		icon: <FaBolt size={40} />,
-		link: '/product/inverters',
+		link: '/product/hybrid-inverters',
 	},
 	{
 		name: 'Energy Storage',
 		icon: <FaBatteryFull size={40} />,
 		link: '/product/energy-storage',
-	},
-	{
-		name: 'Balance of Systems',
-		icon: <FaTools size={40} />,
-		link: '/product/balance-of-systems',
 	},
 	{
 		name: 'Mounting Equipment',
@@ -39,6 +35,16 @@ const products = [
 		icon: <FaPlug size={40} />,
 		link: '/product/cabling',
 	},
+	{
+		name: 'Accessories',
+		icon: <FaToolbox size={40} />,
+		link: '/product/accessories',
+	},
+	{
+		name: 'Switch Gear',
+		icon: <FaGear size={40} />,
+		link: '/product/switch-gear',
+	},
 ];
 
 export default function ProductSection() {
@@ -47,7 +53,7 @@ export default function ProductSection() {
 			<h2 className="text-3xl font-bold text-center mb-8">
 				Explore Our Products
 			</h2>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				{products.map((product, index) => (
 					<Link
 						to={product.link}
