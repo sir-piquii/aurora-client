@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import solar_support from './../assets/solar_support.JPG';
 import irradiant from './../assets/irradiant.JPG';
 import lentaway from './../assets/lentaway.JPG';
+import warehouse from './../assets/warehouse.jpg';
 
 const testimonials = [
 	{
@@ -32,6 +33,14 @@ const testimonials = [
 		image: lentaway,
 		feedback:
 			"Lentaway is a solar and renewable and solar energy EPC serving a wide spectrum of clientele in Zimbabwe. Aurora is our main distributor, and technology supply partner since 2020, providing us with solar modules, inverter technology, lithium ion batteries and balance of systems. Aurora's service is top notch, and have reliably supplied us with solar products for our high end clientele which includes developmental organisations like the UN, commercial and upmarket residential. Aurora also supports us promptly with 24/7 after-sales support and critical spares back-up which is vital for long term sustainability of our operating solar systems.",
+	},
+	{
+		id: 4,
+		name: 'Ryan Carpenter',
+		role: 'Managing Director',
+		image: warehouse,
+		feedback:
+			'I would like to personally commend Aurora Energy on their consistency and exceptional customer service. Their clientele base is constantly kept up to date of stocks in coming and new products on the market. They have excelled in providing installers and retailers with all the necessary quality equipment required for a solar installation and at an affordable price! Aurora Energy has a reputable reputation, innovative and positive mindset and a great relationship with its customers. We look forward to our continuation of working with you and our support for each other.',
 	},
 ];
 
