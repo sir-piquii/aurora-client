@@ -51,7 +51,7 @@ export default function Footer() {
 					{/* Cards container spanning 10 columns on medium/large screens */}
 					<div className="md:col-span-10">
 						{/* Inner grid for cards: 1 column on mobile, 3 columns on medium and up */}
-						<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 							{/* WhatsApp Card */}
 							<a
 								className="p-8 bg-black/40 rounded-lg shadow-lg text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-xl"
@@ -64,7 +64,9 @@ export default function Footer() {
 										size={40}
 										className="mx-auto text-white mb-3 transition-all duration-300 hover:text-orange-500"
 									/>
-									<p className="text-lg">+263 771 683 662</p>
+									<p className="text-lg md:text-base lg:text-lg">
+										+263 771 683 662
+									</p>
 								</div>
 							</a>
 
@@ -74,18 +76,21 @@ export default function Footer() {
 									size={40}
 									className="mx-auto text-white mb-3 transition-all duration-300 hover:text-orange-500"
 								/>
-								<a
-									href="mailto:info@auroraenergy.co.zw"
-									target="_blank"
-									className="text-lg"
-								>
-									info@auroraenergy.co.zw
-								</a>
+								<p>
+									<a
+										href="mailto:info@auroraenergy.co.zw"
+										target="_blank"
+										className="text-lg md:text-base lg:text-lg break-words"
+									>
+										info@auroraenergy.co.zw
+									</a>
+								</p>
+
 								<p>
 									<a
 										href="mailto:sales@auroraenergy.co.zw"
 										target="_blank"
-										className="text-lg"
+										className="text-lg md:text-base lg:text-lg break-words"
 									>
 										sales@auroraenergy.co.zw
 									</a>
@@ -98,7 +103,7 @@ export default function Footer() {
 									size={40}
 									className="mx-auto text-white mb-3 transition-all duration-300 hover:text-orange-500"
 								/>
-								<p className="text-lg">
+								<p className="text-lg md:text-base lg:text-lg">
 									1 College Road, Alexandra Park, Harare,
 									Zimbabwe
 								</p>
