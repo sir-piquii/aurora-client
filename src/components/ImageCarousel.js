@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import carousel1 from './../assets/house_animation.mp4';
-import carousel2 from './../assets/carousel_2.jpg';
-import carousel3 from './../assets/carousel_3.jpg';
 
 export default function Banner() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -13,19 +11,6 @@ export default function Banner() {
 			source: carousel1,
 			title: 'Welcome to Aurora Energy, we offer everything you need to harvest energy from the sun.',
 		},
-		// Uncomment these for multiple slides:
-		// {
-		//   type: 'image',
-		//   source: carousel2,
-		//   title: 'We Are Experts In Residential & Commercial Solar Energy',
-		//   description: 'Powering homes and businesses with renewable energy.',
-		// },
-		// {
-		//   type: 'image',
-		//   source: carousel3,
-		//   title: 'Why choose Aurora Energy',
-		//   description: 'Experience innovation and sustainability with us.',
-		// },
 	];
 
 	const handleNext = () => {
