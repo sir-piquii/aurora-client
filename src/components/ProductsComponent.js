@@ -2,10 +2,11 @@ import {
 	FaSolarPanel,
 	FaBolt,
 	FaBatteryFull,
-	FaTools,
+	FaToolbox,
 	FaMountain,
 	FaPlug,
-} from 'react-icons/fa';
+	FaGear,
+} from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
 const products = [
@@ -15,9 +16,9 @@ const products = [
 		link: '/product/solar-panels',
 	},
 	{
-		name: 'Inverters',
+		name: 'Hybrid Inverters',
 		icon: <FaBolt size={40} />,
-		link: '/product/inverters',
+		link: '/product/hybrid-inverters',
 	},
 	{
 		name: 'Energy Storage',
@@ -25,35 +26,46 @@ const products = [
 		link: '/product/energy-storage',
 	},
 	{
-		name: 'Balance of Systems',
-		icon: <FaTools size={40} />,
-		link: '/product/balance-of-systems',
-	},
-	{
 		name: 'Mounting Equipment',
 		icon: <FaMountain size={40} />,
 		link: '/product/mounting-equipment',
 	},
-	{ name: 'Cabling', icon: <FaPlug size={40} />, link: '/product/cabling' },
+	{
+		name: 'Cabling',
+		icon: <FaPlug size={40} />,
+		link: '/product/cabling',
+	},
+	// {
+	// 	name: 'Accessories',
+	// 	icon: <FaToolbox size={40} />,
+	// 	link: '/product/accessories',
+	// },
+	{
+		name: 'Switch Gear',
+		icon: <FaGear size={40} />,
+		link: '/product/switch-gear',
+	},
 ];
 
 export default function ProductSection() {
 	return (
 		<section className="container mx-auto px-4 py-12">
 			<h2 className="text-3xl font-bold text-center mb-8">
-				Our Products
+				Explore Our Products
 			</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{products.map((product, index) => (
 					<Link
 						to={product.link}
 						key={index}
-						className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all border border-gray-200 hover:border-orange-500"
+						className="group flex flex-col items-center p-6 bg-navy-900 rounded-lg shadow-lg transition-transform transform hover:scale-105 border border-gray-200 hover:border-orange-500 hover:text-orange-500 hover:shadow-[0_0_20px_rgba(251,146,60,0.7)]"
 					>
-						<div className="text-orange-500 mb-3">
+						<div className="mb-3 transition-transform duration-500 group-hover:text-orange-500 text-white group-hover:rotate-[360deg] group-hover:scale-110">
 							{product.icon}
 						</div>
-						<p className="text-lg font-semibold">{product.name}</p>
+						<p className="text-lg text-white font-semibold">
+							{product.name}
+						</p>
 					</Link>
 				))}
 			</div>

@@ -27,6 +27,7 @@ export default function ContactUs() {
 
 	useEffect(() => {
 		// Add animation class when component loads
+		document.title = 'Contact Us | Aurora';
 		const inputs = document.querySelectorAll('.input-field');
 		inputs.forEach((input) => input.classList.add('input-animation'));
 	}, []);

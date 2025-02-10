@@ -8,8 +8,10 @@ export default {
 					900: '#001f3f',
 				},
 				orange: {
-					500: '#ff7300',
+					500: '#de7a37',
 				},
+				'navy-900': '#0a1f44',
+				'navy-800': '#0b2a5b',
 			},
 			animation: {
 				'slide-in-left': 'slideInLeft 1s ease-out',
