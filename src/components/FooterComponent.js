@@ -8,8 +8,9 @@ import {
 	FaEnvelope,
 	FaWhatsapp,
 	FaMapPin,
+	FaYoutube,
+	FaTiktok,
 } from 'react-icons/fa6';
-import Logo from './../logo.png';
 
 export default function Footer() {
 	const footerRef = useRef(null);
@@ -53,20 +54,30 @@ export default function Footer() {
 						{/* Inner grid for cards: 1 column on mobile, 3 columns on medium and up */}
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
 							{/* WhatsApp Card */}
-							<a
-								className="p-8 bg-black/40 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-xl"
-								href="https://wa.me/263771683662"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<FaWhatsapp
-									size={40}
-									className="mx-auto text-white mb-3 transition-all duration-300 hover:text-orange-500"
-								/>
-								<p className="text-lg md:text-base lg:text-lg">
+							{/* WhatsApp & Phone Card */}
+							<div className="p-8 bg-black/40 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-xl">
+								<div className="flex flex-row items-center space-x-4">
+									<a
+										href="https://wa.me/263771683662"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<FaWhatsapp
+											size={40}
+											className="text-white transition-all duration-300 hover:text-orange-500"
+										/>
+									</a>
+									<a href="tel:+263771683662">
+										<FaPhone
+											size={38}
+											className="text-white transition-all duration-300 hover:text-orange-500"
+										/>
+									</a>
+								</div>
+								<p className="text-lg md:text-base lg:text-lg mt-3">
 									+263 771 683 662
 								</p>
-							</a>
+							</div>
 
 							{/* Email Card */}
 							<div className="p-8 bg-black/40 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-xl">
@@ -128,7 +139,7 @@ export default function Footer() {
 
 					{/* Social Links Sidebar spanning 2 columns on medium/large screens */}
 					<div className="md:col-span-2 flex items-center justify-center">
-						<div className="flex flex-row space-x-4 md:flex-col md:space-y-4 md:space-x-0">
+						<div className="flex flex-row space-x-4 lg:grid lg:grid-cols-2 lg:grid-rows-3 lg:gap-4 lg:space-x-0">
 							<a
 								href="https://www.facebook.com/share/15imcziZ2b/"
 								target="_blank"
@@ -160,6 +171,22 @@ export default function Footer() {
 								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
 							>
 								<FaLinkedin />
+							</a>
+							<a
+								href="https://youtube.com/@auroraenergyzimbabwe?si=huqdG42TA1NBS8Iy"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
+							>
+								<FaYoutube />
+							</a>
+							<a
+								href="https://www.tiktok.com/@aurora_energy_zimbabwe?_t=ZM-8tiPYsaBl0X&_r=1"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:text-orange-500 transform hover:scale-110 transition-all duration-300"
+							>
+								<FaTiktok />
 							</a>
 						</div>
 					</div>

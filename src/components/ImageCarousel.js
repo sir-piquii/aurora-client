@@ -9,7 +9,9 @@ export default function Banner() {
 		{
 			type: 'video',
 			source: carousel1,
-			title: 'Welcome to Aurora Energy, we offer everything you need to harvest energy from the sun.',
+			title: 'Empowering a Sustainable Future!',
+			description:
+				'We specialize in delivering top-notch Renewable Energy Solutions for both Residential and Commercial Applications. Our portfolio features industry-leading brands, ensuring reliability, efficiency, and innovation. ',
 		},
 	];
 

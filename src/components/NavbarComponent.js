@@ -8,6 +8,9 @@ import {
 	FaCartShopping,
 	FaX,
 	FaLinkedin,
+	FaPhone,
+	FaYoutube,
+	FaTiktok,
 } from 'react-icons/fa6';
 import Logo from './../logo.png';
 
@@ -60,6 +63,17 @@ export default function Navbar() {
 							</div>
 						</a>
 						<a
+							href="tel:+263242783999"
+							className="flex items-center space-x-1"
+						>
+							<div className="flex items-center space-x-1">
+								<FaPhone size={16} />
+								<span className="hidden md:inline">
+									+263 242 783 999
+								</span>
+							</div>
+						</a>
+						<a
 							href="mailto:info@auroraenergy.co.zw"
 							target="_blank"
 							className="flex items-center space-x-1"
@@ -100,6 +114,20 @@ export default function Navbar() {
 							rel="noopener noreferrer"
 						>
 							<FaLinkedin size={16} />
+						</a>
+						<a
+							href="https://youtube.com/@auroraenergyzimbabwe?si=huqdG42TA1NBS8Iy"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<FaYoutube size={16} />
+						</a>
+						<a
+							href="https://www.tiktok.com/@aurora_energy_zimbabwe?_t=ZM-8tiPYsaBl0X&_r=1"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<FaTiktok size={16} />
 						</a>
 					</div>
 				</div>
