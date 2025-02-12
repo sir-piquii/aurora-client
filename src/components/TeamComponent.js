@@ -10,7 +10,7 @@ const teamMembers = [
 		name: 'Mr Dennis Chasara',
 		title: 'Managing Director',
 		description:
-			"With over 15 years of experience in the marketing and distribution industry, Mr. Chasara has established himself as a pioneering force in the energy sector. His professional journey began in 2008 as a sales representative, following the completion of his Diploma in Marketing with the Institute of Marketing Management (IMM) in 2006. Through dedication and perseverance, Mr. Chasara amassed extensive expertise, ultimately leading to the founding of Stadic Distributors. As the driving force behind Stadic Distributors, Mr. Chasara successfully expanded the company's reach, specializing in the nationwide distribution of petroleum products. Building on this success, Mr. Chasara's vision for a comprehensive energy organization led to the establishment of Aurora Energy. His mission is to power Africa, fostering growth, innovation, and sustainability across the continent. Under Mr. Chasara's visionary leadership, Aurora Energy is poised to revolutionize the energy landscape, driving progress and transformation throughout Africa.",
+			"Mr. Chasara, a pioneering force in the energy sector, boasts over 15 years of experience in marketing and distribution. Starting as a sales representative in 2008, he founded Stadic Distributors, specializing in petroleum product distribution. His vision for a comprehensive energy organization led to the establishment of Aurora Energy, aiming to power Africa through growth, innovation, and sustainability. Under his leadership, Aurora Energy is poised to revolutionize Africa's energy landscape. ",
 	},
 	{
 		id: 2,
@@ -26,7 +26,7 @@ const teamMembers = [
 		name: 'Kudzai Rusike',
 		title: 'Human Resource Manager',
 		description:
-			"As the Human Resources Manager at Aurora Energy, Kudzai plays a pivotal role in shaping the organization's workplace culture and driving business results. With a strong passion for building high-performing teams, Kudzai is dedicated to: creating outstanding workplaces that foster growth and sustainability, transforming and building organizational cultures that drive results, upholding Aurora Energy's mission, vision, and standards and ensuring the welfare and well-being of employees. Holding an Honors Degree in Local Governance Studies, Kudzai brings a unique blend of expertise and knowledge to her role, driving HR strategies that support Aurora Energy's continued success.",
+			"Kudzai, Human Resources Manager at Aurora Energy, drives workplace culture and business results. She's passionate about building high-performing teams and dedicated to transforming organizational cultures and upholding Aurora Energy's mission and standards. With an Honors Degree in Local Governance Studies, Kudzai brings unique expertise to drive HR strategies supporting Aurora Energy's success. ",
 	},
 	{
 		id: 4,
@@ -34,7 +34,7 @@ const teamMembers = [
 		name: 'Shaziah Shahadat',
 		title: 'Administrator/Front-desk',
 		description:
-			"As the face of our company, Shaziah extends a warm welcome to our valued clients, providing top-notch service and ensuring their needs are met. In addition to her role as a customer service representative, Shaziah also serves as our administrator. With over four years of experience in customer-facing and administrative roles, Shaziah possesses a unique blend of skills and expertise. Her infectious smile and radiant aura create a lasting impression, brightening the day of our clients. Shaziah holds a Bachelor's Honours degree in Political Administration, underscoring her exceptional organizational and communication skills.",
+			"Shaziah, our customer service representative and administrator, extends a warm welcome to our valued clients. With over 4 years of experience in customer-facing and administrative roles, she possesses a unique blend of skills. Her infectious smile and exceptional organizational and communication skills create a lasting impression. Shaziah holds a Bachelor's Honours degree in Political Administration. ",
 	},
 	{
 		id: 5,
@@ -42,7 +42,7 @@ const teamMembers = [
 		name: 'Rumbidzayi Masiyambiri',
 		title: 'Sales & Marketing Manager',
 		description:
-			"Rumbidzayi embodies our values, crafting a positive and lasting impression that reflects our organization's mission. With a diverse professional background, Rumbidzayi possesses exceptional interpersonal skills, honed by her deep understanding of client needs and market trends. Her approach is characterized by: unbridled vitality and professionalism, warmth and empathy in every interaction and a service-oriented mindset, advocating for clients' best interests. A seasoned expert in the Renewable Energy Industry, with over five years of experience, Rumbidzayi holds impressive academic credentials: Master of Business Administration (MBA) from the National University of Science and Technology (NUST) and Bachelor's (Hons) Degree in Business Management and Entrepreneurship from the Chinhoyi University of Technology (CUT). Her unique blend of expertise, passion, and dedication makes her an invaluable asset to our team.",
+			"Rumbidzayi embodies our values, creating a lasting impression that reflects our mission. With a diverse background, she possesses exceptional interpersonal skills, understanding client needs and market trends. Her approach is marked by vitality, professionalism, warmth, and a service-oriented mindset. A seasoned Renewable Energy expert with 5+ years of experience, Rumbidzayi holds an MBA from NUST and a Bachelor's (Hons) Degree in Business Management from CUT. Her unique blend of expertise, passion, and dedication makes her an invaluable asset. ",
 	},
 	{
 		id: 6,
@@ -50,7 +50,7 @@ const teamMembers = [
 		name: 'Fungai L Muparabasa',
 		title: 'Chief Technical Officer',
 		description:
-			"As our Technical Head, Fungai brings a wealth of expertise to the table, backed by her credentials as a licensed Class 1 Electrician. With over five years of experience in installing, commissioning, maintaining, inspecting, and repairing complex electrical equipment, Fungai's proficiency spans the energy and hospitality industries. At our company, Fungai plays a pivotal role in: corrective and preventative solar maintenance and delivering exceptional service to our valued customers. A visionary thinker, Fungai takes a holistic approach to life, focusing on the bigger picture and rising above trivialities. Her unique blend of technical expertise and philosophical outlook makes her an invaluable asset to our team.",
+			'Fungai, our Technical Head, brings extensive expertise as a licensed Class 1 Electrician. With 5+ years of experience in electrical equipment installation, commissioning, and maintenance, her proficiency spans energy and hospitality. At our company, Fungai focuses on corrective and preventative solar maintenance and delivering exceptional customer service. A visionary thinker, Fungai combines technical expertise with a philosophical outlook, making her an invaluable asset. ',
 	},
 	{
 		id: 7,
@@ -58,7 +58,7 @@ const teamMembers = [
 		name: 'Cleopatra Sakawenga',
 		title: 'Procurement Manager',
 		description:
-			'As a results-driven and detail-oriented Procurement Officer, Cleopatra leverages her expertise to drive operational excellence. She holds a Diploma in Purchasing and Supply Management and is currently pursuing a professional certification with the Chartered Institute of Procurement and Supply (CIPS). With a strong background in procurement, Cleopatra excels in: sourcing and qualifying top-tier suppliers, building and maintaining strategic supplier relationships, negotiating contracts to optimize value and managing inventory and streamlining procurement processes. Through her work, Cleopatra is committed to achieving a delicate balance between cost optimization and product quality, ensuring timely delivery and exceeding expectations.',
+			'Cleopatra, our results-driven Procurement Officer, achieves operational excellence with her expertise. Holding a Diploma in Purchasing and Supply Management and pursuing CIPS certification, she excels in sourcing and qualifying top suppliers, building strategic relationships, negotiating contracts for optimal value and managing inventory and streamlining processes. Cleopatra balances cost optimization with product quality, ensuring timely delivery and exceeding expectations.',
 	},
 	{
 		id: 8,
@@ -66,7 +66,7 @@ const teamMembers = [
 		name: 'Chelsea Ngorima',
 		title: 'Accountant',
 		description:
-			"As our dedicated accountant, Chelsea brings a wealth of expertise to our financial management. Currently advancing her ACCA qualification, Chelsea possesses extensive experience in: taxation and compliance, financial planning and strategy and auditing and financial analysis. Chelsea's impressive academic credentials include: Bachelor's Honours Degree from Oxford Brookes University, Advanced Diploma in Accounting and Business and Diploma in Accounting and Business. With Chelsea at the helm of our financial management, our company's books are indeed in safe and capable hands.",
+			"Chelsea, our dedicated accountant, brings expertise to our financial management. Pursuing ACCA qualification, she has extensive experience in taxation and compliance, financial planning and strategy and auditing and financial analysis. Holding a Bachelor's Honours Degree from Oxford Brookes University and diplomas in Accounting and Business, Chelsea ensures our company's finances are in safe and capable hands. ",
 	},
 ];
 
