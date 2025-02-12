@@ -5,6 +5,7 @@ import Footer from './components/FooterComponent';
 import HomeView from './views/HomeView';
 import Contact from './views/ContactView';
 import About from './views/AboutView';
+import '@fontsource/anta'; // This imports the default weight (typically 400)
 
 function App() {
 	return (
