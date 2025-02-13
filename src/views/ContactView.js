@@ -42,7 +42,7 @@ export default function ContactPage() {
 						<h2 className="text-2xl font-bold mb-6">
 							Contact Details
 						</h2>
-						<div className="flex items-center">
+						<div className="flex items-center mb-4">
 							<FaMapMarkerAlt
 								className="text-orange-500 mr-4"
 								size={24}
