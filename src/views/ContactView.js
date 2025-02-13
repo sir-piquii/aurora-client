@@ -50,7 +50,8 @@ export default function ContactPage() {
 							<div>
 								<p className="font-semibold">Address</p>
 								<p className="hover:text-orange-300 transition">
-									123 Aurora Street, City, Country
+									1 College Road, Alexandra Park, Harare,
+									Zimbabwe
 								</p>
 							</div>
 						</div>
