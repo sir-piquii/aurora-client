@@ -1,100 +1,123 @@
-import { useEffect, useState } from 'react';
-import teamMember1 from './../assets/team_1.jpg'; // Example Image 1
-import teamMember2 from './../assets/team_2.jpeg'; // Example Image 2
-import teamMember3 from './../assets/team_3.jpeg'; // Example Image 3
-import teamMember4 from './../assets/team_4.jpeg'; // Example Image 4
+import teamMember1 from './../assets/team_1.jpg';
+import teamMember2 from './../assets/team_2.jpeg';
+import teamMember3 from './../assets/team_3.jpeg';
+import teamMember4 from './../assets/team_4.jpeg';
 
 const teamMembers = [
 	{
+		id: 1,
 		image: teamMember4,
-		name: 'Mr Chasara',
-		title: 'Managing Director ',
+		name: 'Mr Dennis Chasara',
+		title: 'Managing Director',
 		description:
-			'Mr Chasara has been in the distribution industry for more than 15 years in the Marketing sector. He started as a sales representative in 2008 after obtaining a Diploma with IMM in 2006. He gained vast experience from then until he founded Stadic Distributors which mainly distributes Petroleum Products throughout the country. His success at the helm of Stadic Distributors inspired him to start Aurora Energy as his vision is in developing a comprehensive energy organization that powers Africa.',
+			"Mr. Chasara, a pioneering force in the energy sector, boasts over 15 years of experience in marketing and distribution. Starting as a sales representative in 2008, he founded Stadic Distributors, specializing in petroleum product distribution. His vision for a comprehensive energy organization led to the establishment of Aurora Energy, aiming to power Africa through growth, innovation, and sustainability. Under his leadership, Aurora Energy is poised to revolutionize Africa's energy landscape.",
 	},
 	{
-		image: teamMember1,
-		name: 'Rumbidzayi Masiyambiri',
-		title: 'Sales & Marketing',
-		description:
-			'Rumbidzayi Masiyambiri serves as the face of our company. She creates an overarching image that represents our company in a positive light with vast experience in Customer Service, Sales and Marketing. Rumbidzayi has been in the Renewable Energy Industry for quite a long time. A wife, a mother and a sister who holds a Bachelor’s (Hons) Degree in Business Management and Entrepreneurship. She is also currently doing her Master of Business Administration (MBA).',
-	},
-	{
+		id: 2,
 		image: teamMember2,
 		name: 'Kudzai Rusike',
-		title: 'Administration',
+		title: 'Human Resource Manager',
 		description:
-			'Kudzai Rusike manages the administration of Aurora energy, with experience in areas of administration, human resource development and industrial relations. She is highly equipped with Customer experience and employee wellness. She is committed towards building outstanding workplaces which are results driven and aims at transforming and building organizational cultures for sustainability and growth. She is responsible for ensuring smooth operations of Aurora energy and remains keen on upholding the organization’s mission and vision and adhering to its set standards.',
+			"Kudzai, Human Resources Manager at Aurora Energy, drives workplace culture and business results. She's passionate about building high-performing teams and dedicated to transforming organizational cultures and upholding Aurora Energy's mission and standards. With an Honors Degree in Local Governance Studies, Kudzai brings unique expertise to drive HR strategies supporting Aurora Energy's success.",
 	},
 	{
-		image: teamMember3,
-		name: 'Mr Kanyenze',
-		title: 'Business Development Director',
+		id: 3,
+		image: teamMember1,
+		name: 'Shaziah Shahadat',
+		title: 'Administrator/Front-desk',
 		description:
-			'An entrepreneur at heart Oyako has over 10 years in the Renewable Energy Sector. He is the Business Development Director and brings a wealth of experience in CRM, developing new business opportunities, building and expanding the presence of the Company and its brand He has worked in diverse sectors including banking and finance where he learnt the importance of building a trustworthy brand. An avid sports fan he enjoys an active lifestyle.',
+			"Shaziah, our customer service representative and administrator, extends a warm welcome to our valued clients. With over 4 years of experience in customer-facing and administrative roles, she possesses a unique blend of skills. Her infectious smile and exceptional organizational and communication skills create a lasting impression. Shaziah holds a Bachelor's Honours degree in Political Administration.",
+	},
+	{
+		id: 4,
+		image: teamMember1,
+		name: 'Rumbidzayi Masiyambiri',
+		title: 'Sales & Marketing Manager',
+		description:
+			"Rumbidzayi embodies our values, creating a lasting impression that reflects our mission. With a diverse background, she possesses exceptional interpersonal skills, understanding client needs and market trends. Her approach is marked by vitality, professionalism, warmth, and a service-oriented mindset. A seasoned Renewable Energy expert with 5+ years of experience, Rumbidzayi holds an MBA from NUST and a Bachelor's (Hons) Degree in Business Management from CUT. Her unique blend of expertise, passion, and dedication makes her an invaluable asset.",
+	},
+	{
+		id: 5,
+		image: teamMember1,
+		name: 'Fungai L Muparabasa',
+		title: 'Chief Technical Officer',
+		description:
+			'Fungai, our Technical Head, brings extensive expertise as a licensed Class 1 Electrician. With 5+ years of experience in electrical equipment installation, commissioning, and maintenance, her proficiency spans energy and hospitality. At our company, Fungai focuses on corrective and preventative solar maintenance and delivering exceptional customer service. A visionary thinker, Fungai combines technical expertise with a philosophical outlook, making her an invaluable asset.',
+	},
+	{
+		id: 6,
+		image: teamMember1,
+		name: 'Cleopatra Sakawenga',
+		title: 'Procurement Manager',
+		description:
+			'Cleopatra, our results-driven Procurement Officer, achieves operational excellence with her expertise. Holding a Diploma in Purchasing and Supply Management and pursuing CIPS certification, she excels in sourcing and qualifying top suppliers, building strategic relationships, negotiating contracts for optimal value and managing inventory and streamlining processes. Cleopatra balances cost optimization with product quality, ensuring timely delivery and exceeding expectations.',
+	},
+	{
+		id: 7,
+		image: teamMember1,
+		name: 'Chelsea Ngorima',
+		title: 'Accountant',
+		description:
+			"Chelsea, our dedicated accountant, brings expertise to our financial management. Pursuing ACCA qualification, she has extensive experience in taxation and compliance, financial planning and strategy and auditing and financial analysis. Holding a Bachelor's Honours Degree from Oxford Brookes University and diplomas in Accounting and Business, Chelsea ensures our company's finances are in safe and capable hands.",
 	},
 ];
 
 export default function Team() {
-	const [inView, setInView] = useState(false);
-
-	// Set up an observer to detect when the section is in view
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						setInView(true);
-					}
-				});
-			},
-			{ threshold: 0.5 },
-		);
-
-		const section = document.querySelector('.team-container');
-		if (section) observer.observe(section);
-
-		return () => {
-			if (section) observer.unobserve(section);
-		};
-	}, []);
+	// Separate the first team member from the rest.
+	const [firstMember, ...restMembers] = teamMembers;
 
 	return (
 		<section className="container mx-auto px-4 py-12">
 			<h2 className="text-3xl font-bold text-center mb-8">
 				Meet Our Team
 			</h2>
-			<div className="space-y-8">
-				{teamMembers.map((member, index) => (
-					<div
-						key={index}
-						className={`team-container flex items-center space-x-6 transition-transform duration-1000 w-full transform ${
-							inView
-								? 'translate-x-0 opacity-100'
-								: 'translate-x-10 opacity-0'
-						}`}
-						style={{ transitionDelay: `${index * 300}ms` }}
-					>
-						{/* Employee Image */}
-						<div className="w-[45%] h-full rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl hover:ring-4 hover:ring-orange-500">
-							<img
-								src={member.image}
-								alt={member.name}
-								className="w-full h-full object-cover"
-							/>
-						</div>
 
-						{/* Employee Info */}
-						<div className="text-left w-full sm:w-2/3">
-							<h3 className="text-xl font-semibold">
-								{member.name}
-							</h3>
-							<p className="text-md text-gray-600">
-								{member.title}
-							</p>
-							<p className="text-lg text-gray-700 mt-2">
-								{member.description}
-							</p>
+			{/* First row: centered card for the first team member */}
+			<div className="flex justify-center mb-8  mx-auto">
+				<div className="w-[24rem]">
+					<div className="relative group overflow-hidden rounded-lg shadow-lg h-[24rem]">
+						<img
+							src={firstMember.image}
+							alt={firstMember.name}
+							className="w-[24rem] h-[24rem] object-cover transition-transform duration-500 group-hover:scale-110"
+						/>
+						<div className="absolute inset-0 bg-orange-500 bg-opacity-0 group-hover:bg-opacity-75 transition-all duration-500 flex items-center justify-center transform -translate-x-full group-hover:translate-x-0">
+							<div className="p-4 text-white text-center">
+								<h3 className="text-xl font-semibold">
+									{firstMember.name}
+								</h3>
+								<p className="text-md">{firstMember.title}</p>
+								<p className="text-sm mt-2">
+									{firstMember.description}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Second section: remaining team members in a responsive grid */}
+			<div className="w-9/12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto">
+				{restMembers.map((member) => (
+					<div
+						key={member.id}
+						className="relative group overflow-hidden rounded-lg shadow-lg h-[24rem]"
+					>
+						<img
+							src={member.image}
+							alt={member.name}
+							className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+						/>
+						<div className="absolute inset-0 bg-orange-500 bg-opacity-0 group-hover:bg-opacity-75 transition-all duration-500 flex items-center justify-center transform -translate-x-full group-hover:translate-x-0">
+							<div className="p-4 text-white text-center">
+								<h3 className="text-xl font-semibold">
+									{member.name}
+								</h3>
+								<p className="text-md">{member.title}</p>
+								<p className="text-sm mt-2">
+									{member.description}
+								</p>
+							</div>
 						</div>
 					</div>
 				))}

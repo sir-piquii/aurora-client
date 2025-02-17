@@ -5,6 +5,10 @@ import Footer from './components/FooterComponent';
 import HomeView from './views/HomeView';
 import Contact from './views/ContactView';
 import About from './views/AboutView';
+import Login from './views/LoginView';
+import Signup from './views/SignupView';
+import Cart from './views/CartView';
+import '@fontsource/anta'; // This imports the default weight (typically 400)
 
 function App() {
 	return (
@@ -16,6 +20,9 @@ function App() {
 						<Route path="/" element={<HomeView />} />
 						<Route path="/contact" element={<Contact />} />
 						<Route path="/about" element={<About />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<Signup />} />
+						<Route path="/cart" element={<Cart />} />
 					</Routes>
 				</main>
 				<Footer />
