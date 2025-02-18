@@ -1,13 +1,14 @@
 import React from 'react';
+import chasara from './../assets/chasara.jpg';
 
 const CEOMessage = () => {
 	return (
 		<div className="w-full min-h-[400px] bg-navy-900 p-8 rounded-lg text-white">
 			<h2 className="text-3xl font-bold mb-4">MD’s Welcome Message</h2>
 			<img
-				src="your-image-url.jpg" // Replace with your actual image URL
+				src={chasara} // Replace with your actual image URL
 				alt="CEO"
-				className="float-right w-64 h-64 rounded-full object-cover border-4 border-white my-auto"
+				className="float-right w-64 h-64 rounded-full object-cover border-4 border-orange-500 my-auto"
 				style={{ shapeOutside: 'circle(50%)', shapeMargin: '10px' }}
 			/>
 			<p className="text-justify">
