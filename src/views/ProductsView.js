@@ -123,16 +123,12 @@ function ProductsPage() {
 									<img
 										src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
 										alt={product.name}
-										className="w-full h-64 object-cover rounded mb-2"
+										className="w-full h-[28rem] object-cover rounded mb-2"
 									/>
 
-									<div className="text-sm p-4">
+									<div className="text-md p-4">
 										<p className="font-semibold">
 											{product.name}
-										</p>
-										<p>
-											{product.description.slice(0, 100)}
-											...
 										</p>
 									</div>
 								</div>
