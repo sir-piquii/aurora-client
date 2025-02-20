@@ -1,85 +1,152 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getProductById } from '../api';
 
 function ProductDetailView() {
 	const { productId } = useParams();
-	const [product, setProduct] = useState(null);
+	const [product, setProduct] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [selectedImage, setSelectedImage] = useState(null);
 
 	// Simulate API call to fetch product details
 	useEffect(() => {
 		document.title = `Product Detail | Aurora`;
 		setLoading(true);
-		setTimeout(() => {
-			// Example static data; replace with your API call
-			const data = {
-				id: productId,
-				name: 'Product Detail Example',
-				price: 149.99,
-				image: 'https://via.placeholder.com/400',
-				description:
-					'This is a detailed description of the product. It includes all relevant information, features, and specifications for the user.',
-				specifications: 'Key specifications of the product go here.',
-				reviews: [
-					{ user: 'Alice', comment: 'Great product!' },
-					{
-						user: 'Bob',
-						comment: 'Really enjoyed using this product.',
-					},
-				],
-			};
-			setProduct(data);
+		const fetchProduct = async () => {
+			try {
+				const data = await getProductById(productId);
+				setProduct(data[0]);
+				setLoading(false);
+			} catch (error) {
+				console.error('Error fetching product by ID:', error);
+			}
+		};
+
+		const timer = setTimeout(() => {
+			fetchProduct();
 			setLoading(false);
 		}, 500);
+		return () => clearTimeout(timer);
 	}, [productId]);
+
+	useEffect(() => {
+		if (product && product.images) {
+			const imagesArray = product.images.split(',');
+			setSelectedImage(imagesArray[0]);
+		}
+	}, [product]);
 
 	return (
 		<div className="flex flex-col items-center">
 			{/* Header/Banner */}
-			<div className="w-full h-24 flex items-center justify-center bg-navy-900">
-				<h1 className="text-5xl font-bold text-white">
+			<div className="w-full h-24 flex items-center justify-center bg-gradient-to-r from-navy-900 to-navy-800">
+				<h1 className="text-4xl font-bold text-white">
 					Product Detail
 				</h1>
 			</div>
 
-			<div className="w-10/12 mx-auto mt-6 bg-white p-8 rounded-lg shadow-lg">
+			<div className="w-10/12 my-8 bg-white shadow-xl rounded-lg p-6">
 				{loading ? (
-					<p className="text-gray-600">Loading product details...</p>
+					<p className="text-gray-600 text-center">
+						Loading product details...
+					</p>
 				) : product ? (
-					<div className="space-y-6">
-						<img
-							src={product.image}
-							alt={product.name}
-							className="w-full h-80 object-cover rounded"
-						/>
-						<h2
-							className="text-3xl font-bold"
-							style={{ color: '#001f3f' }}
-						>
-							{product.name}
-						</h2>
-						<p className="text-xl font-semibold">
-							${product.price.toFixed(2)}
-						</p>
-						<p>{product.description}</p>
-						<div>
-							<h3 className="font-bold">Specifications:</h3>
-							<p>{product.specifications}</p>
+					<div className="flex flex-col md:flex-row">
+						{/* Product Images Section */}
+						<div className="md:w-1/2">
+							{/* Display the selected image or a placeholder */}
+							<img
+								src={`https://dev-api.auroraenergy.co.zw/products/${
+									selectedImage || 'default-image.jpg'
+								}`}
+								alt={product.product_name}
+								className="w-full h-[50rem] object-cover rounded-md"
+							/>
+							{/* Thumbnails */}
+							{product.images &&
+								product.images.split(',').length > 1 && (
+									<div className="flex space-x-2 mt-4">
+										{product.images
+											.split(',')
+											.map((img, index) => (
+												<img
+													key={index}
+													src={`https://dev-api.auroraenergy.co.zw/products/${img}`}
+													alt={`Thumbnail ${
+														index + 1
+													}`}
+													onClick={() =>
+														setSelectedImage(img)
+													}
+													className="w-16 h-16 object-cover rounded-md cursor-pointer hover:opacity-75"
+												/>
+											))}
+									</div>
+								)}
 						</div>
-						<div>
-							<h3 className="font-bold">Reviews:</h3>
-							{product.reviews.map((review, idx) => (
-								<div key={idx} className="border-b py-2">
-									<p className="font-semibold">
-										{review.user}:
-									</p>
-									<p>{review.comment}</p>
-								</div>
-							))}
+
+						{/* Product Information Section */}
+						<div className="md:w-1/2 md:pl-8 mt-6 md:mt-0">
+							<h2 className="text-3xl font-bold text-gray-800">
+								{product.product_name}
+							</h2>
+							<div className="mt-4 flex items-baseline space-x-4">
+								<span className="text-2xl font-semibold text-green-600">
+									${parseFloat(product.price_usd).toFixed(2)}
+								</span>
+								<span className="text-lg text-gray-500">
+									({parseFloat(product.price_zwl).toFixed(2)}{' '}
+									ZWL)
+								</span>
+							</div>
+							<p className="mt-6 text-gray-700 whitespace-pre-line">
+								{product.product_description}
+							</p>
+							{product.datasheet && (
+								<a
+									href={`https://dev-api.auroraenergy.co.zw/datasheets/${product.datasheet}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="inline-block mt-4 px-4 py-2 bg-navy-800 text-white rounded-md hover:bg-navy-900 transition"
+								>
+									Download Datasheet
+								</a>
+							)}
+
+							{/* Supplier Details */}
+							<div className="mt-8 border-t pt-4">
+								<h3 className="text-xl font-bold text-gray-800">
+									Supplier Details
+								</h3>
+								<p className="text-gray-700">
+									<span className="font-semibold">Name:</span>{' '}
+									{product.supplier_name}
+								</p>
+								<p className="text-gray-700">
+									<span className="font-semibold">
+										Location:
+									</span>{' '}
+									{product.supplier_location}
+								</p>
+								<p className="text-gray-700">
+									<span className="font-semibold">
+										Email:
+									</span>{' '}
+									{product.supplier_email}
+								</p>
+								<p className="text-gray-700">
+									<span className="font-semibold">
+										Phone:
+									</span>{' '}
+									{product.supplier_phone_numbers}
+								</p>
+							</div>
 						</div>
 					</div>
 				) : (
-					<p className="text-gray-600">Product not found.</p>
+					<p className="text-gray-600 text-center">
+						Product not found.
+					</p>
 				)}
 			</div>
 		</div>

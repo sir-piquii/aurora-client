@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getFeaturedProducts } from '../api';
 
 function ProductsPage() {
 	const navigate = useNavigate();
@@ -37,61 +38,42 @@ function ProductsPage() {
 		},
 	];
 
-	// Simulate API call to fetch featured products
+	// Fetch featured products on component mount with a delay
 	useEffect(() => {
 		document.title = 'Products | Aurora';
-		setTimeout(() => {
-			const data = [
-				{
-					id: 101,
-					name: 'Smartphone Pro',
-					price: 699.99,
-					image: 'https://via.placeholder.com/200',
-				},
-				{
-					id: 102,
-					name: 'Wireless Headphones',
-					price: 199.99,
-					image: 'https://via.placeholder.com/200',
-				},
-				{
-					id: 103,
-					name: '4K LED TV',
-					price: 999.99,
-					image: 'https://via.placeholder.com/200',
-				},
-				{
-					id: 104,
-					name: 'Gaming Console',
-					price: 399.99,
-					image: 'https://via.placeholder.com/200',
-				},
-				{
-					id: 105,
-					name: 'Smartwatch X',
-					price: 249.99,
-					image: 'https://via.placeholder.com/200',
-				},
-			];
-			setFeaturedProducts(data);
+
+		const fetchFeaturedProducts = async () => {
+			try {
+				const data = await getFeaturedProducts();
+				setFeaturedProducts(data);
+			} catch (error) {
+				console.error('Error fetching featured products:', error);
+			}
+		};
+
+		const timer = setTimeout(() => {
+			fetchFeaturedProducts();
 		}, 500);
+
+		return () => clearTimeout(timer);
 	}, []);
 
-	// Auto-scroll carousel every 7 seconds
+	// Auto-scroll carousel every 7 seconds if there are more than 3 items
 	useEffect(() => {
+		if (featuredProducts.length <= 3) return;
 		const interval = setInterval(() => {
-			if (featuredProducts.length > 0) {
-				setCurrentIndex(
-					(prevIndex) => (prevIndex + 1) % featuredProducts.length,
-				);
-			}
+			setCurrentIndex(
+				(prevIndex) => (prevIndex + 1) % featuredProducts.length,
+			);
 		}, 7000);
 		return () => clearInterval(interval);
 	}, [featuredProducts]);
 
-	// Get the 3 visible featured products (cycling through the array)
+	// Get the 3 visible featured products
 	const getVisibleProducts = () => {
-		if (featuredProducts.length === 0) return [];
+		// If there are 3 or fewer products, just return them
+		if (featuredProducts.length <= 3) return featuredProducts;
+		// Otherwise, return a sliding window of 3 products
 		const visible = [];
 		for (let i = 0; i < 3; i++) {
 			const index = (currentIndex + i) % featuredProducts.length;
@@ -133,21 +115,25 @@ function ProductsPage() {
 							{getVisibleProducts().map((product) => (
 								<div
 									key={product.id}
-									className="w-1/3 border rounded p-4 cursor-pointer hover:shadow-md hover:text-orange-500 transition-shadow"
+									className="w-1/4 rounded cursor-pointer hover:shadow-md hover:text-orange-500 transition-shadow"
 									onClick={() =>
 										navigate(`/product/${product.id}`)
 									}
 								>
 									<img
-										src={product.image}
+										src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
 										alt={product.name}
-										className="w-full h-32 object-cover rounded mb-2"
+										className="w-full h-64 object-cover rounded mb-2"
 									/>
-									<div className="text-sm">
+
+									<div className="text-sm p-4">
 										<p className="font-semibold">
 											{product.name}
 										</p>
-										<p>${product.price.toFixed(2)}</p>
+										<p>
+											{product.description.slice(0, 100)}
+											...
+										</p>
 									</div>
 								</div>
 							))}

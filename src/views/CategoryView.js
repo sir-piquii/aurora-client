@@ -1,43 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { getProductsByCategory } from '../api';
 
 function CategoryView() {
 	const { categoryId } = useParams();
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	const formatCategory = (slug) => {
+		return slug
+			.split('-')
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
+	};
+
 	// Simulate API call to fetch products by category
 	useEffect(() => {
-		document.title = `Category: ${categoryId} | Aurora`;
+		document.title = `${formatCategory(categoryId)} | Aurora`;
 		setLoading(true);
-		setTimeout(() => {
-			// Simulated data based on categoryId
-			const data = [
-				{
-					id: 201,
-					name: `${categoryId} Product 1`,
-					price: 59.99,
-					image: 'https://via.placeholder.com/200',
-					description: `Description for ${categoryId} Product 1`,
-				},
-				{
-					id: 202,
-					name: `${categoryId} Product 2`,
-					price: 89.99,
-					image: 'https://via.placeholder.com/200',
-					description: `Description for ${categoryId} Product 2`,
-				},
-				{
-					id: 203,
-					name: `${categoryId} Product 3`,
-					price: 129.99,
-					image: 'https://via.placeholder.com/200',
-					description: `Description for ${categoryId} Product 3`,
-				},
-			];
-			setProducts(data);
+		const fetchProducts = async () => {
+			try {
+				const data = await getProductsByCategory(categoryId);
+				setProducts(data);
+			} catch (error) {
+				console.error('Error fetching products by category:', error);
+			}
+		};
+		const timer = setTimeout(() => {
+			fetchProducts();
 			setLoading(false);
 		}, 500);
+		return () => clearTimeout(timer);
 	}, [categoryId]);
 
 	return (
@@ -45,34 +38,53 @@ function CategoryView() {
 			{/* Header/Banner */}
 			<div className="w-full h-24 flex items-center justify-center bg-navy-900">
 				<h1 className="text-5xl font-bold text-white">
-					Category: {categoryId}
+					{formatCategory(categoryId)}
 				</h1>
 			</div>
 
-			<div className="w-10/12 mx-auto mt-6 bg-white p-8 rounded-lg shadow-lg">
+			<div className="w-10/12 mx-auto mt-6">
 				{loading ? (
 					<p className="text-gray-600">Loading products...</p>
 				) : products.length > 0 ? (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-						{products.map((product) => (
-							<Link
-								key={product.id}
-								to={`/product/${product.id}`}
-								className="border rounded p-4 hover:shadow-md transition-shadow"
-							>
-								<img
-									src={product.image}
-									alt={product.name}
-									className="w-full h-40 object-cover rounded mb-2"
-								/>
-								<h3 className="font-bold text-lg">
-									{product.name}
-								</h3>
-								<p className="text-gray-700">
-									${product.price.toFixed(2)}
-								</p>
-							</Link>
-						))}
+						{products.map((product) => {
+							// Handle multiple images by splitting the string
+							const imagesArray = product.images
+								? product.images.split(',')
+								: [];
+							const imageUrl =
+								imagesArray.length > 0
+									? imagesArray[0]
+									: 'default-image.jpg';
+
+							return (
+								<Link
+									key={product.product_id}
+									to={`/product/${product.product_id}`}
+									className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105"
+								>
+									<img
+										src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
+										alt={product.product_name}
+										className="w-[80%] h-56 object-cover"
+									/>
+									<div className="p-4">
+										<h3 className="text-xl font-bold text-gray-800">
+											{product.product_name}
+										</h3>
+										<p className="mt-2 text-gray-600 text-sm">
+											{product.product_description
+												.length > 100
+												? product.product_description.substring(
+														0,
+														100,
+												  ) + '...'
+												: product.product_description}
+										</p>
+									</div>
+								</Link>
+							);
+						})}
 					</div>
 				) : (
 					<p className="text-gray-600">

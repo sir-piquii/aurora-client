@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { registerUser } from '../api';
 
 export default function SignUp() {
+	// Only include the fields you want to send to the API
 	const [signupData, setSignupData] = useState({
-		name: '',
+		fullName: '',
+		username: '',
 		email: '',
 		password: '',
-		confirmPassword: '',
 	});
+	// Store confirm password separately
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
 
 	const handleChange = (e) => {
@@ -17,13 +21,25 @@ export default function SignUp() {
 		});
 	};
 
+	// New file change handler
+	const handleFileChange = (e) => {
+		// Set the first selected file (if any) to the filename field
+		setSignupData({
+			...signupData,
+		});
+	};
+
+	const handleConfirmPasswordChange = (e) => {
+		setConfirmPassword(e.target.value);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError(''); // Reset any previous error
 
 		try {
 			// Check if the passwords match
-			if (signupData.password !== signupData.confirmPassword) {
+			if (signupData.password !== confirmPassword) {
 				throw new Error('Passwords do not match.');
 			}
 
@@ -33,12 +49,11 @@ export default function SignUp() {
 			}
 
 			// Simulate an API call here.
-			// Example:
-			// const response = await api.signup(signupData);
-			// if (!response.ok) throw new Error(response.errorMessage);
+			// Only signupData (without confirmPassword) is sent to the API
+			const response = await registerUser(signupData);
+			if (!response.ok) throw new Error(response.errorMessage);
 
 			console.log('Sign-up data:', signupData);
-			// Proceed with further sign-up logic here
 		} catch (err) {
 			// Handle errors from the API or client-side validations
 			setError(err.message);
@@ -85,10 +100,29 @@ export default function SignUp() {
 							<input
 								type="text"
 								id="name"
-								name="name"
-								value={signupData.name}
+								name="fullName"
+								value={signupData.fullName}
 								onChange={handleChange}
 								placeholder="Enter your full name"
+								className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
+							/>
+						</div>
+
+						{/* Username Input */}
+						<div>
+							<label
+								htmlFor="username"
+								className="block text-lg font-medium text-gray-700"
+							>
+								Username
+							</label>
+							<input
+								type="text"
+								id="username"
+								name="username"
+								value={signupData.username}
+								onChange={handleChange}
+								placeholder="Choose a username"
 								className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
 							/>
 						</div>
@@ -111,6 +145,23 @@ export default function SignUp() {
 								className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
 							/>
 						</div>
+
+						{/* File Upload Input */}
+						{/* <div>
+							<label
+								htmlFor="fileUpload"
+								className="block text-lg font-medium text-gray-700"
+							>
+								Upload File
+							</label>
+							<input
+								type="file"
+								id="fileUpload"
+								name="filename"
+								onChange={handleFileChange}
+								className="w-full py-2 px-4 border border-gray-300 rounded-full focus:border-orange-500 focus:outline-none transition-all"
+							/>
+						</div> */}
 
 						{/* Password Input */}
 						<div>
@@ -143,8 +194,8 @@ export default function SignUp() {
 								type="password"
 								id="confirmPassword"
 								name="confirmPassword"
-								value={signupData.confirmPassword}
-								onChange={handleChange}
+								value={confirmPassword}
+								onChange={handleConfirmPasswordChange}
 								placeholder="Confirm your password"
 								className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
 							/>
