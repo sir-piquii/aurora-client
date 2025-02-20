@@ -96,7 +96,7 @@ function ProductsPage() {
 						{categories.map((cat) => (
 							<Link
 								key={cat.id}
-								to={`/products/${cat.id}`}
+								to={`/category/${cat.id}`}
 								className="px-3 py-1 text-base text-gray-700 hover:text-white hover:bg-navy-900 rounded transition-colors"
 							>
 								{cat.name}
