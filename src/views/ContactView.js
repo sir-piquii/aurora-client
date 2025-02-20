@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import contactBanner from './../assets/contact_banner.jpg';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function ContactPage() {

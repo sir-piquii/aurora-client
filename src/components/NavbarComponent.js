@@ -46,6 +46,16 @@ export default function Navbar() {
 		}, 200);
 	};
 
+	// For medium screens / touch devices:
+	const handleProductsClick = (event) => {
+		// If the dropdown is not already open, intercept the click to open it.
+		if (!isDropdownOpen) {
+			event.preventDefault();
+			setIsDropdownOpen(true);
+		}
+		// Otherwise, allow navigation on second tap.
+	};
+
 	// Dummy basket count for demonstration purposes
 	const basketCount = 0;
 
@@ -168,14 +178,27 @@ export default function Navbar() {
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>
-							{/* Parent Products now clickable */}
-							<a
-								href="/products"
-								className="flex items-center hover:text-orange-500"
-							>
-								Products{' '}
-								<ChevronDown size={18} className="ml-1" />
-							</a>
+							<div className="flex items-center">
+								<a
+									href="/products"
+									onClick={handleProductsClick}
+									className="hover:text-orange-500"
+								>
+									Products
+								</a>
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										setIsDropdownOpen((prev) => !prev);
+									}}
+									className="ml-1"
+								>
+									<ChevronDown
+										size={18}
+										className="hover:text-orange-500"
+									/>
+								</button>
+							</div>
 							{isDropdownOpen && (
 								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
 									{[
@@ -192,7 +215,7 @@ export default function Navbar() {
 											className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500"
 										>
 											<a
-												href={`/products/${item
+												href={`/category/${item
 													.toLowerCase()
 													.replace(/ /g, '-')}`}
 											>
@@ -361,7 +384,7 @@ export default function Navbar() {
 																		}
 																	>
 																		<a
-																			href={`/products/${subItem
+																			href={`/category/${subItem
 																				.toLowerCase()
 																				.replace(
 																					/ /g,

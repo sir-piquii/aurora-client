@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { authenticateUser } from '../api';
 
 export default function Login() {
 	const [loginData, setLoginData] = useState({
-		email: '',
+		identifier: '',
 		password: '',
 		rememberMe: false,
 	});
@@ -28,10 +29,11 @@ export default function Login() {
 			if (loginData.password.length < 6) {
 				throw new Error('Password must be at least 6 characters long.');
 			}
-			console.log('Login data:', loginData);
+			await authenticateUser(loginData.identifier, loginData.password);
 			// Proceed with further login logic here
 		} catch (err) {
 			setError(err.message);
+			throw new Error(err.message);
 		}
 	};
 
@@ -129,21 +131,21 @@ export default function Login() {
 					) : (
 						// Login Form
 						<form onSubmit={handleSubmit} className="space-y-6">
-							{/* Email Input */}
+							{/* Identifier Input (Email or Username) */}
 							<div>
 								<label
-									htmlFor="email"
+									htmlFor="identifier"
 									className="block text-lg font-medium text-gray-700"
 								>
-									Email Address
+									Email or Username
 								</label>
 								<input
-									type="email"
-									id="email"
-									name="email"
-									value={loginData.email}
+									type="text"
+									id="identifier"
+									name="identifier"
+									value={loginData.identifier}
 									onChange={handleChange}
-									placeholder="Enter your email"
+									placeholder="Enter your email or username"
 									className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
 								/>
 							</div>

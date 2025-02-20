@@ -13,37 +13,32 @@ const products = [
 	{
 		name: 'Solar Panels',
 		icon: <FaSolarPanel size={40} />,
-		link: '/product/solar-panels',
+		link: '/category/solar-panels',
 	},
 	{
 		name: 'Hybrid Inverters',
 		icon: <FaBolt size={40} />,
-		link: '/product/hybrid-inverters',
+		link: '/category/hybrid-inverters',
 	},
 	{
 		name: 'Energy Storage',
 		icon: <FaBatteryFull size={40} />,
-		link: '/product/energy-storage',
+		link: '/category/energy-storage',
 	},
 	{
 		name: 'Mounting Equipment',
 		icon: <FaMountain size={40} />,
-		link: '/product/mounting-equipment',
+		link: '/category/mounting-equipment',
 	},
 	{
 		name: 'Cabling',
 		icon: <FaPlug size={40} />,
-		link: '/product/cabling',
+		link: '/category/cabling',
 	},
-	// {
-	// 	name: 'Accessories',
-	// 	icon: <FaToolbox size={40} />,
-	// 	link: '/product/accessories',
-	// },
 	{
 		name: 'Switch Gear',
 		icon: <FaGear size={40} />,
-		link: '/product/switch-gear',
+		link: '/category/switch-gear',
 	},
 ];
 
