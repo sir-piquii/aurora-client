@@ -1,5 +1,12 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
 import Navbar from './components/NavbarComponent';
 import Footer from './components/FooterComponent';
 import HomeView from './views/HomeView';
@@ -13,9 +20,10 @@ import Login from './views/LoginView';
 import Signup from './views/SignupView';
 import Cart from './views/CartView';
 import FAQs from './views/FAQsView';
-import '@fontsource/anta'; // This imports the default weight (typically 400)
 
 function App() {
+	const { user } = useContext(AuthContext);
+
 	return (
 		<Router>
 			<div className="flex flex-col min-h-screen">
@@ -35,10 +43,18 @@ function App() {
 							element={<ProductDetail />}
 						/>
 						<Route path="/insights" element={<News />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/signup" element={<Signup />} />
 						<Route path="/cart" element={<Cart />} />
 						<Route path="/faqs" element={<FAQs />} />
+
+						{/* Redirect login & signup if already logged in */}
+						<Route
+							path="/login"
+							element={user ? <Navigate to="/" /> : <Login />}
+						/>
+						<Route
+							path="/signup"
+							element={user ? <Navigate to="/" /> : <Signup />}
+						/>
 					</Routes>
 				</main>
 				<Footer />

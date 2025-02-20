@@ -22,11 +22,7 @@ export default function Navbar() {
 	const closeDropdownTimer = useRef(null);
 
 	// Dummy user for demonstration. Replace with your actual auth logic.
-	const user = {
-		isLoggedIn: false,
-		isAdmin: false,
-		isDealer: false,
-	};
+	const user = JSON.parse(localStorage.getItem('user')) ?? null;
 
 	const handleLinkClick = () => {
 		setIsOpen(false);
@@ -234,7 +230,7 @@ export default function Navbar() {
 						</li>
 
 						{/* Conditional Auth Links */}
-						{!user.isLoggedIn ? (
+						{!user ? (
 							<>
 								<li>
 									<a
@@ -271,6 +267,25 @@ export default function Navbar() {
 									Dealer Portal
 								</a>
 							</li>
+						)}
+						{user && (
+							<>
+								<li>
+									<a
+										href="/"
+										onClick={() => {
+											localStorage.removeItem(
+												'authToken',
+											);
+											localStorage.removeItem('user');
+											window.location.reload(); // Refresh to update UI
+										}}
+										className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+									>
+										Logout
+									</a>
+								</li>
+							</>
 						)}
 						{/* Cart Element (non-clickable) */}
 						<li>
