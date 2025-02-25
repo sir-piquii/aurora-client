@@ -1,11 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Team from './../components/TeamComponent';
 import InfoCards from './../components/InfoComponent';
 import CeoMessage from './../components/CeoMessageComponent';
 import './AboutView.css';
+import { getCertificates } from '../api';
 export default function AboutUs() {
+	const [certificates, setCertificates] = useState([]);
 	useEffect(() => {
 		document.title = 'About Us | Aurora';
+
+		const fetchCertificates = async () => {
+			try {
+				const data = await getCertificates();
+				setCertificates(data);
+			} catch (error) {
+				console.error('Error fetching certificates:', error);
+			}
+		};
+
+		const timer = setTimeout(() => {
+			fetchCertificates();
+		}, 500);
+		return () => clearTimeout(timer);
 	}, []);
 	return (
 		<section className="container mx-auto px-auto">
@@ -57,6 +73,36 @@ export default function AboutUs() {
 
 			{/* Our Team */}
 			<Team />
+
+			{/* Certificates */}
+			<section className="py-2 px-auto border border-white shadow-[0_4px_6px_rgba(255,165,0,0.5)] rounded-lg my-6">
+				<div className="max-w-5xl mx-auto">
+					<h1 className="text-6xl font-bold text-center text-navy-900 mb-4">
+						Our Certifications
+					</h1>
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+						{certificates.map((certificate, index) => (
+							<div
+								key={index}
+								className="w-full flex justify-center"
+							>
+								<a
+									href={
+										`https://dev-api.auroraenergy.co.zw/products/${certificate.downloadUrl}` ||
+										`https://dev-api.auroraenergy.co.zw/products/${certificate.image}`
+									}
+									download
+									target="_blank"
+									rel="noopener noreferrer"
+									className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-lg transition"
+								>
+									Download {certificate.title}
+								</a>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
 		</section>
 	);
 }

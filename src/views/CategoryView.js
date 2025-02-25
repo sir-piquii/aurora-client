@@ -66,7 +66,7 @@ function CategoryView() {
 									<img
 										src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
 										alt={product.product_name}
-										className="w-[80%] h-[28rem] object-cover"
+										className="w-[80%] h-[28rem] object-cover mx-auto"
 									/>
 									<div className="p-4">
 										<h3 className="text-xl font-bold text-gray-800">

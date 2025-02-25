@@ -77,7 +77,7 @@ export default function Banner() {
 						{slides[currentIndex].description}
 					</p>
 					<a
-						href="/about"
+						href="/products"
 						className="inline-block bg-gradient-to-r from-orange-500 to-navy-900 text-white text-lg py-3 px-8 rounded-lg hover:from-navy-900 hover:to-orange-500 transition-transform transform hover:scale-105"
 					>
 						Explore Now

@@ -8,7 +8,7 @@ function ProductDetailView() {
 	const [loading, setLoading] = useState(true);
 	const [selectedImage, setSelectedImage] = useState(null);
 
-	// Simulate API call to fetch product details
+	// Fetch product details from API
 	useEffect(() => {
 		document.title = `Product Detail | Aurora`;
 		setLoading(true);
@@ -29,12 +29,60 @@ function ProductDetailView() {
 		return () => clearTimeout(timer);
 	}, [productId]);
 
+	// Set the selected image to the first image in the list
 	useEffect(() => {
 		if (product && product.images) {
 			const imagesArray = product.images.split(',');
 			setSelectedImage(imagesArray[0]);
 		}
 	}, [product]);
+
+	// Handle adding the product to the cart (with 30-day expiration)
+	const handleAddToCart = () => {
+		const storedCart = localStorage.getItem('cart');
+		let cart = storedCart ? JSON.parse(storedCart) : null;
+		const now = Date.now();
+		const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+
+		// Reset cart if it has expired
+		if (cart && cart.expires && now > cart.expires) {
+			cart = null;
+		}
+
+		if (!cart) {
+			cart = {
+				items: [],
+				expires: now + THIRTY_DAYS,
+			};
+		}
+
+		// Check if product is already in the cart (using product_id or a similar unique identifier)
+		const existingItem = cart.items.find(
+			(item) => item.productId === product.product_id,
+		);
+
+		if (existingItem) {
+			existingItem.quantity += 1;
+		} else {
+			cart.items.push({
+				productId: product.product_id,
+				productName: product.product_name,
+				image: selectedImage,
+				quantity: 1,
+			});
+		}
+
+		localStorage.setItem('cart', JSON.stringify(cart));
+		alert('Product added to cart!');
+	};
+
+	// Handle requesting a quote for the product
+	const handleRequestQuote = () => {
+		// Here you can add logic to send a quote request via an API call or open a modal
+		alert(
+			`Your quote request for "${product.product_name}" has been submitted!`,
+		);
+	};
 
 	return (
 		<div className="flex flex-col items-center">
@@ -54,7 +102,6 @@ function ProductDetailView() {
 					<div className="flex flex-col md:flex-row">
 						{/* Product Images Section */}
 						<div className="md:w-1/2">
-							{/* Display the selected image or a placeholder */}
 							<img
 								src={`https://dev-api.auroraenergy.co.zw/products/${
 									selectedImage || 'default-image.jpg'
@@ -90,15 +137,6 @@ function ProductDetailView() {
 							<h2 className="text-3xl font-bold text-gray-800">
 								{product.product_name}
 							</h2>
-							<div className="mt-4 flex items-baseline space-x-4">
-								<span className="text-2xl font-semibold text-green-600">
-									${parseFloat(product.price_usd).toFixed(2)}
-								</span>
-								<span className="text-lg text-gray-500">
-									({parseFloat(product.price_zwl).toFixed(2)}{' '}
-									ZWL)
-								</span>
-							</div>
 							<p className="mt-6 text-gray-700 whitespace-pre-line">
 								{product.product_description}
 							</p>
@@ -113,33 +151,20 @@ function ProductDetailView() {
 								</a>
 							)}
 
-							{/* Supplier Details */}
-							<div className="mt-8 border-t pt-4">
-								<h3 className="text-xl font-bold text-gray-800">
-									Supplier Details
-								</h3>
-								<p className="text-gray-700">
-									<span className="font-semibold">Name:</span>{' '}
-									{product.supplier_name}
-								</p>
-								<p className="text-gray-700">
-									<span className="font-semibold">
-										Location:
-									</span>{' '}
-									{product.supplier_location}
-								</p>
-								<p className="text-gray-700">
-									<span className="font-semibold">
-										Email:
-									</span>{' '}
-									{product.supplier_email}
-								</p>
-								<p className="text-gray-700">
-									<span className="font-semibold">
-										Phone:
-									</span>{' '}
-									{product.supplier_phone_numbers}
-								</p>
+							{/* Buttons: Add to Cart and Request a Quote */}
+							<div className="flex space-x-4 mt-4">
+								<button
+									onClick={handleAddToCart}
+									className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
+								>
+									Add to Cart
+								</button>
+								<button
+									onClick={handleRequestQuote}
+									className="px-4 py-2 bg-navy-800 text-white rounded-md hover:bg-navy-900 transition"
+								>
+									Request a Quote
+								</button>
 							</div>
 						</div>
 					</div>

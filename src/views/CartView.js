@@ -7,125 +7,84 @@ export default function Cart() {
 	const [cartItems, setCartItems] = useState([]);
 	const [error, setError] = useState('');
 
-	// Fetch cart items on component mount
+	// Function to load cart items from localStorage
+	const fetchCartItems = () => {
+		try {
+			const storedCart = localStorage.getItem('cart');
+			if (storedCart) {
+				const parsedCart = JSON.parse(storedCart);
+				// Check if the cart has expired
+				if (Date.now() > parsedCart.expires) {
+					localStorage.removeItem('cart');
+					setCartItems([]);
+				} else {
+					setCartItems(parsedCart.items);
+				}
+			} else {
+				setCartItems([]);
+			}
+		} catch (err) {
+			setError('Failed to load cart items.');
+		}
+	};
+
 	useEffect(() => {
 		document.title = 'Cart | Aurora';
 		fetchCartItems();
 	}, []);
 
-	// Function to fetch cart data from the API
-	const fetchCartItems = async () => {
-		try {
-			// const response = await fetch('/api/cart');
-			// if (!response.ok) {
-			// 	throw new Error('Failed to fetch cart items.');
-			// }
-			// const data = await response.json();
-
-			const data = [
-				{
-					id: 1,
-					name: 'Product 1',
-					price: 29.99,
-					image: 'https://via.placeholder.com/150',
-				},
-				{
-					id: 2,
-					name: 'Product 2',
-					price: 49.99,
-					image: 'https://via.placeholder.com/150',
-				},
-				{
-					id: 3,
-					name: 'Product 3',
-					price: 19.99,
-					image: 'https://via.placeholder.com/150',
-				},
-				{
-					id: 2,
-					name: 'Product 2',
-					price: 49.99,
-					image: 'https://via.placeholder.com/150',
-				},
-			];
-			setCartItems(data);
-		} catch (err) {
-			setError(err.message);
-
-			const data = [
-				{
-					id: 1,
-					name: 'Product 1',
-					price: 29.99,
-					image: 'https://via.placeholder.com/150',
-				},
-				{
-					id: 2,
-					name: 'Product 2',
-					price: 49.99,
-					image: 'https://via.placeholder.com/150',
-				},
-				{
-					id: 3,
-					name: 'Product 3',
-					price: 19.99,
-					image: 'https://via.placeholder.com/150',
-				},
-			];
-			setCartItems(data);
-		}
-	};
-
-	// Group products by id, consolidating duplicates and tracking quantity
+	// Group products by productId in case there are duplicates
 	const groupedProducts = cartItems.reduce((acc, item) => {
-		if (acc[item.id]) {
-			acc[item.id].quantity += 1;
+		const id = item.productId;
+		if (acc[id]) {
+			acc[id].quantity += item.quantity;
 		} else {
-			acc[item.id] = { ...item, quantity: 1 };
+			acc[id] = { ...item };
 		}
 		return acc;
 	}, {});
 
-	const products = Object.values(groupedProducts);
+	// Convert grouped products to an array and add an 'id' property for ease-of-use in the UI
+	const products = Object.values(groupedProducts).map((product) => ({
+		...product,
+		id: product.productId,
+	}));
 
-	// Calculate total price (assuming each product has a "price" property)
-	const totalPrice = products.reduce(
-		(total, product) => total + product.price * product.quantity,
-		0,
-	);
-
-	const handleQuantityChange = async (productId, newQuantity) => {
+	// Update the quantity for a product in the localStorage cart
+	const handleQuantityChange = (productId, newQuantity) => {
 		if (newQuantity < 1) return;
-
 		try {
-			const response = await fetch(`/api/cart/${productId}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ quantity: newQuantity }),
-			});
-			if (!response.ok) {
-				throw new Error('Failed to update product quantity.');
+			const storedCart = localStorage.getItem('cart');
+			if (storedCart) {
+				const cart = JSON.parse(storedCart);
+				const index = cart.items.findIndex(
+					(item) => item.productId === productId,
+				);
+				if (index !== -1) {
+					cart.items[index].quantity = newQuantity;
+					localStorage.setItem('cart', JSON.stringify(cart));
+					fetchCartItems();
+				}
 			}
-			fetchCartItems();
 		} catch (err) {
-			setError(err.message);
+			setError('Failed to update quantity.');
 		}
 	};
 
-	// Delete a product from the cart by calling the delete endpoint
-	const handleDelete = async (productId) => {
+	// Remove a product from the cart stored in localStorage
+	const handleDelete = (productId) => {
 		try {
-			const response = await fetch(`/api/cart/${productId}`, {
-				method: 'DELETE',
-			});
-			if (!response.ok) {
-				throw new Error('Failed to delete product from cart.');
+			const storedCart = localStorage.getItem('cart');
+			if (storedCart) {
+				const cart = JSON.parse(storedCart);
+				cart.items = cart.items.filter(
+					(item) => item.productId !== productId,
+				);
+				localStorage.setItem('cart', JSON.stringify(cart));
+				fetchCartItems();
 			}
-			fetchCartItems();
 		} catch (err) {
-			setError(err.message);
+			setError('Failed to delete product.');
 		}
 	};
 
@@ -153,39 +112,36 @@ export default function Cart() {
 					>
 						Your Cart Items
 					</h2>
-					{products.length === 0 ? (
+					{cartItems.length === 0 ? (
 						<p className="text-center text-gray-600">
 							Your cart is empty.
 						</p>
 					) : (
-						products.map((product) => (
+						cartItems.map((cartItem) => (
 							<div
-								key={product.id}
+								key={cartItem.productId}
 								className="flex items-center justify-between py-4 border-b border-gray-200"
 							>
 								<div className="flex items-center space-x-4">
 									<img
-										src={product.image}
-										alt={product.name}
+										src={`https://dev-api.auroraenergy.co.zw/products/${cartItem.image}`}
+										alt={cartItem.productName}
 										className="w-16 h-16 object-cover rounded"
 									/>
 									<div>
 										<h3 className="font-bold">
-											{product.name}
+											{cartItem.productName}
 										</h3>
 										<p className="text-sm text-gray-600">
-											ID: {product.id}
-										</p>
-										<p className="text-sm text-gray-600">
-											Price: ${product.price.toFixed(2)}
+											ID: {cartItem.productId}
 										</p>
 										<div className="flex items-center space-x-2">
 											<InputNumber
 												min={1}
-												value={product.quantity}
+												value={cartItem.quantity}
 												onChange={(value) =>
 													handleQuantityChange(
-														product.id,
+														cartItem.productId,
 														value,
 													)
 												}
@@ -195,7 +151,9 @@ export default function Cart() {
 									</div>
 								</div>
 								<button
-									onClick={() => handleDelete(product.id)}
+									onClick={() =>
+										handleDelete(cartItem.productId)
+									}
 									className="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all"
 								>
 									<FaTrash />
@@ -219,32 +177,19 @@ export default function Cart() {
 						</p>
 					) : (
 						<>
-							{/* Display product names, quantities, and total price per item in rows */}
 							<div className="space-y-4">
-								{products.map((product) => (
+								{cartItems.map((cartItem) => (
 									<div
-										key={product.id}
+										key={cartItem.productId}
 										className="flex justify-between items-center"
 									>
 										<span>
-											{product.name} (Qty:{' '}
-											{product.quantity})
-										</span>
-										<span>
-											$
-											{(
-												product.price * product.quantity
-											).toFixed(2)}
+											{cartItem.productName} (Qty:{' '}
+											{cartItem.quantity})
 										</span>
 									</div>
 								))}
 							</div>
-							{/* Total Price Calculation */}
-							<div className="flex justify-between font-bold text-lg mt-6 border-t pt-4">
-								<span>Total:</span>
-								<span>${totalPrice.toFixed(2)}</span>
-							</div>
-							{/* Checkout Button */}
 							<div className="flex justify-center mt-8 mx-auto">
 								<button className="p-2 w-full bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all">
 									Checkout

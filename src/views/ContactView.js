@@ -77,10 +77,10 @@ export default function ContactPage() {
 							<div>
 								<p className="font-semibold">Email</p>
 								<a
-									href="mailto:info@example.com"
+									href="mailto:sales@example.com"
 									className="hover:text-orange-300 transition"
 								>
-									info@auroraenergy.co.zw
+									sales@auroraenergy.co.zw
 								</a>
 							</div>
 						</div>

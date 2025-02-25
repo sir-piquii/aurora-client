@@ -10,7 +10,7 @@ export default function Login() {
 		rememberMe: false,
 	});
 	const [error, setError] = useState('');
-	const { login } = useContext(AuthContext); // Get login function from context
+	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	const handleChange = (e) => {
@@ -30,16 +30,12 @@ export default function Login() {
 				throw new Error('Password must be at least 6 characters long.');
 			}
 
-			// Simulated authentication
 			const user = await authenticateUser(
 				loginData.identifier,
 				loginData.password,
 			);
 
-			// ✅ Use context to update user state
 			login(user);
-
-			// Redirect to homepage
 			navigate('/');
 		} catch (err) {
 			setError(err.message);
@@ -56,7 +52,8 @@ export default function Login() {
 				<h1 className="text-5xl font-bold">Login</h1>
 			</div>
 
-			<div className="w-8/12 mx-auto px-4 mt-6">
+			{/* Updated container: full width on mobile, 8/12 on medium and larger screens */}
+			<div className="w-full md:w-8/12 mx-auto px-4 mt-6">
 				<div className="bg-white p-8 rounded-lg shadow-lg">
 					<h2
 						className="text-2xl font-bold mb-6 text-center"

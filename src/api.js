@@ -9,6 +9,17 @@ const endpoints = {
 	team: `${BASE_URL}/team`,
 	testimonial: `${BASE_URL}/testimonials`,
 	auth: `${BASE_URL}/auth`,
+	certificates: `${BASE_URL}/certificates`,
+};
+
+export const getCertificates = async () => {
+	try {
+		const response = await axios.get(endpoints.certificates);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching certificates:', error);
+		throw error;
+	}
 };
 
 // API service functions

@@ -123,7 +123,7 @@ function ProductsPage() {
 									<img
 										src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
 										alt={product.name}
-										className="w-full h-[28rem] object-cover rounded mb-2"
+										className="w-full h-[28rem] object-cover rounded mb-2 mx-auto"
 									/>
 
 									<div className="text-md p-4">
