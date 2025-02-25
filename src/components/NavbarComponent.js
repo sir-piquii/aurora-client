@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, ChevronDown, Instagram, Mail } from 'lucide-react';
 import {
@@ -23,6 +23,45 @@ export default function Navbar() {
 
 	// Dummy user for demonstration. Replace with your actual auth logic.
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
+
+	// State for basket count, which is derived from the localStorage cart.
+	const [basketCount, setBasketCount] = useState(0);
+
+	// Function to update basket count by reading from localStorage
+	const updateBasketCount = () => {
+		const storedCart = localStorage.getItem('cart');
+		if (storedCart) {
+			const cart = JSON.parse(storedCart);
+			if (cart.items && Array.isArray(cart.items)) {
+				// Sum the quantities of each item (default quantity to 1 if not set)
+				const count = cart.items.reduce(
+					(total, item) => total + (item.quantity || 1),
+					0,
+				);
+				setBasketCount(count);
+			} else {
+				setBasketCount(0);
+			}
+		} else {
+			setBasketCount(0);
+		}
+	};
+
+	// Update basket count on component mount and when localStorage changes
+	useEffect(() => {
+		updateBasketCount();
+
+		// Optionally, update if a storage event occurs (only fires across tabs)
+		const handleStorageChange = (e) => {
+			if (e.key === 'cart') {
+				updateBasketCount();
+			}
+		};
+		window.addEventListener('storage', handleStorageChange);
+		return () => {
+			window.removeEventListener('storage', handleStorageChange);
+		};
+	}, []);
 
 	const handleLinkClick = () => {
 		setIsOpen(false);
@@ -51,9 +90,6 @@ export default function Navbar() {
 		}
 		// Otherwise, allow navigation on second tap.
 	};
-
-	// Dummy basket count for demonstration purposes
-	const basketCount = 0;
 
 	return (
 		<>
@@ -147,7 +183,9 @@ export default function Navbar() {
 			{/* Navbar */}
 			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
 				<div className="container mx-auto flex items-center justify-between p-4">
-					<img src={Logo} alt="Logo" style={{ width: '175px' }} />
+					<a href="/">
+						<img src={Logo} alt="Logo" style={{ width: '175px' }} />
+					</a>
 
 					{/* Mobile Menu Button */}
 					<button
@@ -269,25 +307,21 @@ export default function Navbar() {
 							</li>
 						)}
 						{user && (
-							<>
-								<li>
-									<a
-										href="/"
-										onClick={() => {
-											localStorage.removeItem(
-												'authToken',
-											);
-											localStorage.removeItem('user');
-											window.location.reload(); // Refresh to update UI
-										}}
-										className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
-									>
-										Logout
-									</a>
-								</li>
-							</>
+							<li>
+								<a
+									href="/"
+									onClick={() => {
+										localStorage.removeItem('authToken');
+										localStorage.removeItem('user');
+										window.location.reload(); // Refresh to update UI
+									}}
+									className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+								>
+									Logout
+								</a>
+							</li>
 						)}
-						{/* Cart Element (non-clickable) */}
+						{/* Cart Element */}
 						<li>
 							<a
 								href="/cart"
@@ -432,7 +466,7 @@ export default function Navbar() {
 										}
 									})}
 									{/* Conditional Auth Links for Mobile */}
-									{!user.isLoggedIn ? (
+									{!user?.isLoggedIn ? (
 										<>
 											<li
 												className="py-2 border-b hover:text-orange-500 cursor-pointer"
@@ -458,7 +492,7 @@ export default function Navbar() {
 											</li>
 										</>
 									) : (
-										user.isAdmin && (
+										user?.isAdmin && (
 											<li
 												className="py-2 border-b hover:text-orange-500 cursor-pointer"
 												onClick={handleLinkClick}
@@ -472,6 +506,7 @@ export default function Navbar() {
 											</li>
 										)
 									)}
+
 									{/* Cart Element (non-clickable) */}
 									<li
 										className="py-2 border-b"

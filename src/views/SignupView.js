@@ -69,7 +69,8 @@ export default function SignUp() {
 				<h1 className="text-5xl font-bold">Sign Up</h1>
 			</div>
 
-			<div className="w-8/12 mx-auto px-4 mt-6">
+			{/* Updated container: full width on mobile, 8/12 on medium and larger screens */}
+			<div className="w-full md:w-8/12 mx-auto px-4 mt-6">
 				<div className="bg-white p-8 rounded-lg shadow-lg">
 					<h2
 						className="text-2xl font-bold mb-6 text-center"
