@@ -4,8 +4,11 @@ import InfoCards from './../components/InfoComponent';
 import CeoMessage from './../components/CeoMessageComponent';
 import './AboutView.css';
 import { getCertificates } from '../api';
+// import backgroundImage from './../assets/aurora_lights.avif'; // Adjust the path as needed
+
 export default function AboutUs() {
 	const [certificates, setCertificates] = useState([]);
+
 	useEffect(() => {
 		document.title = 'About Us | Aurora';
 
@@ -23,8 +26,9 @@ export default function AboutUs() {
 		}, 500);
 		return () => clearTimeout(timer);
 	}, []);
+
 	return (
-		<section className="container mx-auto px-auto">
+		<>
 			{/* Our Story */}
 			<section className="py-2 px-auto border border-white shadow-[0_4px_6px_rgba(255,165,0,0.5)] rounded-lg my-6">
 				<div className="max-w-5xl mx-auto">
@@ -88,8 +92,8 @@ export default function AboutUs() {
 							>
 								<a
 									href={
-										`https://dev-api.auroraenergy.co.zw/products/${certificate.downloadUrl}` ||
-										`https://dev-api.auroraenergy.co.zw/products/${certificate.image}`
+										certificate.downloadUrl ||
+										certificate.image
 									}
 									download
 									target="_blank"
@@ -103,6 +107,6 @@ export default function AboutUs() {
 					</div>
 				</div>
 			</section>
-		</section>
+		</>
 	);
 }
