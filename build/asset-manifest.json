@@ -1,37 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.f7e43977.css",
-    "main.js": "/static/js/main.a5e7ee21.js",
-    "static/js/488.8701d7e3.chunk.js": "/static/js/488.8701d7e3.chunk.js",
-    "static/media/house_animation.mp4": "/static/media/house_animation.1fbf96beacb9fcac22ab.mp4",
-    "static/media/contact_banner.jpg": "/static/media/contact_banner.eefba9dca8a3fd06311e.jpg",
-    "static/media/team_3.jpeg": "/static/media/team_3.6a0d859ba6f71ff422f6.jpeg",
-    "static/media/team_1.jpg": "/static/media/team_1.a53d7bb673fe12f7ebce.jpg",
-    "static/media/team_4.jpeg": "/static/media/team_4.bf4695a6d520a5ecb97b.jpeg",
-    "static/media/team_2.jpeg": "/static/media/team_2.7cc2968c04255ace3328.jpeg",
-    "static/media/lentaway.JPG": "/static/media/lentaway.c3201e2b8a546b5e7bea.JPG",
+    "main.css": "/static/css/main.c9464396.css",
+    "main.js": "/static/js/main.55b5211c.js",
+    "static/media/chasara.jpg": "/static/media/chasara.cc6a17df098d9bd7690d.jpg",
+    "static/media/house_animation.mp4": "/static/media/house_animation.df4dbc174c434bcdaf30.mp4",
     "static/media/logo.png": "/static/media/logo.b06e63e49b93b261ccf0.png",
-    "static/media/solar_support.JPG": "/static/media/solar_support.2551ea999cc55df8f8a8.JPG",
-    "static/media/anta-latin-400-normal.woff2": "/static/media/anta-latin-400-normal.118ab4be98d7558bfd06.woff2",
-    "static/media/anta-latin-400-normal.woff": "/static/media/anta-latin-400-normal.1536b67d29071aaf5442.woff",
-    "static/media/anta-latin-ext-400-normal.woff2": "/static/media/anta-latin-ext-400-normal.fb0e92e0310129b0b7e6.woff2",
-    "static/media/anta-math-400-normal.woff2": "/static/media/anta-math-400-normal.28afed649ac94b8ff16c.woff2",
-    "static/media/irradiant.JPG": "/static/media/irradiant.b3965897a98e2bbe0832.JPG",
-    "static/media/anta-latin-ext-400-normal.woff": "/static/media/anta-latin-ext-400-normal.990067e02056051175fb.woff",
-    "static/media/anta-math-400-normal.woff": "/static/media/anta-math-400-normal.8c46a3b893b35705cca2.woff",
-    "static/media/anta-symbols-400-normal.woff2": "/static/media/anta-symbols-400-normal.f330b98bced079fc5b28.woff2",
-    "static/media/anta-symbols-400-normal.woff": "/static/media/anta-symbols-400-normal.85d328cdfe724e50a573.woff",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.f7e43977.css.map": "/static/css/main.f7e43977.css.map",
-    "main.a5e7ee21.js.map": "/static/js/main.a5e7ee21.js.map",
-    "488.8701d7e3.chunk.js.map": "/static/js/488.8701d7e3.chunk.js.map"
+    "main.c9464396.css.map": "/static/css/main.c9464396.css.map",
+    "main.55b5211c.js.map": "/static/js/main.55b5211c.js.map"
   },
   "entrypoints": [
-    "static/css/main.f7e43977.css",
-    "static/js/main.a5e7ee21.js"
+    "static/css/main.c9464396.css",
+    "static/js/main.55b5211c.js"
   ]
 }
