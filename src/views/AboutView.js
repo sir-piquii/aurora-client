@@ -91,10 +91,7 @@ export default function AboutUs() {
 								className="w-full flex justify-center"
 							>
 								<a
-									href={
-										certificate.downloadUrl ||
-										certificate.image
-									}
+									href={certificate.path}
 									download
 									target="_blank"
 									rel="noopener noreferrer"
