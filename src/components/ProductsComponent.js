@@ -18,7 +18,7 @@ const products = [
 	{
 		name: 'Hybrid Inverters',
 		icon: <FaBolt size={40} />,
-		link: '/category/hybrid-inverters',
+		link: '/category/inverters',
 	},
 	{
 		name: 'Energy Storage',

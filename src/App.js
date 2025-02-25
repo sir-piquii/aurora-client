@@ -20,6 +20,7 @@ import Login from './views/LoginView';
 import Signup from './views/SignupView';
 import Cart from './views/CartView';
 import FAQs from './views/FAQsView';
+import '@fontsource/anta';
 
 function App() {
 	const { user } = useContext(AuthContext);
