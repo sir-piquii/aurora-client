@@ -137,9 +137,33 @@ function ProductDetailView() {
 							<h2 className="text-3xl font-bold text-gray-800">
 								{product.product_name}
 							</h2>
-							<p className="mt-6 text-gray-700 whitespace-pre-line">
-								{product.product_description}
-							</p>
+							<div className="mt-6">
+								<h3 className="text-2xl font-bold text-gray-800">
+									Description
+								</h3>
+								<p className="mt-2 text-gray-700">
+									{product.product_description}
+								</p>
+							</div>
+
+							{/* New Sections: Benefits and Warranty */}
+							<div className="mt-6">
+								<h3 className="text-2xl font-bold text-gray-800">
+									Benefits
+								</h3>
+								<p className="mt-2 text-gray-700">
+									{product.product_benefits}
+								</p>
+							</div>
+							<div className="mt-6">
+								<h3 className="text-2xl font-bold text-gray-800">
+									Warranty
+								</h3>
+								<p className="mt-2 text-gray-700">
+									{product.product_warranty}
+								</p>
+							</div>
+
 							{product.datasheet && (
 								<a
 									href={`https://dev-api.auroraenergy.co.zw/datasheets/${product.datasheet}`}

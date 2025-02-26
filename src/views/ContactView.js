@@ -240,22 +240,6 @@ export default function ContactPage() {
 								<div className="flex items-center">
 									<input
 										type="checkbox"
-										id="checkbox1"
-										name="checkbox1"
-										checked={formData.checkbox1}
-										onChange={handleChange}
-										className="mr-2"
-									/>
-									<label
-										htmlFor="checkbox1"
-										className="text-sm text-gray-700"
-									>
-										Request a Quotation
-									</label>
-								</div>
-								<div className="flex items-center">
-									<input
-										type="checkbox"
 										id="checkbox2"
 										name="checkbox2"
 										checked={formData.checkbox2}
@@ -266,7 +250,7 @@ export default function ContactPage() {
 										htmlFor="checkbox2"
 										className="text-sm text-gray-700"
 									>
-										Request a Consultation
+										Request a Quotation
 									</label>
 								</div>
 							</div>
