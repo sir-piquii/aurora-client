@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getFeaturedProducts } from '../api';
+import { FaStar, FaCartPlus } from 'react-icons/fa';
 
 function ProductsPage() {
 	const navigate = useNavigate();
 	const [featuredProducts, setFeaturedProducts] = useState([]);
-	const [currentIndex, setCurrentIndex] = useState(0);
 
 	// Categories (static list)
 	const categories = [
 		{ id: 'solar-panels', name: 'Solar Panels' },
-		{ id: 'inverters', name: 'Inverters' },
+		{ id: 'hybrid-inverters', name: 'Hybrid Inverters' },
 		{ id: 'energy-storage', name: 'Energy Storage' },
 		{ id: 'mounting-equipment', name: 'Mounting Equipment' },
 		{ id: 'cabling', name: 'Cabling' },
@@ -58,28 +58,11 @@ function ProductsPage() {
 		return () => clearTimeout(timer);
 	}, []);
 
-	// Auto-scroll carousel every 7 seconds if there are more than 3 items
-	useEffect(() => {
-		if (featuredProducts.length <= 3) return;
-		const interval = setInterval(() => {
-			setCurrentIndex(
-				(prevIndex) => (prevIndex + 1) % featuredProducts.length,
-			);
-		}, 7000);
-		return () => clearInterval(interval);
-	}, [featuredProducts]);
-
-	// Get the 3 visible featured products
-	const getVisibleProducts = () => {
-		// If there are 3 or fewer products, just return them
-		if (featuredProducts.length <= 3) return featuredProducts;
-		// Otherwise, return a sliding window of 3 products
-		const visible = [];
-		for (let i = 0; i < 3; i++) {
-			const index = (currentIndex + i) % featuredProducts.length;
-			visible.push(featuredProducts[index]);
-		}
-		return visible;
+	// Handler to add product to localStorage cart
+	const handleAddToCart = (product) => {
+		const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+		existingCart.push(product);
+		localStorage.setItem('cart', JSON.stringify(existingCart));
 	};
 
 	return (
@@ -105,34 +88,55 @@ function ProductsPage() {
 					</div>
 				</div>
 
-				{/* Featured Products Carousel */}
-				<div className="bg-navy-900 text-white p-8 rounded-lg shadow-lg">
-					<h2 className="text-3xl font-bold mb-4 text-white">
+				<div className="bg-navy-900 p-8 rounded-lg shadow-lg">
+					<h2 className="text-3xl text-white font-bold mb-4">
 						Featured Products
 					</h2>
 					{featuredProducts.length > 0 ? (
-						<div className="flex space-x-4">
-							{getVisibleProducts().map((product) => (
-								<div
-									key={product.id}
-									className="w-1/4 rounded cursor-pointer hover:shadow-md hover:text-orange-500 transition-shadow"
-									onClick={() =>
-										navigate(`/product/${product.id}`)
-									}
-								>
-									<img
-										src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
-										alt={product.name}
-										className="w-full h-[28rem] object-cover rounded mb-2 mx-auto"
-									/>
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+							{featuredProducts.map((product) => {
+								// Assuming product.image contains the image filename
+								const imageUrl =
+									product.image || 'default-image.jpg';
 
-									<div className="text-md p-4">
-										<p className="font-semibold">
-											{product.name}
-										</p>
+								return (
+									<div
+										key={product.id}
+										className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 flex flex-col"
+									>
+										<Link to={`/product/${product.id}`}>
+											<img
+												src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${imageUrl}`}
+												alt={product.name}
+												className="w-full h-full object-cover"
+											/>
+										</Link>
+										<div className="p-4 flex flex-col flex-grow">
+											<h3 className="text-xl font-bold text-gray-800 mb-2">
+												{product.name}
+											</h3>
+											{/* Star Reviews */}
+											<div className="flex items-center mb-4">
+												<FaStar className="text-yellow-500" />
+												<FaStar className="text-yellow-500" />
+												<FaStar className="text-yellow-500" />
+												<FaStar className="text-yellow-500" />
+												<FaStar className="text-yellow-500" />
+											</div>
+											<div className="mt-auto flex justify-end">
+												<button
+													onClick={() =>
+														handleAddToCart(product)
+													}
+													className="flex items-center bg-orange-500 text-white px-3 py-2 rounded hover:bg-orange-600 transition duration-300"
+												>
+													<FaCartPlus className="mr-2" />
+												</button>
+											</div>
+										</div>
 									</div>
-								</div>
-							))}
+								);
+							})}
 						</div>
 					) : (
 						<p className="text-gray-600">

@@ -51,7 +51,7 @@ export const getProductsByCategory = async (id) => {
 		cabling: 4,
 		accessories: 5,
 		'energy-storage': 6,
-		inverters: 7,
+		'hybrid-inverters': 7,
 		'mounting-equipment': 8,
 		'switch-gear': 9,
 	};

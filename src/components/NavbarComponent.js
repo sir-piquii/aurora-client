@@ -17,9 +17,14 @@ import Logo from './../logo.png';
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	// New state for mobile products dropdown
-	const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+	const [insightsDropdownOpen, setInsightsDropdownOpen] = useState(false);
+	// New states for mobile dropdowns
+	const [mobileProductsDropdownOpen, setMobileProductsDropdownOpen] =
+		useState(false);
+	const [mobileInsightsDropdownOpen, setMobileInsightsDropdownOpen] =
+		useState(false);
 	const closeDropdownTimer = useRef(null);
+	const insightsCloseTimer = useRef(null);
 
 	// Dummy user for demonstration. Replace with your actual auth logic.
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
@@ -47,26 +52,32 @@ export default function Navbar() {
 		}
 	};
 
-	// Update basket count on component mount and when localStorage changes
+	// Update basket count on component mount and listen for custom events.
 	useEffect(() => {
 		updateBasketCount();
 
-		// Optionally, update if a storage event occurs (only fires across tabs)
+		// Listen for cross-tab storage changes
 		const handleStorageChange = (e) => {
 			if (e.key === 'cart') {
 				updateBasketCount();
 			}
 		};
+
+		// Listen for a custom "cartUpdated" event fired from other components
 		window.addEventListener('storage', handleStorageChange);
+		window.addEventListener('cartUpdated', updateBasketCount);
+
 		return () => {
 			window.removeEventListener('storage', handleStorageChange);
+			window.removeEventListener('cartUpdated', updateBasketCount);
 		};
 	}, []);
 
 	const handleLinkClick = () => {
 		setIsOpen(false);
-		// Optionally close mobile dropdown when a link is clicked.
-		setMobileDropdownOpen(false);
+		// Optionally close mobile dropdowns when a link is clicked.
+		setMobileProductsDropdownOpen(false);
+		setMobileInsightsDropdownOpen(false);
 	};
 
 	const handleMouseEnter = () => {
@@ -81,7 +92,7 @@ export default function Navbar() {
 		}, 200);
 	};
 
-	// For medium screens / touch devices:
+	// For medium screens / touch devices for Products:
 	const handleProductsClick = (event) => {
 		// If the dropdown is not already open, intercept the click to open it.
 		if (!isDropdownOpen) {
@@ -89,6 +100,13 @@ export default function Navbar() {
 			setIsDropdownOpen(true);
 		}
 		// Otherwise, allow navigation on second tap.
+	};
+
+	// For Insights & News desktop dropdown
+	const handleInsightsClick = (event) => {
+		// Prevent default navigation to allow toggling the dropdown
+		event.preventDefault();
+		setInsightsDropdownOpen((prev) => !prev);
 	};
 
 	return (
@@ -237,7 +255,7 @@ export default function Navbar() {
 								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
 									{[
 										'Solar Panels',
-										'Inverters',
+										'Hybrid Inverters',
 										'Energy Storage',
 										'Mounting Equipment',
 										'Cabling',
@@ -260,8 +278,54 @@ export default function Navbar() {
 								</ul>
 							)}
 						</li>
-						<li className="hover:text-orange-500 cursor-pointer">
-							<a href="/insights">Insights & News</a>
+						{/* Insights & News Dropdown for Desktop */}
+						<li
+							className="relative cursor-pointer"
+							onMouseEnter={() => {
+								if (insightsCloseTimer.current)
+									clearTimeout(insightsCloseTimer.current);
+								setInsightsDropdownOpen(true);
+							}}
+							onMouseLeave={() => {
+								insightsCloseTimer.current = setTimeout(
+									() => setInsightsDropdownOpen(false),
+									200,
+								);
+							}}
+						>
+							<div className="flex items-center">
+								<a
+									href="/insights"
+									onClick={handleInsightsClick}
+									className="hover:text-orange-500"
+								>
+									Insights &amp; News
+								</a>
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										setInsightsDropdownOpen(
+											(prev) => !prev,
+										);
+									}}
+									className="ml-1"
+								>
+									<ChevronDown
+										size={18}
+										className="hover:text-orange-500"
+									/>
+								</button>
+							</div>
+							{insightsDropdownOpen && (
+								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
+									<li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
+										<a href="/blogs">Blogs</a>
+									</li>
+									<li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
+										<a href="/case-studies">Case Studies</a>
+									</li>
+								</ul>
+							)}
 						</li>
 						<li className="hover:text-orange-500 cursor-pointer">
 							<a href="/contact">Contact Us</a>
@@ -362,63 +426,82 @@ export default function Navbar() {
 										className="text-orange-500"
 									/>
 								</button>
-								<ul className="text-white text-lg font-medium">
-									{[
-										{ name: 'Home', href: '/' },
-										{ name: 'About Us', href: '/about' },
-										{
-											name: 'Products',
-											href: '/products',
-											dropdown: true,
-										},
-										{
-											name: 'Insights & News',
-											href: '/insights',
-										},
-										{
-											name: 'Contact Us',
-											href: '/contact',
-										},
-									].map((item, index) => {
-										if (item.dropdown) {
-											return (
-												<React.Fragment key={index}>
-													<li className="py-2 border-b flex items-center justify-between">
-														<a
-															href={item.href}
-															className="hover:text-orange-500"
-															onClick={
-																handleLinkClick
-															}
-														>
-															{item.name}
-														</a>
-														<button
-															onClick={(e) => {
-																e.stopPropagation();
-																setMobileDropdownOpen(
+								{[
+									{ name: 'Home', href: '/' },
+									{ name: 'About Us', href: '/about' },
+									{
+										name: 'Products',
+										href: '/products',
+										dropdown: true,
+										subItems: [
+											'Solar Panels',
+											'Hybrid Inverters',
+											'Energy Storage',
+											'Mounting Equipment',
+											'Cabling',
+											'Accessories',
+											'Switch Gear',
+										],
+									},
+									{
+										name: 'Insights & News',
+										href: '/insights',
+										dropdown: true,
+										subItems: [
+											{ name: 'Blogs', href: '/blogs' },
+											{
+												name: 'Case Studies',
+												href: '/case-studies',
+											},
+										],
+									},
+									{ name: 'Contact Us', href: '/contact' },
+								].map((item, index) => {
+									if (item.dropdown) {
+										return (
+											<React.Fragment key={index}>
+												<li className="py-2 border-b flex items-center justify-between">
+													<a
+														href={item.href}
+														className="hover:text-orange-500"
+														onClick={
+															handleLinkClick
+														}
+													>
+														{item.name}
+													</a>
+													<button
+														onClick={(e) => {
+															e.stopPropagation();
+															if (
+																item.name ===
+																'Products'
+															) {
+																setMobileProductsDropdownOpen(
 																	(prev) =>
 																		!prev,
 																);
-															}}
-														>
-															<ChevronDown
-																size={18}
-																className="hover:text-orange-500"
-															/>
-														</button>
-													</li>
-													{mobileDropdownOpen && (
+															} else if (
+																item.name ===
+																'Insights & News'
+															) {
+																setMobileInsightsDropdownOpen(
+																	(prev) =>
+																		!prev,
+																);
+															}
+														}}
+													>
+														<ChevronDown
+															size={18}
+															className="hover:text-orange-500"
+														/>
+													</button>
+												</li>
+												{item.name === 'Products' &&
+													mobileProductsDropdownOpen && (
 														<ul className="pl-4">
-															{[
-																'Solar Panels',
-																'Inverters',
-																'Energy Storage',
-																'Mounting Equipment',
-																'Cabling',
-																'Accessories',
-																'Switch Gear',
-															].map(
+															{item.subItems.map(
 																(
 																	subItem,
 																	subIndex,
@@ -449,83 +532,114 @@ export default function Navbar() {
 															)}
 														</ul>
 													)}
-												</React.Fragment>
-											);
-										} else {
-											return (
-												<li
-													key={index}
-													className="py-2 border-b hover:text-orange-500 cursor-pointer"
-													onClick={handleLinkClick}
-												>
-													<a href={item.href}>
-														{item.name}
-													</a>
-												</li>
-											);
-										}
-									})}
-									{/* Conditional Auth Links for Mobile */}
-									{!user?.isLoggedIn ? (
-										<>
+												{item.name ===
+													'Insights & News' &&
+													mobileInsightsDropdownOpen && (
+														<ul className="pl-4">
+															{item.subItems.map(
+																(
+																	subItem,
+																	subIndex,
+																) => (
+																	<li
+																		key={
+																			subIndex
+																		}
+																		className="py-2 border-b hover:text-orange-500 cursor-pointer"
+																		onClick={
+																			handleLinkClick
+																		}
+																	>
+																		<a
+																			href={
+																				subItem.href
+																			}
+																		>
+																			{
+																				subItem.name
+																			}
+																		</a>
+																	</li>
+																),
+															)}
+														</ul>
+													)}
+											</React.Fragment>
+										);
+									} else {
+										return (
 											<li
+												key={index}
 												className="py-2 border-b hover:text-orange-500 cursor-pointer"
 												onClick={handleLinkClick}
 											>
-												<a
-													href="/login"
-													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-												>
-													Login
+												<a href={item.href}>
+													{item.name}
 												</a>
 											</li>
-											<li
-												className="py-2 border-b hover:text-orange-500 cursor-pointer"
-												onClick={handleLinkClick}
-											>
-												<a
-													href="/signup"
-													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-												>
-													Sign Up
-												</a>
-											</li>
-										</>
-									) : (
-										user?.isAdmin && (
-											<li
-												className="py-2 border-b hover:text-orange-500 cursor-pointer"
-												onClick={handleLinkClick}
-											>
-												<a
-													href="/admin-portal"
-													className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-												>
-													Admin Portal
-												</a>
-											</li>
-										)
-									)}
-
-									{/* Cart Element (non-clickable) */}
-									<li
-										className="py-2 border-b"
-										onClick={handleLinkClick}
-									>
-										<a
-											href="/cart"
-											className="text-white px-3 py-1 flex items-center rounded hover:text-orange-500"
+										);
+									}
+								})}
+								{/* Conditional Auth Links for Mobile */}
+								{!user?.isLoggedIn ? (
+									<>
+										<li
+											className="py-2 border-b hover:text-orange-500 cursor-pointer"
+											onClick={handleLinkClick}
 										>
-											<FaCartShopping
-												size={16}
-												className="mr-1"
-											/>
-											<span>
-												Shopping Cart: {basketCount}
-											</span>
-										</a>
-									</li>
-								</ul>
+											<a
+												href="/login"
+												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+											>
+												Login
+											</a>
+										</li>
+										<li
+											className="py-2 border-b hover:text-orange-500 cursor-pointer"
+											onClick={handleLinkClick}
+										>
+											<a
+												href="/signup"
+												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+											>
+												Sign Up
+											</a>
+										</li>
+									</>
+								) : (
+									user?.isAdmin && (
+										<li
+											className="py-2 border-b hover:text-orange-500 cursor-pointer"
+											onClick={handleLinkClick}
+										>
+											<a
+												href="/admin-portal"
+												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
+											>
+												Admin Portal
+											</a>
+										</li>
+									)
+								)}
+
+								{/* Cart Element (non-clickable) */}
+								<li
+									className="py-2 border-b"
+									onClick={handleLinkClick}
+								>
+									<a
+										href="/cart"
+										className="text-white px-3 py-1 flex items-center rounded hover:text-orange-500"
+									>
+										<FaCartShopping
+											size={16}
+											className="mr-1"
+										/>
+										<span>
+											Shopping Cart: {basketCount}
+										</span>
+									</a>
+								</li>
 							</motion.div>
 						</motion.div>
 					)}

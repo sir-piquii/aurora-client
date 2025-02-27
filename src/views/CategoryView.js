@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductsByCategory } from '../api';
+import { FaStar, FaCartPlus } from 'react-icons/fa';
 
 function CategoryView() {
 	const { categoryId } = useParams();
@@ -14,7 +15,16 @@ function CategoryView() {
 			.join(' ');
 	};
 
-	// Simulate API call to fetch products by category
+	// Handler to add product to localStorage cart
+	const handleAddToCart = (product) => {
+		// Retrieve existing cart items or initialize an empty array
+		const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+		// Add the new product
+		existingCart.push(product);
+		// Update localStorage
+		localStorage.setItem('cart', JSON.stringify(existingCart));
+	};
+
 	useEffect(() => {
 		document.title = `${formatCategory(categoryId)} | Aurora`;
 		setLoading(true);
@@ -46,7 +56,7 @@ function CategoryView() {
 				{loading ? (
 					<p className="text-gray-600">Loading products...</p>
 				) : products.length > 0 ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 						{products.map((product) => {
 							// Handle multiple images by splitting the string
 							const imagesArray = product.images
@@ -58,31 +68,41 @@ function CategoryView() {
 									: 'default-image.jpg';
 
 							return (
-								<Link
+								<div
 									key={product.product_id}
-									to={`/product/${product.product_id}`}
-									className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105"
+									className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 flex flex-col"
 								>
-									<img
-										src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
-										alt={product.product_name}
-										className="w-[80%] h-[28rem] object-cover mx-auto"
-									/>
-									<div className="p-4">
-										<h3 className="text-xl font-bold text-gray-800">
+									<Link to={`/product/${product.product_id}`}>
+										<img
+											src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
+											alt={product.product_name}
+											className="w-full h-full object-cover" // Ensures the image fills the container
+										/>
+									</Link>
+									<div className="p-4 flex flex-col flex-grow">
+										<h3 className="text-xl font-bold text-gray-800 mb-2">
 											{product.product_name}
 										</h3>
-										<p className="mt-2 text-gray-600 text-sm">
-											{product.product_description
-												.length > 100
-												? product.product_description.substring(
-														0,
-														100,
-												  ) + '...'
-												: product.product_description}
-										</p>
+										{/* Star Reviews */}
+										<div className="flex items-center mb-4">
+											<FaStar className="text-yellow-500" />
+											<FaStar className="text-yellow-500" />
+											<FaStar className="text-yellow-500" />
+											<FaStar className="text-yellow-500" />
+											<FaStar className="text-yellow-500" />
+										</div>
+										<div className="mt-auto flex justify-end">
+											<button
+												onClick={() =>
+													handleAddToCart(product)
+												}
+												className="flex items-center bg-orange-500 text-white px-3 py-2 rounded hover:bg-orange-600 transition duration-300"
+											>
+												<FaCartPlus className="mr-2" />
+											</button>
+										</div>
 									</div>
-								</Link>
+								</div>
 							);
 						})}
 					</div>
