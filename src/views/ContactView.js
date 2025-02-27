@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import contactImg from './../assets/contact.jpg';
 
 export default function ContactPage() {
 	const [formData, setFormData] = useState({
@@ -133,9 +134,12 @@ export default function ContactPage() {
 						</div>
 					</div>
 
-					{/* Right Column: Contact Form Card */}
-					<div className="bg-white p-8 rounded-lg shadow-lg">
-						<h2 className="text-2xl font-bold mb-6">
+					{/* Right Column: Contact Form Card with Background Image */}
+					<div
+						className="bg-cover bg-center p-8 rounded-lg shadow-lg"
+						style={{ backgroundImage: `url(${contactImg})` }}
+					>
+						<h2 className="text-2xl font-bold mb-6 text-navy-900">
 							Get in Touch
 						</h2>
 						<form onSubmit={handleSubmit} className="space-y-6">
@@ -144,7 +148,7 @@ export default function ContactPage() {
 								<div>
 									<label
 										htmlFor="fullName"
-										className="block text-lg font-medium text-gray-700"
+										className="block text-lg font-medium text-navy-900"
 									>
 										Full Name
 									</label>
@@ -161,7 +165,7 @@ export default function ContactPage() {
 								<div>
 									<label
 										htmlFor="email"
-										className="block text-lg font-medium text-gray-700"
+										className="block text-lg font-medium text-navy-900"
 									>
 										Email Address
 									</label>
@@ -181,7 +185,7 @@ export default function ContactPage() {
 							<div>
 								<label
 									htmlFor="phoneNumber"
-									className="block text-lg font-medium text-gray-700"
+									className="block text-lg font-medium text-navy-900"
 								>
 									Phone Number
 								</label>
@@ -200,7 +204,7 @@ export default function ContactPage() {
 							<div>
 								<label
 									htmlFor="notes"
-									className="block text-lg font-medium text-gray-700"
+									className="block text-lg font-medium text-navy-900"
 								>
 									Additional Notes
 								</label>
@@ -217,7 +221,7 @@ export default function ContactPage() {
 
 							{/* Checkboxes */}
 							<div className="space-y-4">
-								<label className="block text-sm font-medium text-gray-500">
+								<label className="block text-sm font-medium text-navy-900">
 									Services
 								</label>
 								<div className="flex items-center">
@@ -231,7 +235,7 @@ export default function ContactPage() {
 									/>
 									<label
 										htmlFor="checkbox2"
-										className="text-sm text-gray-700"
+										className="text-sm text-navy-900"
 									>
 										Request a Quote
 									</label>

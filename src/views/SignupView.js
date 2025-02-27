@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { registerUser } from '../api';
 import { useNavigate } from 'react-router-dom';
+import signUpImg from './../assets/sign-up.jpg';
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function SignUp() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError('');
-		setIsSubmitting(true); // Disable button while submitting
+		setIsSubmitting(true);
 
 		try {
 			if (signupData.password !== confirmPassword) {
@@ -41,7 +42,6 @@ export default function SignUp() {
 			}
 
 			const response = await registerUser(signupData);
-
 			console.log('Registration successful:', response);
 
 			if (!response.ok) {
@@ -55,7 +55,7 @@ export default function SignUp() {
 		} catch (err) {
 			setError(err.message);
 		} finally {
-			setIsSubmitting(false); // Enable button after response
+			setIsSubmitting(false);
 		}
 	};
 
@@ -64,18 +64,18 @@ export default function SignUp() {
 	}, []);
 
 	return (
-		<div className="flex flex-col justify-center items-center">
+		<div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
 			<div className="w-full h-24 flex items-center justify-center text-navy-900">
 				<h1 className="text-5xl font-bold">Sign Up</h1>
 			</div>
 
-			{/* Updated container: full width on mobile, 8/12 on medium and larger screens */}
+			{/* Form container with background image */}
 			<div className="w-full md:w-8/12 mx-auto px-4 mt-6">
-				<div className="bg-white p-8 rounded-lg shadow-lg">
-					<h2
-						className="text-2xl font-bold mb-6 text-center"
-						style={{ color: '#001f3f' }}
-					>
+				<div
+					className="p-8 rounded-lg shadow-lg bg-cover bg-center"
+					style={{ backgroundImage: `url(${signUpImg})` }}
+				>
+					<h2 className="text-2xl font-bold mb-6 text-center text-navy-900">
 						Create Your Account
 					</h2>
 
@@ -89,7 +89,7 @@ export default function SignUp() {
 						<div>
 							<label
 								htmlFor="name"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Full Name
 							</label>
@@ -107,7 +107,7 @@ export default function SignUp() {
 						<div>
 							<label
 								htmlFor="username"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Username
 							</label>
@@ -125,7 +125,7 @@ export default function SignUp() {
 						<div>
 							<label
 								htmlFor="email"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Email Address
 							</label>
@@ -143,7 +143,7 @@ export default function SignUp() {
 						<div>
 							<label
 								htmlFor="password"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Password
 							</label>
@@ -161,7 +161,7 @@ export default function SignUp() {
 						<div>
 							<label
 								htmlFor="confirmPassword"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Confirm Password
 							</label>

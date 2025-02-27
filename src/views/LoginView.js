@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { authenticateUser } from '../api';
+import loginImg from './../assets/login.jpg';
 
 export default function Login() {
 	const [loginData, setLoginData] = useState({
@@ -54,11 +55,11 @@ export default function Login() {
 
 			{/* Updated container: full width on mobile, 8/12 on medium and larger screens */}
 			<div className="w-full md:w-8/12 mx-auto px-4 mt-6">
-				<div className="bg-white p-8 rounded-lg shadow-lg">
-					<h2
-						className="text-2xl font-bold mb-6 text-center"
-						style={{ color: '#001f3f' }}
-					>
+				<div
+					className="p-8 rounded-lg shadow-lg bg-cover bg-center"
+					style={{ backgroundImage: `url(${loginImg})` }}
+				>
+					<h2 className="text-2xl font-bold mb-6 text-center text-navy-900">
 						Welcome Back
 					</h2>
 
@@ -72,7 +73,7 @@ export default function Login() {
 						<div>
 							<label
 								htmlFor="identifier"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Email or Username
 							</label>
@@ -90,7 +91,7 @@ export default function Login() {
 						<div>
 							<label
 								htmlFor="password"
-								className="block text-lg font-medium text-gray-700"
+								className="block text-lg font-medium text-navy-900"
 							>
 								Password
 							</label>
