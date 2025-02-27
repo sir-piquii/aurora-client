@@ -191,7 +191,7 @@ export default function Cart() {
 								))}
 							</div>
 							<div className="flex justify-center mt-8 mx-auto">
-								<button className="p-2 w-full bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all">
+								<button className="p-2 w-full bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 rounded-full transition-all">
 									Checkout
 								</button>
 							</div>

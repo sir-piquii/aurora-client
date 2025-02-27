@@ -97,7 +97,7 @@ export default function ContactPage() {
 									href="tel:+263 779 576 966"
 									className="hover:text-orange-300 transition"
 								>
-									+263 779 576 966
+									+263 771 683 662
 								</a>
 							</div>
 						</div>
@@ -113,23 +113,6 @@ export default function ContactPage() {
 									className="hover:text-orange-300 transition"
 								>
 									+263 242 783 999
-								</a>
-							</div>
-						</div>
-						<div className="flex items-center mb-4">
-							<FaPhone
-								className="text-orange-500 mr-4"
-								size={24}
-							/>
-							<div>
-								<p className="font-semibold">
-									Office Whatsapp/Call
-								</p>
-								<a
-									href="tel:+263 771 683 662"
-									className="hover:text-orange-300 transition"
-								>
-									+263 771 683 662
 								</a>
 							</div>
 						</div>
@@ -250,14 +233,14 @@ export default function ContactPage() {
 										htmlFor="checkbox2"
 										className="text-sm text-gray-700"
 									>
-										Request a Quotation
+										Request a Quote
 									</label>
 								</div>
 							</div>
 
 							<button
 								type="submit"
-								className="bg-orange-500 text-white py-3 px-6 mt-6 rounded-full w-full hover:bg-orange-600 transition-all"
+								className="bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 py-3 px-6 mt-6 rounded-full w-full transition-all"
 							>
 								Send Message
 							</button>

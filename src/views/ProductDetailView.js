@@ -179,13 +179,13 @@ function ProductDetailView() {
 							<div className="flex space-x-4 mt-4">
 								<button
 									onClick={handleAddToCart}
-									className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
+									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-4 py-2 rounded hover:text-orange-300 transition"
 								>
 									Add to Cart
 								</button>
 								<button
 									onClick={handleRequestQuote}
-									className="px-4 py-2 bg-navy-800 text-white rounded-md hover:bg-navy-900 transition"
+									className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-4 py-2 rounded hover:text-orange-300 transition"
 								>
 									Request a Quote
 								</button>

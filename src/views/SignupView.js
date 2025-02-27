@@ -182,7 +182,7 @@ export default function SignUp() {
 							className={`w-full py-3 px-6 rounded-full transition-all ${
 								isSubmitting
 									? 'bg-gray-400 cursor-not-allowed'
-									: 'bg-orange-500 hover:bg-orange-600 text-white'
+									: 'bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300'
 							}`}
 						>
 							{isSubmitting ? 'Signing Up...' : 'Sign Up'}
