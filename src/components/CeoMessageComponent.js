@@ -3,7 +3,7 @@ import chasara from './../assets/chasara.jpg';
 
 const CEOMessage = () => {
 	return (
-		<div className="w-full min-h-[400px] bg-navy-900 p-8 rounded-lg text-white">
+		<div className="w-[80%] min-h-[400px] bg-navy-900 p-8 rounded-lg text-white mx-auto">
 			<h2 className="text-3xl font-bold mb-4">MD’s Welcome Message</h2>
 			<img
 				src={chasara} // Replace with your actual image URL
