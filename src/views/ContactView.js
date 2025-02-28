@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import contactImg from './../assets/contact.jpg';
 
 export default function ContactPage() {
 	const [formData, setFormData] = useState({
@@ -97,7 +98,7 @@ export default function ContactPage() {
 									href="tel:+263 779 576 966"
 									className="hover:text-orange-300 transition"
 								>
-									+263 779 576 966
+									+263 771 683 662
 								</a>
 							</div>
 						</div>
@@ -122,23 +123,6 @@ export default function ContactPage() {
 								size={24}
 							/>
 							<div>
-								<p className="font-semibold">
-									Office Whatsapp/Call
-								</p>
-								<a
-									href="tel:+263 771 683 662"
-									className="hover:text-orange-300 transition"
-								>
-									+263 771 683 662
-								</a>
-							</div>
-						</div>
-						<div className="flex items-center mb-4">
-							<FaPhone
-								className="text-orange-500 mr-4"
-								size={24}
-							/>
-							<div>
 								<p className="font-semibold">Procurement</p>
 								<a
 									href="tel:+263 784 754 062"
@@ -150,9 +134,12 @@ export default function ContactPage() {
 						</div>
 					</div>
 
-					{/* Right Column: Contact Form Card */}
-					<div className="bg-white p-8 rounded-lg shadow-lg">
-						<h2 className="text-2xl font-bold mb-6">
+					{/* Right Column: Contact Form Card with Background Image */}
+					<div
+						className="bg-cover bg-center p-8 rounded-lg shadow-lg"
+						style={{ backgroundImage: `url(${contactImg})` }}
+					>
+						<h2 className="text-2xl font-bold mb-6 text-navy-900">
 							Get in Touch
 						</h2>
 						<form onSubmit={handleSubmit} className="space-y-6">
@@ -161,7 +148,7 @@ export default function ContactPage() {
 								<div>
 									<label
 										htmlFor="fullName"
-										className="block text-lg font-medium text-gray-700"
+										className="block text-lg font-medium text-navy-900"
 									>
 										Full Name
 									</label>
@@ -178,7 +165,7 @@ export default function ContactPage() {
 								<div>
 									<label
 										htmlFor="email"
-										className="block text-lg font-medium text-gray-700"
+										className="block text-lg font-medium text-navy-900"
 									>
 										Email Address
 									</label>
@@ -198,7 +185,7 @@ export default function ContactPage() {
 							<div>
 								<label
 									htmlFor="phoneNumber"
-									className="block text-lg font-medium text-gray-700"
+									className="block text-lg font-medium text-navy-900"
 								>
 									Phone Number
 								</label>
@@ -217,7 +204,7 @@ export default function ContactPage() {
 							<div>
 								<label
 									htmlFor="notes"
-									className="block text-lg font-medium text-gray-700"
+									className="block text-lg font-medium text-navy-900"
 								>
 									Additional Notes
 								</label>
@@ -234,7 +221,7 @@ export default function ContactPage() {
 
 							{/* Checkboxes */}
 							<div className="space-y-4">
-								<label className="block text-sm font-medium text-gray-500">
+								<label className="block text-sm font-medium text-navy-900">
 									Services
 								</label>
 								<div className="flex items-center">
@@ -248,16 +235,16 @@ export default function ContactPage() {
 									/>
 									<label
 										htmlFor="checkbox2"
-										className="text-sm text-gray-700"
+										className="text-sm text-navy-900"
 									>
-										Request a Quotation
+										Request a Quote
 									</label>
 								</div>
 							</div>
 
 							<button
 								type="submit"
-								className="bg-orange-500 text-white py-3 px-6 mt-6 rounded-full w-full hover:bg-orange-600 transition-all"
+								className="bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 py-3 px-6 mt-6 rounded-full w-full transition-all"
 							>
 								Send Message
 							</button>

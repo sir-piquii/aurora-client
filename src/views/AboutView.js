@@ -31,7 +31,7 @@ export default function AboutUs() {
 		<>
 			{/* Our Story */}
 			<section
-				className="py-2 px-auto border border-white shadow-[0_4px_6px_rgba(255,165,0,0.5)] rounded-lg my-6"
+				className="w-[90%] py-2 px-auto border border-white shadow-[0_4px_6px_rgba(255,165,0,0.5)] rounded-lg my-6 mx-auto"
 				style={{
 					backgroundImage: `url(${backgroundImage})`,
 					backgroundSize: 'cover',
@@ -43,7 +43,7 @@ export default function AboutUs() {
 					<h1 className="text-6xl font-bold text-center text-navy-900 mb-4">
 						Our Story
 					</h1>
-					<div className="text-lg text-center text-navy-900 space-y-3 py-4">
+					<div className="text-lg text-center text-white space-y-3 py-4">
 						<p>
 							Inspired by the breath-taking beauty of the aurora
 							borealis, Aurora Energy aims to illuminate the path

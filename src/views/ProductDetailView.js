@@ -187,29 +187,31 @@ function ProductDetailView() {
 							)}
 >>>>>>> 5418a7bab82aeed1dfbd00e8d52ccad3446176f9
 
-              {/* Buttons: Add to Cart and Request a Quote */}
-              <div className="flex space-x-4 mt-4">
-                <button
-                  onClick={handleAddToCart}
-                  className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={handleRequestQuote}
-                  className="px-4 py-2 bg-navy-800 text-white rounded-md hover:bg-navy-900 transition"
-                >
-                  Request a Quote
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <p className="text-gray-600 text-center">Product not found.</p>
-        )}
-      </div>
-    </div>
-  );
+							{/* Buttons: Add to Cart and Request a Quote */}
+							<div className="flex space-x-4 mt-4">
+								<button
+									onClick={handleAddToCart}
+									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-4 py-2 rounded hover:text-orange-300 transition"
+								>
+									Add to Cart
+								</button>
+								<button
+									onClick={handleRequestQuote}
+									className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-4 py-2 rounded hover:text-orange-300 transition"
+								>
+									Request a Quote
+								</button>
+							</div>
+						</div>
+					</div>
+				) : (
+					<p className="text-gray-600 text-center">
+						Product not found.
+					</p>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default ProductDetailView;
