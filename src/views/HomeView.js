@@ -8,9 +8,18 @@ function HomeView() {
 	useEffect(() => {
 		document.title = 'Home | Aurora';
 	}, []);
+
 	return (
 		<div>
 			<ImageCarousel />
+			{/* Audio Player */}
+			<audio controls className="mx-auto pt-6">
+				<source
+					src={require('./../assets/audio.mp3')}
+					type="audio/mp3"
+				/>
+				Your browser does not support the audio element.
+			</audio>
 			{/* Add your content here */}
 			<div>
 				<Products />

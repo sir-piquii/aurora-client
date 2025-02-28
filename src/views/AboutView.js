@@ -103,7 +103,7 @@ export default function AboutUs() {
 									download
 									target="_blank"
 									rel="noopener noreferrer"
-									className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-lg transition"
+									className="px-6 py-3 bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 font-semibold rounded-lg shadow-lg transition"
 								>
 									{certificate.title}
 								</a>
