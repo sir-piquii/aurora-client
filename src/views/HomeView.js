@@ -7,13 +7,20 @@ import Testimonials from '../components/TestimonialComponent';
 function HomeView() {
 	useEffect(() => {
 		document.title = 'Home | Aurora';
+		const audio = document.getElementById('homepage-audio');
+		if (audio && !sessionStorage.getItem('audioPlayed')) {
+			audio
+				.play()
+				.catch((error) => console.log('Autoplay prevented:', error));
+			sessionStorage.setItem('audioPlayed', 'true');
+		}
 	}, []);
 
 	return (
 		<div>
 			<ImageCarousel />
 			{/* Audio Player */}
-			<audio controls className="mx-auto pt-6">
+			<audio id="homepage-audio" controls className="mx-auto pt-6">
 				<source
 					src={require('./../assets/audio.mp3')}
 					type="audio/mp3"
