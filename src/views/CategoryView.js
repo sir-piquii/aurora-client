@@ -68,42 +68,42 @@ function CategoryView() {
 									: 'default-image.jpg';
 
 							return (
-								<div
-									key={product.product_id}
-									className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 flex flex-col"
-								>
-									<Link to={`/product/${product.product_id}`}>
-										<img
-											src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
-											alt={product.product_name}
-											className="w-full h-full object-cover" // Ensures the image fills the container
-										/>
-									</Link>
-									<div className="p-4 flex flex-col flex-grow">
-										<h3 className="text-xl font-bold text-gray-800 mb-2">
-											{product.product_name}
-										</h3>
-										{/* Star Reviews */}
-										<div className="flex items-center mb-4">
-											<FaStar className="text-yellow-500" />
-											<FaStar className="text-yellow-500" />
-											<FaStar className="text-yellow-500" />
-											<FaStar className="text-yellow-500" />
-											<FaStar className="text-yellow-500" />
-										</div>
-										<div className="mt-auto flex justify-end">
-											<button
-												onClick={() =>
-													handleAddToCart(product)
-												}
-												className="flex items-center bg-orange-500 text-white px-3 py-2 rounded hover:bg-orange-600 transition duration-300"
-											>
-												<FaCartPlus className="mr-2" />
-											</button>
-										</div>
-									</div>
-								</div>
-							);
+                <div
+                  key={product.product_id}
+                  className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 flex flex-col"
+                >
+                  <Link to={`/product/${product.product_id}`}>
+                    <div className="bg-white h-80 overflow-hidden">
+                      <img
+                        src={`https://dev-api.auroraenergy.co.zw/products/${imageUrl}`}
+                        alt={product.product_name}
+                        className="w-full h-full object-center object-contain " // Ensures the image is contained within the div
+                      />
+                    </div>
+                  </Link>
+                  <div className="p-4 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-gray-800 mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                      {product.product_name}
+                    </h3>
+                    {/* Star Reviews */}
+                    <div className="flex items-center mb-4">
+                      <FaStar className="text-yellow-500" />
+                      <FaStar className="text-yellow-500" />
+                      <FaStar className="text-yellow-500" />
+                      <FaStar className="text-yellow-500" />
+                      <FaStar className="text-yellow-500" />
+                    </div>
+                    <div className="mt-auto flex justify-end">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="flex items-center bg-orange-500 text-white px-3 py-2 rounded hover:bg-orange-600 transition duration-300"
+                      >
+                        <FaCartPlus className="mr-2" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
 						})}
 					</div>
 				) : (

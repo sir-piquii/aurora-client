@@ -1,10 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.84b8b257.css",
-    "main.js": "/static/js/main.cbbb44eb.js",
+    "main.css": "/static/css/main.59e36288.css",
+    "main.js": "/static/js/main.259f46f8.js",
+    "static/media/sign-up.jpg": "/static/media/sign-up.85ea848091f65ffa9dc4.jpg",
+    "static/media/login.jpg": "/static/media/login.44a719b17defd42113c3.jpg",
     "static/media/chasara.jpg": "/static/media/chasara.cc6a17df098d9bd7690d.jpg",
+    "static/media/contact.jpg": "/static/media/contact.c09d34b367118fa8858d.jpg",
     "static/media/house_animation.mp4": "/static/media/house_animation.df4dbc174c434bcdaf30.mp4",
     "static/media/logo.png": "/static/media/logo.b06e63e49b93b261ccf0.png",
+    "static/media/aurora_lights.avif": "/static/media/aurora_lights.d586a30f0622d295280c.avif",
     "static/media/anta-latin-400-normal.woff2": "/static/media/anta-latin-400-normal.118ab4be98d7558bfd06.woff2",
     "static/media/anta-latin-400-normal.woff": "/static/media/anta-latin-400-normal.1536b67d29071aaf5442.woff",
     "static/media/anta-latin-ext-400-normal.woff2": "/static/media/anta-latin-ext-400-normal.fb0e92e0310129b0b7e6.woff2",
@@ -18,11 +22,11 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.84b8b257.css.map": "/static/css/main.84b8b257.css.map",
-    "main.cbbb44eb.js.map": "/static/js/main.cbbb44eb.js.map"
+    "main.59e36288.css.map": "/static/css/main.59e36288.css.map",
+    "main.259f46f8.js.map": "/static/js/main.259f46f8.js.map"
   },
   "entrypoints": [
-    "static/css/main.84b8b257.css",
-    "static/js/main.cbbb44eb.js"
+    "static/css/main.59e36288.css",
+    "static/js/main.259f46f8.js"
   ]
 }
