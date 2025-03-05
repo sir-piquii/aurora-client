@@ -17,10 +17,8 @@ function TestimonialCarousel() {
 				console.error('Error fetching testimonials:', error);
 			}
 		};
-		const timer = setTimeout(() => {
-			fetchTestimonials();
-		}, 500);
-		return () => clearTimeout(timer);
+
+		fetchTestimonials();
 	}, []);
 
 	const settings = {

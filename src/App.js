@@ -12,7 +12,11 @@ import Footer from './components/FooterComponent';
 import HomeView from './views/HomeView';
 import Contact from './views/ContactView';
 import About from './views/AboutView';
-import News from './views/NewsView';
+import Blog from './views/BlogView';
+import Blogs from './views/BlogsView';
+import CaseStudy from './views/CaseStudyView';
+import CaseStudies from './views/CaseStudiesView';
+import Insights from './views/InsightsView';
 import Products from './views/ProductsView';
 import Category from './views/CategoryView';
 import ProductDetail from './views/ProductDetailView';
@@ -34,6 +38,13 @@ function App() {
 						<Route path="/" element={<HomeView />} />
 						<Route path="/contact" element={<Contact />} />
 						<Route path="/about" element={<About />} />
+						<Route path="/blog/:blogId" element={<Blog />} />
+						<Route path="/blogs" element={<Blogs />} />
+						<Route
+							path="/case-study/:caseStudyId"
+							element={<CaseStudy />}
+						/>
+						<Route path="/case-studies" element={<CaseStudies />} />
 						<Route path="/products" element={<Products />} />
 						<Route
 							path="/category/:categoryId"
@@ -43,7 +54,7 @@ function App() {
 							path="/product/:productId"
 							element={<ProductDetail />}
 						/>
-						<Route path="/insights" element={<News />} />
+						<Route path="/insights" element={<Insights />} />
 						<Route path="/cart" element={<Cart />} />
 						<Route path="/faqs" element={<FAQs />} />
 

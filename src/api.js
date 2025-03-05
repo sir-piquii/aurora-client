@@ -10,6 +10,9 @@ const endpoints = {
 	testimonial: `${BASE_URL}/testimonials`,
 	auth: `${BASE_URL}/auth`,
 	certificates: `${BASE_URL}/certificates`,
+	articles: `${BASE_URL}/articles`,
+	blogs: `${BASE_URL}/blogs`,
+	caseStudies: `${BASE_URL}/case-study`,
 };
 
 export const getCertificates = async () => {
@@ -99,6 +102,56 @@ export const getTestimonials = async () => {
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching testimonials:', error);
+		throw error;
+	}
+};
+
+export const getArticles = async () => {
+	try {
+		const response = await axios.get(endpoints.articles);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching articles:', error);
+		throw error;
+	}
+};
+
+export const getBlogs = async () => {
+	try {
+		const response = await axios.get(endpoints.blogs);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching blogs:', error);
+		throw error;
+	}
+};
+
+export const getBlogById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.blogs}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching blog by ID:', error);
+		throw error;
+	}
+};
+
+export const getCaseStudies = async () => {
+	try {
+		const response = await axios.get(endpoints.caseStudies);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching case studies:', error);
+		throw error;
+	}
+};
+
+export const getCaseStudyById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.caseStudies}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching case study by ID:', error);
 		throw error;
 	}
 };

@@ -21,10 +21,7 @@ export default function AboutUs() {
 			}
 		};
 
-		const timer = setTimeout(() => {
-			fetchCertificates();
-		}, 500);
-		return () => clearTimeout(timer);
+		fetchCertificates();
 	}, []);
 
 	return (

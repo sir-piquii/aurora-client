@@ -105,8 +105,10 @@ export default function Navbar() {
 	// For Insights & News desktop dropdown
 	const handleInsightsClick = (event) => {
 		// Prevent default navigation to allow toggling the dropdown
-		event.preventDefault();
-		setInsightsDropdownOpen((prev) => !prev);
+		if (!insightsDropdownOpen) {
+			event.preventDefault();
+			setInsightsDropdownOpen(true);
+		}
 	};
 
 	return (

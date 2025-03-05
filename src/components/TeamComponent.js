@@ -13,9 +13,7 @@ function Team() {
 			}
 		};
 
-		const timer = setTimeout(() => {
-			fetchTeamMembers();
-		}, 500);
+		fetchTeamMembers();
 	}, []);
 	return (
 		<section className="container mx-auto px-4 py-12">
