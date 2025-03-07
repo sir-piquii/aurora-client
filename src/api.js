@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { FaSquare } from 'react-icons/fa';
 
 const BASE_URL =
 	process.env.REACT_APP_API_URL || 'https://dev-api.auroraenergy.co.zw';
@@ -13,6 +14,7 @@ const endpoints = {
 	articles: `${BASE_URL}/articles`,
 	blogs: `${BASE_URL}/blogs`,
 	caseStudies: `${BASE_URL}/case-study`,
+	faqs: `${BASE_URL}/faqs`,
 };
 
 export const getCertificates = async () => {
@@ -188,6 +190,16 @@ export const registerUser = async (userData) => {
 		return response.data;
 	} catch (error) {
 		console.error('Error registering user:', error);
+		throw error;
+	}
+};
+
+export const getFaqs = async () => {
+	try {
+		const response = await axios.get(endpoints.faqs);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching faqs:', error);
 		throw error;
 	}
 };

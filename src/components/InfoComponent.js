@@ -21,10 +21,20 @@ const InfoCards = () => {
 	return (
 		<div className="w-9/12 mx-auto mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 			<InfoCard Icon={FaEye} title="Our Vision">
-				For our Consumers: We envision providing sustainable energy
-				solutions across Africa. For our Team: Being the most
-				knowledgeable experts in renewable energy, lighting, and
-				electrical solutions.
+				<p>
+					Our Consumers: Access to sustainable and affordable energy
+					solutions across Africa.{' '}
+				</p>
+				<br></br>
+				<p>
+					Our Team: The most knowledgeable and motivated team offering
+					sustainable and renewable energy solutions.
+				</p>
+				<br></br>
+				<p>
+					Our Community: Benefit and enjoy a clean and healthy
+					environment.
+				</p>
 			</InfoCard>
 
 			<InfoCard Icon={FaBullseye} title="Our Mission">
@@ -35,17 +45,23 @@ const InfoCards = () => {
 			<InfoCard Icon={FaRegLightbulb} title="Our Values">
 				<ul className="list-disc inline-block text-left">
 					<li>
-						Customer Satisfaction – We are not done until the
-						customer is satisfied completely.
+						Customer Satisfaction: we are not done until the
+						customer is completely satisfied.
 					</li>
 					<li>
-						Worthy of Trust – We keep our promises and we do the
-						right thing, period!
+						Worthy of trust: we keep our promises and we do the
+						right thing period!
 					</li>
 					<li>
-						Respect for Each Other – We are inclusive and
+						Respect for each other: we are inclusive and
 						collaborative, and individuals with diverse backgrounds
 						and talents.
+					</li>
+					<li>
+						Winning with integrity: we are passionate about our
+						mission and becoming an unravelled industry leader by
+						achieving superior results for our customers,
+						stakeholders and community we operate in.{' '}
 					</li>
 				</ul>
 			</InfoCard>

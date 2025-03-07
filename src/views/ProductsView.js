@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getFeaturedProducts } from '../api';
 import { FaStar, FaCartPlus } from 'react-icons/fa';
+import { getFaqs } from '../api';
 
 function ProductsPage() {
 	const navigate = useNavigate();
 	const [featuredProducts, setFeaturedProducts] = useState([]);
+	const [faqs, setFaqs] = useState([]);
 
 	// Categories (static list)
 	const categories = [
@@ -16,26 +18,6 @@ function ProductsPage() {
 		{ id: 'cabling', name: 'Cabling' },
 		{ id: 'accessories', name: 'Accessories' },
 		{ id: 'switch-gear', name: 'Switch Gear' },
-	];
-
-	// FAQs (static) – clicking any FAQ item goes to the FAQs page
-	const faqs = [
-		{
-			question: 'What is the return policy?',
-			answer: 'You can return any product within 30 days of purchase.',
-		},
-		{
-			question: 'Do you offer international shipping?',
-			answer: 'Yes, we ship to most countries worldwide.',
-		},
-		{
-			question: 'How can I track my order?',
-			answer: 'Once your order ships, you will receive a tracking number by email.',
-		},
-		{
-			question: 'Are there any discounts available?',
-			answer: 'We offer seasonal discounts and promotions. Subscribe to our newsletter for updates.',
-		},
 	];
 
 	// Fetch featured products on component mount with a delay
@@ -51,7 +33,17 @@ function ProductsPage() {
 			}
 		};
 
+		const fetchFaqs = async () => {
+			try {
+				const data = await getFaqs();
+				setFaqs(data);
+			} catch (error) {
+				console.error('Error fetching faqs:', error);
+			}
+		};
+
 		fetchFeaturedProducts();
+		fetchFaqs();
 	}, []);
 
 	// Handler to add product to localStorage cart
