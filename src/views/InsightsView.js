@@ -61,15 +61,22 @@ export default function InsightsAndNews() {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 						{recentArticles.map((article) => (
 							<div
-								key={article.id}
+								key={article.article_id}
 								className="bg-white p-6 rounded-lg shadow-lg cursor-pointer hover:bg-gray-100"
 							>
-								<h3 className="font-bold">{article.title}</h3>
+								<h3 className="font-bold">
+									{article.article_title}
+								</h3>
 								<p className="text-sm text-gray-600 mb-2">
-									{article.description}
+									{article.article_description.length > 150
+										? `${article.article_description.slice(
+												0,
+												150,
+										  )}...`
+										: article.article_description}
 								</p>
 								<a
-									href={article.url}
+									href={article.article_ref}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-blue-600 underline hover:text-blue-800"
