@@ -35,43 +35,46 @@ export default function CaseStudyDetail() {
 	};
 
 	return (
-		<div className="p-6 max-w-4xl mx-auto">
-			<button
-				onClick={() => navigate(-1)}
-				className="text-blue-600 hover:underline mb-4"
-			>
-				← Back to Case Studies
-			</button>
+    <div className="p-6 max-w-4xl mx-auto">
+      <button
+        onClick={() => navigate(-1)}
+        className="text-blue-600 hover:underline mb-4"
+      >
+        ← Back to Case Studies
+      </button>
 
-			<h1 className="text-3xl font-bold">{caseStudy.projectName}</h1>
-			<p className="text-gray-500">{caseStudy.location}</p>
-			<p className="mt-4 text-gray-800">
-				<strong>System Capacity:</strong> {caseStudy.systemCapacity}
-			</p>
+      <h1 className="text-3xl font-bold">{caseStudy.projectName}</h1>
+      <p className="text-gray-500">{caseStudy.location}</p>
+      <p className="mt-4 text-gray-800">
+        <strong>System Capacity:</strong> {caseStudy.systemCapacity}
+      </p>
 
-			{/* Image Carousel */}
-			<div className="relative w-full mt-6">
-				<img
-					src={`https://dev-api.auroraenergy.co.zw/caseStudyImages/${images[currentImageIndex]}`}
-					alt="Case Study"
-					className="w-full object-cover rounded-lg"
-				/>
-				<button
-					onClick={nextImage}
-					className="absolute top-1/2 right-4 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md transform -translate-y-1/2 hover:bg-gray-700"
-				>
-					Next
-				</button>
-			</div>
-
-			{/* Video Player */}
-			<div className="mt-6">
-				<h2 className="text-2xl font-bold mb-2">Project Video</h2>
-				<video controls className="w-full rounded-lg shadow-lg">
-					<source src={caseStudy.video} type="video/mp4" />
-					Your browser does not support the video tag.
-				</video>
-			</div>
-		</div>
-	);
+      {/* Image Carousel */}
+      <div className="relative w-full mt-6">
+        <img
+          src={`https://dev-api.auroraenergy.co.zw/caseStudyImages/${images[currentImageIndex]}`}
+          alt="Case Study"
+          className="w-full object-cover rounded-lg"
+        />
+        <button
+          onClick={nextImage}
+          className="absolute top-1/2 right-4 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md transform -translate-y-1/2 hover:bg-gray-700"
+        >
+          Next
+        </button>
+      </div>
+      {/* Video Player */}
+      <div className="mt-6">
+        <iframe
+          width="100%"
+          height="315"
+          src={`https://www.youtube.com/embed/${caseStudy.video}`}
+          title="Case Study Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  );
 }

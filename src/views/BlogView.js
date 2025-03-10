@@ -26,18 +26,18 @@ function BlogDetail() {
 	}, [blogId]);
 
 	return (
-		<div className="p-6 max-w-3xl mx-auto">
-			<a className="text-blue-600 hover:underline mb-4" href="/blogs">
-				← Back to Blogs
-			</a>
+    <div className="p-6 max-w-3xl mx-auto">
+      <a className="text-blue-600 hover:underline mb-4" href="/blogs">
+        ← Back to Blogs
+      </a>
 
-			<h1 className="text-3xl font-bold">{blog.tite}</h1>
-			<p className="text-gray-500">
-				By {blog.author} | {new Date(blog.createdAt).toDateString()}
-			</p>
-			<p className="mt-4 text-gray-800">{blog.story}</p>
-		</div>
-	);
+      <h1 className="text-3xl font-bold">{blog.tite}</h1>
+      <p className="text-gray-500">
+        By {blog.author} | {new Date(blog.createdAt).toDateString()}
+      </p>
+      <p className="mt-4 text-gray-800 whitespace-pre-wrap">{blog.story}</p>
+    </div>
+  );
 }
 
 export default BlogDetail;

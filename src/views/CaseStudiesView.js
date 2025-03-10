@@ -5,24 +5,23 @@ import { getCaseStudies } from '../api';
 export default function CaseStudies() {
 	const [caseStudies, setCaseStudies] = useState([]);
 	const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Case Studies | Aurora Energy";
+    const fetchCaseStudies = async () => {
+      try {
+        const data = await getCaseStudies();
+        setCaseStudies(data);
+      } catch (error) {
+        console.error("Error fetching case studies:", error);
+      }
+    };
+    fetchCaseStudies();
+  }, []);
 
-	useEffect(() => {
-		document.title = 'Case Studies | Aurora Energy';
-		const fetchCaseStudies = async () => {
-			try {
-				const data = await getCaseStudies();
-				setCaseStudies(data);
-			} catch (error) {
-				console.error('Error fetching case studies:', error);
-			}
-		};
-		fetchCaseStudies();
-	}, []);
-
-	const handleCaseStudyClick = (caseStudy) => {
-		navigate(`/case-study/${caseStudy.id}`, { state: { caseStudy } });
-	};
-
+  const handleCaseStudyClick = (caseStudy) => {
+    navigate(`/case-study/${caseStudy.id}`, { state: { caseStudy } });
+  };
+  console.log(caseStudies);
 	return (
 		<div className="flex flex-col items-center">
 			<div className="w-full h-24 flex items-center justify-center bg-navy-900 text-white text-5xl font-bold">
