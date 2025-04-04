@@ -24,6 +24,10 @@ import Login from './views/LoginView';
 import Signup from './views/SignupView';
 import Cart from './views/CartView';
 import FAQs from './views/FAQsView';
+import AdminPanel from './admin/AdminPanel';
+import DealerPanel from './dealer/DealerPanel';
+import DealerRoute from './router/DealerRoute';
+import ProtectedRoute from './router/ProtectedRoute';
 import '@fontsource/anta';
 
 function App() {
@@ -67,6 +71,14 @@ function App() {
 							path="/signup"
 							element={user ? <Navigate to="/" /> : <Signup />}
 						/>
+						<Route element={<ProtectedRoute />}>
+							<Route path="/admin/*" element={<AdminPanel />} />
+						</Route>
+						<Route element={<DealerRoute />}>
+							<Route path="/dealer/*" element={<DealerPanel />} />
+						</Route>
+						{/* Redirect all other paths to home */}
+						<Route path="*" element={<Navigate to="/" />} />
 					</Routes>
 				</main>
 				<Footer />

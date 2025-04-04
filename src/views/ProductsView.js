@@ -48,9 +48,40 @@ function ProductsPage() {
 
 	// Handler to add product to localStorage cart
 	const handleAddToCart = (product) => {
-		const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-		existingCart.push(product);
-		localStorage.setItem('cart', JSON.stringify(existingCart));
+		const storedCart = localStorage.getItem('cart');
+		let cart = storedCart ? JSON.parse(storedCart) : null;
+		const now = Date.now();
+		const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+
+		// Reset cart if it has expired
+		if (cart && cart.expires && now > cart.expires) {
+			cart = null;
+		}
+
+		if (!cart) {
+			cart = {
+				items: [],
+				expires: now + THIRTY_DAYS,
+			};
+		}
+
+		// Check if product is already in the cart (using product_id or a similar unique identifier)
+		const existingItem = cart.items.find(
+			(item) => item.productId === product.product_id,
+		);
+
+		if (existingItem) {
+			existingItem.quantity += 1;
+		} else {
+			cart.items.push({
+				productId: product.product_id,
+				productName: product.product_name,
+				image: product.images.split(',')[0],
+				quantity: 1,
+			});
+		}
+		localStorage.setItem('cart', JSON.stringify(cart));
+		alert('Product added to cart!');
 	};
 
 	return (

@@ -1,11 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
 import InputNumber from 'rc-input-number';
 import 'rc-input-number/assets/index.css';
 
 export default function Cart() {
+	const navigate = useNavigate();
 	const [cartItems, setCartItems] = useState([]);
 	const [error, setError] = useState('');
+
+	const handleCheckout = () => {
+		// Simulate user authentication check (Replace this with actual auth check)
+		const user = JSON.parse(localStorage.getItem('user')); // Example user object
+		const isDealer = user?.role === 'dealer';
+
+		if (!user || !isDealer) {
+			// Generate WhatsApp message
+			let message = 'Hello, I would like to place an order:\n\n';
+			products.forEach((item, index) => {
+				message += `${index + 1}. ${item.productName} (Qty: ${
+					item.quantity
+				})\n`;
+			});
+			message += '\nPlease assist me with my order.';
+
+			// Encode message for WhatsApp URL
+			const whatsappUrl = `https://wa.me/263771683662?text=${encodeURIComponent(
+				message,
+			)}`;
+
+			// Redirect user to WhatsApp
+			window.location.href = whatsappUrl;
+		} else {
+			// Proceed with regular checkout process
+			navigate('/checkout');
+		}
+	};
 
 	// Function to load cart items from localStorage
 	const fetchCartItems = () => {
@@ -191,7 +221,10 @@ export default function Cart() {
 								))}
 							</div>
 							<div className="flex justify-center mt-8 mx-auto">
-								<button className="p-2 w-full bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 rounded-full transition-all">
+								<button
+									onClick={handleCheckout}
+									className="p-2 w-full bg-gradient-to-r from-navy-900 to-orange-500 text-white hover:text-orange-300 rounded-full transition-all"
+								>
 									Checkout
 								</button>
 							</div>
