@@ -12,7 +12,7 @@ export default function Cart() {
 	const handleCheckout = () => {
 		// Simulate user authentication check (Replace this with actual auth check)
 		const user = JSON.parse(localStorage.getItem('user')); // Example user object
-		const isDealer = user?.role === 'dealer';
+		const isDealer = user?.user.role === 'dealer';
 
 		if (!user || !isDealer) {
 			// Generate WhatsApp message

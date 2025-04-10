@@ -13,7 +13,8 @@ function UploadCertificateOfIncorporation() {
 	};
 
 	useEffect(() => {
-		document.title = 'Upload Certificate of Incorporation | Dealer Panel';
+		document.title =
+			'Upload Certificate of Incorporation | Dealer Registration';
 	}, []);
 
 	const handleSubmit = async (e) => {

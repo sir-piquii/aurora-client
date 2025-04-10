@@ -13,7 +13,7 @@ function UploadIdsOfDirectors() {
 	};
 
 	useEffect(() => {
-		document.title = 'Upload National ID Copies | Dealer Panel';
+		document.title = 'Upload National ID Copies | Dealer Registration';
 	}, []);
 
 	const handleSubmit = async (e) => {

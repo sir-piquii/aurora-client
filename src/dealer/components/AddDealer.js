@@ -18,7 +18,7 @@ function AddDealer() {
 	};
 
 	useEffect(() => {
-		document.title = 'Add Dealer | Dealer Panel';
+		document.title = 'Add Dealer | Dealer Registration';
 	}, []);
 
 	const handleSubmit = async (e) => {

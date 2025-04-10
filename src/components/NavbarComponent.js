@@ -28,6 +28,7 @@ export default function Navbar() {
 
 	// Dummy user for demonstration. Replace with your actual auth logic.
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
+	const isAdmin = user?.user.role == 'admin' ?? false;
 
 	// State for basket count, which is derived from the localStorage cart.
 	const [basketCount, setBasketCount] = useState(0);
@@ -353,10 +354,10 @@ export default function Navbar() {
 									</a>
 								</li>
 							</>
-						) : user.isAdmin ? (
+						) : isAdmin ? (
 							<li>
 								<a
-									href="/admin-portal"
+									href="/admin"
 									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
 								>
 									Admin Portal
@@ -365,10 +366,10 @@ export default function Navbar() {
 						) : (
 							<li>
 								<a
-									href="/dealer-portal"
+									href="/dealer"
 									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
 								>
-									Dealer Portal
+									Dealer Registration
 								</a>
 							</li>
 						)}

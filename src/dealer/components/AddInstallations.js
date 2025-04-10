@@ -28,7 +28,7 @@ function AddInstallations() {
 	};
 
 	useEffect(() => {
-		document.title = 'Add Dealer Installation | Dealer Panel';
+		document.title = 'Add Dealer Installation | Dealer Registration';
 	}, []);
 
 	const handleSubmit = async (e) => {
@@ -49,6 +49,10 @@ function AddInstallations() {
 			<h2 className="text-2xl font-bold mb-6 text-navy-900">
 				Add Dealer Installation
 			</h2>
+			<p className="text-gray-600 mb-4">
+				You need at least three prior installations to be considered.
+				You can add multiple installations by clicking the button below.
+			</p>
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{installations.map((installation, index) => (
 					<div

@@ -13,7 +13,8 @@ function UploadTaxClearanceCertificate() {
 	};
 
 	useEffect(() => {
-		document.title = 'Upload Tax Clearance Certificate | Dealer Panel';
+		document.title =
+			'Upload Tax Clearance Certificate | Dealer Registration';
 	}, []);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
