@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.50c36617.css",
+    "main.js": "/static/js/main.484096c7.js",
+    "static/media/house_animation.mp4": "/static/media/house_animation.df4dbc174c434bcdaf30.mp4",
+    "static/media/login.jpg": "/static/media/login.17b98eb581059d5b30c5.jpg",
+    "static/media/chasara.jpg": "/static/media/chasara.77bcf29e4f9a75129824.jpg",
+    "static/media/contact.jpg": "/static/media/contact.b68949629ac17004c2e3.jpg",
+    "static/media/sign-up.jpg": "/static/media/sign-up.255b197886b39625cf43.jpg",
+    "static/media/audio.mp3": "/static/media/audio.3e6204c0bd7bcbb7cf71.mp3",
+    "static/media/logo.png": "/static/media/logo.b06e63e49b93b261ccf0.png",
+    "static/media/aurora_lights.avif": "/static/media/aurora_lights.d586a30f0622d295280c.avif",
+    "static/media/anta-latin-400-normal.woff2": "/static/media/anta-latin-400-normal.118ab4be98d7558bfd06.woff2",
+    "static/media/anta-latin-400-normal.woff": "/static/media/anta-latin-400-normal.1536b67d29071aaf5442.woff",
+    "static/media/anta-latin-ext-400-normal.woff2": "/static/media/anta-latin-ext-400-normal.fb0e92e0310129b0b7e6.woff2",
+    "static/media/anta-math-400-normal.woff2": "/static/media/anta-math-400-normal.28afed649ac94b8ff16c.woff2",
+    "static/media/anta-latin-ext-400-normal.woff": "/static/media/anta-latin-ext-400-normal.990067e02056051175fb.woff",
+    "static/media/anta-math-400-normal.woff": "/static/media/anta-math-400-normal.8c46a3b893b35705cca2.woff",
+    "static/media/anta-symbols-400-normal.woff2": "/static/media/anta-symbols-400-normal.f330b98bced079fc5b28.woff2",
+    "static/media/anta-symbols-400-normal.woff": "/static/media/anta-symbols-400-normal.85d328cdfe724e50a573.woff",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "main.50c36617.css.map": "/static/css/main.50c36617.css.map",
+    "main.484096c7.js.map": "/static/js/main.484096c7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.50c36617.css",
+    "static/js/main.484096c7.js"
+  ]
+}
