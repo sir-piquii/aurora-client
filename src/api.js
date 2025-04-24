@@ -115,6 +115,54 @@ export const addDealer = async (dealerData, userId) => {
 	}
 };
 
+export const getDealerById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.dealer}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching dealer by ID:', error);
+		throw error;
+	}
+};
+
+export const getDealers = async () => {
+	try {
+		const response = await axios.get(endpoints.dealer);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching dealers:', error);
+		throw error;
+	}
+};
+
+export const updateDealerStatus = async (id, dealerData) => {
+	try {
+		const response = await axios.put(
+			`${endpoints.dealer}/update-status/${id}`,
+			dealerData,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error updating dealer status:', error);
+		throw error;
+	}
+};
+
+export const verifyDealer = async (id) => {
+	try {
+		const response = await axios.put(`${endpoints.dealer}/verify/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error verifying dealer:', error);
+		throw error;
+	}
+};
+
 export const uploadTaxCertificate = async (formData, id) => {
 	try {
 		const response = await axios.post(
@@ -209,7 +257,7 @@ export const getFeaturedProducts = async () => {
 	}
 };
 
-export const addFeaturedProducts = async (formData) => {
+export const addFeaturedProduct = async (formData) => {
 	try {
 		const response = await axios.post(
 			`${endpoints.featured}/add-featured`,
@@ -222,7 +270,7 @@ export const addFeaturedProducts = async (formData) => {
 	}
 };
 
-export const deleteFeaturedProducts = async (id) => {
+export const deleteFeaturedProduct = async (id) => {
 	try {
 		const response = await axios.delete(
 			`${endpoints.featured}/delete-featured/${id}`,
@@ -234,7 +282,7 @@ export const deleteFeaturedProducts = async (id) => {
 	}
 };
 
-export const updateFeaturedProducts = async (id, formData) => {
+export const updateFeaturedProduct = async (id, formData) => {
 	try {
 		const response = await axios.put(
 			`${endpoints.featured}/update-featured/${id}`,

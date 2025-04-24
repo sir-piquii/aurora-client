@@ -37,7 +37,14 @@ export default function Login() {
 			);
 
 			login(user);
-			navigate('/');
+			if (user.user.role === 'admin') {
+				console.log('Admin user detected — redirecting to /admin');
+				navigate('/admin', { replace: true });
+			} else if (user.user.role === 'dealer') {
+				navigate('/dealer', { replace: true });
+			} else {
+				navigate('/', { replace: true });
+			}
 		} catch (err) {
 			setError(err.message);
 		}

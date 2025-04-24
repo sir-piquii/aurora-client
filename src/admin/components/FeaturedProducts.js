@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
 	getFeaturedProducts,
 	deleteProduct,
-	updateFeaturedProducts,
-	addFeaturedProducts,
+	addFeaturedProduct,
+	updateFeaturedProduct,
 } from '../../api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import FeaturedProductForm from './FeaturedProductForm'; // The form component
@@ -90,10 +90,10 @@ const FeaturedProducts = () => {
 					onSave={async (updatedProduct) => {
 						if (updatedProduct.id) {
 							// Update existing product
-							await updateFeaturedProducts(updatedProduct);
+							await updateFeaturedProduct(updatedProduct);
 						} else {
 							// Add new product
-							await addFeaturedProducts(updatedProduct);
+							await addFeaturedProduct(updatedProduct);
 						}
 						setIsEditing(false);
 					}}

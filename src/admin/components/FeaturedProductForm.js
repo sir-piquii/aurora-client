@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addFeaturedProduct, updateFeaturedProduct } from '../../api';
 
 const FeaturedProductForm = ({ product, onCancel, onSave }) => {
 	const [formData, setFormData] = useState({
 		id: '',
 		name: '',
 		description: '',
-		image: '',
+		image: null,
+		imagePreview: null,
 	});
+	const [isEditMode, setIsEditMode] = useState(false);
+	const { id } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (product) {
-			setFormData({
-				id: product.id,
-				name: product.name,
-				description: product.description,
-				image: product.image,
-			});
+		if (id) {
+			setIsEditMode(true);
+			const fetchProduct = async () => {
+				try {
+					const data = [];
+					setFormData({
+						id: data[0].id || '',
+						name: data[0].name || '',
+						description: data[0].description || '',
+						image: data[0].image || null,
+						imagePreview: data[0].image || null,
+					});
+				} catch (error) {
+					console.error('Error fetching product:', error);
+				}
+			};
+			fetchProduct();
 		}
-	}, [product]);
+	}, [id]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -27,8 +43,17 @@ const FeaturedProductForm = ({ product, onCancel, onSave }) => {
 		}));
 	};
 
+	const handleFileChange = (e) => {
+		const { name, file } = e.target;
+		setFormData({
+			...formData,
+			[name]: file,
+		});
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log('Form submitted:', formData);
 		onSave(formData);
 	};
 
@@ -76,23 +101,34 @@ const FeaturedProductForm = ({ product, onCancel, onSave }) => {
 						htmlFor="image"
 						className="block font-semibold text-gray-700"
 					>
-						Image URL
+						Image
 					</label>
 					<input
-						type="text"
+						type="file"
 						id="image"
 						name="image"
-						value={formData.image}
-						onChange={handleChange}
+						accept="image/*"
+						onChange={handleFileChange}
 						className="w-full p-2 border border-gray-300 rounded-md"
-						required
 					/>
+					{formData.imagePreview && (
+						<div className="mt-2">
+							<p className="text-sm text-gray-600 mb-1">
+								Preview:
+							</p>
+							<img
+								src={formData.imagePreview}
+								alt="Preview"
+								className="w-32 h-32 object-cover rounded"
+							/>
+						</div>
+					)}
 				</div>
 				<div className="flex justify-end space-x-4">
 					<button
 						type="button"
 						onClick={onCancel}
-						className="bg-navy-900 text-white px-6 py-2 rounded-full"
+						className="bg-gray-500 text-white px-6 py-2 rounded-full"
 					>
 						Cancel
 					</button>
