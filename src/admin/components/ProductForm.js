@@ -1,9 +1,13 @@
-// EditProductForm.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProductById, updateProduct, addProduct } from '../../api';
+import {
+	getProductById,
+	updateProduct,
+	addProduct,
+	getProductCategories,
+} from '../../api';
 
-const ProductForm = ({ product, onClose }) => {
+const ProductForm = () => {
 	const [formData, setFormData] = useState({
 		name: '',
 		description: '',
@@ -22,6 +26,7 @@ const ProductForm = ({ product, onClose }) => {
 	const [removeDatasheet, setRemoveDatasheet] = useState(false);
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
 		if (id) {
@@ -54,6 +59,18 @@ const ProductForm = ({ product, onClose }) => {
 			fetchProduct();
 		}
 	}, [id]);
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const data = await getProductCategories();
+				setCategories(data);
+			} catch (error) {
+				console.error('Error fetching categories:', error);
+			}
+		};
+		fetchCategories();
+	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -130,7 +147,6 @@ const ProductForm = ({ product, onClose }) => {
 							name: 'warranty',
 							type: 'number',
 						},
-						{ label: 'Category', name: 'category', type: 'text' },
 						{
 							label: 'Price (USD)',
 							name: 'price_usd',
@@ -173,6 +189,29 @@ const ProductForm = ({ product, onClose }) => {
 							)}
 						</div>
 					))}
+					<div className="mb-4">
+						<label
+							htmlFor="category"
+							className="block text-sm font-medium text-navy-900"
+						>
+							Category
+						</label>
+						<select
+							id="category"
+							name="category"
+							value={formData.category}
+							onChange={handleChange}
+							className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+						>
+							<option value="">Select a category</option>
+							{categories.map((cat) => (
+								<option key={cat.id} value={cat.id}>
+									{cat.category}
+								</option>
+							))}
+						</select>
+					</div>
+
 					<div className="mb-4">
 						<label className="block text-sm font-medium text-gray-700">
 							Images
@@ -246,7 +285,7 @@ const ProductForm = ({ product, onClose }) => {
 						</button>
 						<button
 							type="button"
-							onClick={onClose}
+							onClick={() => navigate(-1)}
 							className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
 						>
 							Cancel

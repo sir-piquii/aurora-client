@@ -98,14 +98,14 @@ export default function Navbar() {
 		}
 	};
 
+	const avatarUrl = user?.user.profile
+		? `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`
+		: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+				user?.user.name || 'User',
+		  )}&background=0D8ABC&color=fff`;
+
 	if (isAdmin) {
 		const user = JSON.parse(localStorage.getItem('user'));
-
-		const avatarUrl = user?.user.profile
-			? `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`
-			: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-					user?.user.name || 'User',
-			  )}&background=0D8ABC&color=fff`;
 
 		return (
 			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
@@ -356,14 +356,19 @@ export default function Navbar() {
 							</>
 						) : (
 							<>
-								<li>
-									<a
-										href="/dealer"
-										className="bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white"
-									>
+								<li className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white">
+									<a href="/dealer" className="text-white">
 										Dashboard
 									</a>
+									<div className="ml-2 w-8 h-8 rounded-full bg-white text-navy-900 flex items-center justify-center text-sm font-semibold shadow">
+										<img
+											src={avatarUrl}
+											alt="Profile"
+											className="w-8 h-8 rounded-full object-cover"
+										/>
+									</div>
 								</li>
+
 								<li>
 									<a
 										href="/"

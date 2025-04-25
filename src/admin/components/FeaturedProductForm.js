@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addFeaturedProduct, updateFeaturedProduct } from '../../api';
+import {
+	addFeaturedProduct,
+	updateFeaturedProduct,
+} from '../../api';
 
 const FeaturedProductForm = ({ product, onCancel, onSave }) => {
 	const [formData, setFormData] = useState({
@@ -124,19 +127,21 @@ const FeaturedProductForm = ({ product, onCancel, onSave }) => {
 						</div>
 					)}
 				</div>
-				<div className="flex justify-end space-x-4">
-					<button
-						type="button"
-						onClick={onCancel}
-						className="bg-gray-500 text-white px-6 py-2 rounded-full"
-					>
-						Cancel
-					</button>
+				<div className="flex justify-end">
 					<button
 						type="submit"
 						className="bg-orange-500 text-white px-6 py-2 rounded-full"
 					>
-						Save
+						{isEditMode
+							? 'Update Featured Product'
+							: 'Add Featured Product'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
 					</button>
 				</div>
 			</form>

@@ -133,19 +133,19 @@ const TestimonialForm = () => {
 					/>
 				</div>
 
-				<div className="flex justify-end space-x-4">
-					<button
-						type="button"
-						onClick={() => navigate('/admin/testimonials')}
-						className="bg-gray-500 text-white px-4 py-2 rounded-full"
-					>
-						Cancel
-					</button>
+				<div className="flex justify-end">
 					<button
 						type="submit"
-						className="bg-orange-500 text-white px-4 py-2 rounded-full"
+						className="bg-orange-500 text-white px-6 py-2 rounded-full"
 					>
 						{isEditing ? 'Update Testimonial' : 'Add Testimonial'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
 					</button>
 				</div>
 			</form>

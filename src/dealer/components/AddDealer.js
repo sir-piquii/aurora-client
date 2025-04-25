@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { addDealer } from '../../api';
+import { useParams } from 'react-router-dom';
 
 function AddDealer() {
+	const { id } = useParams();
 	const [formData, setFormData] = useState({
+		user: id,
 		registeredCompanyName: '',
 		tradingName: '',
 		companyRegistrationNumber: '',
@@ -11,7 +13,6 @@ function AddDealer() {
 		TIN: '',
 	});
 	const [loading, setLoading] = useState(false);
-	const userId = localStorage.getItem('userId');
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +26,8 @@ function AddDealer() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const response = await addDealer(formData, userId);
+			console.log('Form data:', formData, id);
+			const response = await addDealer(formData, id);
 			console.log('Dealer added successfully:', response.data);
 			// You can also reset the form or navigate if needed
 		} catch (error) {

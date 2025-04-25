@@ -235,6 +235,16 @@ export const addDealerInstallation = async (formData, id) => {
 	}
 };
 
+export const getProductCategories = async () => {
+	try {
+		const response = await axios.get(`${endpoints.products}/categories`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching product categories:', error);
+		throw error;
+	}
+};
+
 export const getAllProducts = async () => {
 	try {
 		const response = await axios.get(

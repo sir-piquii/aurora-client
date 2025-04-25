@@ -10,10 +10,12 @@ const ArticleForm = () => {
 		category: '',
 		description: '',
 	});
+	const [isEditMode, setIsEditMode] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (id) {
+			setIsEditMode(true);
 			const fetchArticle = async () => {
 				try {
 					const data = await getArticleById(id);
@@ -103,13 +105,21 @@ const ArticleForm = () => {
 						required
 					></textarea>
 				</div>
-				<button
-					type="submit"
-					className="bg-orange-500 text-white px-4 py-2 rounded-full"
-					disabled={loading}
-				>
-					{loading ? 'Saving...' : 'Save Article'}
-				</button>
+				<div className="flex justify-end">
+					<button
+						type="submit"
+						className="bg-orange-500 text-white px-6 py-2 rounded-full"
+					>
+						{isEditMode ? 'Update Article' : 'Add Article'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

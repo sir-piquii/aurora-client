@@ -123,13 +123,11 @@ function ProductsPage() {
 										key={product.id}
 										className="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 flex flex-col"
 									>
-										<Link to={`/product/${product.id}`}>
-											<img
-												src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${imageUrl}`}
-												alt={product.name}
-												className="w-full h-full object-cover"
-											/>
-										</Link>
+										<img
+											src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${imageUrl}`}
+											alt={product.name}
+											className="w-full h-full object-cover"
+										/>
 										<div className="p-4 flex flex-col flex-grow">
 											<h3 className="text-xl font-bold text-gray-800 mb-2 overflow-hidden text-ellipsis line-clamp-1">
 												{product.name}

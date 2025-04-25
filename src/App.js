@@ -63,10 +63,7 @@ function App() {
 						<Route path="/faqs" element={<FAQs />} />
 
 						{/* Redirect login & signup if already logged in */}
-						<Route
-							path="/login"
-							element={user ? <Navigate to="/" /> : <Login />}
-						/>
+						<Route path="/login" element={<Login />} />
 						<Route
 							path="/signup"
 							element={user ? <Navigate to="/" /> : <Signup />}

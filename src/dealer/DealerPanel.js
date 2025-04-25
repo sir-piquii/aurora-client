@@ -21,7 +21,7 @@ function DealerPanel() {
 			{/* Content Area */}
 			<div className="dealer-content flex-1 p-6">
 				<Routes>
-					<Route path="add-dealer/:userId" element={<AddDealer />} />
+					<Route path="add-dealer/:id" element={<AddDealer />} />
 					<Route
 						path="add-installations/:id"
 						element={<AddInstallations />}

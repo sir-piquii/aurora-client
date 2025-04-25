@@ -14,6 +14,16 @@ export default function Login() {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 
+	const user = JSON.parse(localStorage.getItem('user')) ?? null;
+
+	if (user?.user.role === 'admin') {
+		setTimeout(() => navigate('/admin', { replace: true }), 0);
+	} else if (user?.user.role === 'dealer') {
+		setTimeout(() => navigate('/dealer', { replace: true }), 0);
+	} else if (user?.user.role === 'user') {
+		setTimeout(() => navigate('/', { replace: true }), 0);
+	}
+
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
 		setLoginData({
@@ -37,13 +47,13 @@ export default function Login() {
 			);
 
 			login(user);
+
 			if (user.user.role === 'admin') {
-				console.log('Admin user detected — redirecting to /admin');
-				navigate('/admin', { replace: true });
+				setTimeout(() => navigate('/admin', { replace: true }), 0);
 			} else if (user.user.role === 'dealer') {
-				navigate('/dealer', { replace: true });
+				setTimeout(() => navigate('/dealer', { replace: true }), 0);
 			} else {
-				navigate('/', { replace: true });
+				setTimeout(() => navigate('/', { replace: true }), 0);
 			}
 		} catch (err) {
 			setError(err.message);

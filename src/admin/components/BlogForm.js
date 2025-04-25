@@ -11,9 +11,11 @@ const BlogForm = () => {
 		story: '',
 	});
 	const [loading, setLoading] = useState(true);
+	const [isEditMode, setIsEditMode] = useState(false);
 
 	useEffect(() => {
 		if (id) {
+			setIsEditMode(true);
 			const fetchBlog = async () => {
 				try {
 					const data = await getBlogById(id);
@@ -85,12 +87,21 @@ const BlogForm = () => {
 						required
 					/>
 				</div>
-				<button
-					type="submit"
-					className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-				>
-					{id ? 'Update Blog' : 'Add Blog'}
-				</button>
+				<div className="flex justify-end">
+					<button
+						type="submit"
+						className="bg-orange-500 text-white px-6 py-2 rounded-full"
+					>
+						{isEditMode ? 'Update Blog' : 'Add Blog'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

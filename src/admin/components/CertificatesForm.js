@@ -85,12 +85,19 @@ const CertificatesForm = () => {
 					<div className="flex justify-end">
 						<button
 							type="submit"
-							className={`px-4 py-2 bg-orange-500 text-white rounded-lg ${
+							className={`px-4 py-2 bg-orange-500 text-white rounded-full ${
 								loading ? 'opacity-50 cursor-not-allowed' : ''
 							}`}
 							disabled={loading}
 						>
 							{loading ? 'Adding...' : 'Add Certificate'}
+						</button>
+						<button
+							type="button"
+							onClick={() => navigate(-1)}
+							className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+						>
+							Cancel
 						</button>
 					</div>
 				</form>
