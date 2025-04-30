@@ -61,12 +61,15 @@ export default function InsightsAndNews() {
 									{article.article_title}
 								</h3>
 								<p className="text-sm text-gray-600 mb-2">
-									{article.article_description.length > 150
-										? `${article.article_description.slice(
-												0,
-												150,
-										  )}...`
-										: article.article_description}
+									{article.article_description
+										? article.article_description.length >
+										  150
+											? `${article.article_description.slice(
+													0,
+													150,
+											  )}...`
+											: article.article_description
+										: null}
 								</p>
 								<a
 									href={article.article_ref}
@@ -94,12 +97,15 @@ export default function InsightsAndNews() {
 									{article.article_title}
 								</h3>
 								<p className="text-sm text-gray-600 mb-2">
-									{article.article_description.length > 150
-										? `${article.article_description.slice(
-												0,
-												150,
-										  )}...`
-										: article.article_description}
+									{article.article_description
+										? article.article_description.length >
+										  150
+											? `${article.article_description.slice(
+													0,
+													150,
+											  )}...`
+											: article.article_description
+										: null}
 								</p>
 								<a
 									href={article.article_ref}
@@ -127,12 +133,15 @@ export default function InsightsAndNews() {
 									{article.article_title}
 								</h3>
 								<p className="text-sm text-gray-600 mb-2">
-									{article.article_description.length > 150
-										? `${article.article_description.slice(
-												0,
-												150,
-										  )}...`
-										: article.article_description}
+									{article.article_description
+										? article.article_description.length >
+										  150
+											? `${article.article_description.slice(
+													0,
+													150,
+											  )}...`
+											: article.article_description
+										: null}
 								</p>
 								<a
 									href={article.article_ref}
@@ -160,12 +169,15 @@ export default function InsightsAndNews() {
 									{article.article_title}
 								</h3>
 								<p className="text-sm text-gray-600 mb-2">
-									{article.article_description.length > 150
-										? `${article.article_description.slice(
-												0,
-												150,
-										  )}...`
-										: article.article_description}
+									{article.article_description
+										? article.article_description.length >
+										  150
+											? `${article.article_description.slice(
+													0,
+													150,
+											  )}...`
+											: article.article_description
+										: null}
 								</p>
 								<a
 									href={article.article_ref}

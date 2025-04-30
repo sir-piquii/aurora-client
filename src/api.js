@@ -17,6 +17,7 @@ const endpoints = {
 	faqs: `${BASE_URL}/faqs`,
 	awards: `${BASE_URL}/awards`,
 	dealer: `${BASE_URL}/dealer`,
+	quotations: `${BASE_URL}/quotations`,
 };
 
 export const getCertificates = async () => {
@@ -940,6 +941,40 @@ export const searchFaqsByKeyword = async (keyword) => {
 		return response.data;
 	} catch (error) {
 		console.error('Error searching faqs by keyword:', error);
+		throw error;
+	}
+};
+
+export const getQuotations = async () => {
+	try {
+		const response = await axios.get(endpoints.quotations);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching quotations:', error);
+		throw error;
+	}
+};
+
+export const getQuotationById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.quotations}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching quotation by ID:', error);
+		throw error;
+	}
+};
+
+export const addQuotation = async (quotationData) => {
+	try {
+		const response = await axios.post(endpoints.quotations, quotationData, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error('Error adding quotation:', error);
 		throw error;
 	}
 };

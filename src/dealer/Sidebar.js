@@ -4,10 +4,19 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
 	const userId = user?.user?.id;
-	const dealerId = user?.user?.dealerId;
+	const dealerId = user?.user?.dealer_id ?? null;
 	const fullName = user?.user?.fullName;
 	const profileImage = user?.user?.profile;
 	const isDealer = user?.user.role === 'dealer';
+	function getInitials(name) {
+		if (!name) return 'U';
+		const names = name.trim().split(' ');
+		const initials =
+			names.length === 1
+				? names[0][0]
+				: names[0][0] + names[names.length - 1][0];
+		return initials.toUpperCase();
+	}
 
 	return (
 		<div className="w-64 min-h-screen bg-white shadow-lg p-6">
@@ -15,12 +24,10 @@ const Sidebar = () => {
 
 			<div className="flex flex-col items-center mb-6">
 				<img
-					src={
-						profileImage
-							? `https://dev-api.auroraenergy.co.zw/profiles/${profileImage}`
-							: 'https://ui-avatars.com/api/?name=User&background=orange&color=fff'
-					}
-					alt="User Profile"
+					src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+						getInitials(fullName),
+					)}&background=orange&color=fff`}
+					alt="User Initials"
 					className="w-16 h-16 rounded-full object-cover mb-2"
 				/>
 				<p className="text-navy-900 font-medium text-center">
@@ -51,14 +58,16 @@ const Sidebar = () => {
 
 			{!isDealer && (
 				<ul>
-					<li>
-						<Link
-							to={`/dealer/add-dealer/${userId}`}
-							className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-						>
-							Dealer Application
-						</Link>
-					</li>
+					{dealerId === null && (
+						<li>
+							<Link
+								to={`/dealer/add-dealer/${userId}`}
+								className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
+							>
+								Dealer Application
+							</Link>
+						</li>
+					)}
 					{dealerId && (
 						<>
 							<li>

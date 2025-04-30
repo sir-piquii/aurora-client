@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBlogById, updateBlog } from '../../api';
+import { getBlogById, updateBlog, addBlog } from '../../api';
 
 const BlogForm = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [blog, setBlog] = useState({
-		tite: '',
+		title: '',
 		author: '',
 		story: '',
 	});
@@ -39,9 +39,15 @@ const BlogForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await updateBlog(id, blog);
-			alert('Blog updated successfully!');
-			navigate('/admin/blogs');
+			if (isEditMode) {
+				await updateBlog(id, blog);
+				alert('Blog updated successfully!');
+				navigate('/admin/blogs');
+			} else {
+				await addBlog(blog);
+				alert('Blog added successfully!');
+				navigate('/admin/blogs');
+			}
 		} catch (error) {
 			console.error('Error updating blog:', error);
 		}

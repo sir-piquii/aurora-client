@@ -29,6 +29,7 @@ export default function Navbar() {
 
 	// Dummy user logic; replace with real auth
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
+	const fullName = user?.user?.fullName;
 	const isAdmin = user?.user?.role === 'admin';
 
 	const [basketCount, setBasketCount] = useState(0);
@@ -97,6 +98,16 @@ export default function Navbar() {
 			setInsightsDropdownOpen(true);
 		}
 	};
+
+	function getInitials(name) {
+		if (!name) return 'U';
+		const names = name.trim().split(' ');
+		const initials =
+			names.length === 1
+				? names[0][0]
+				: names[0][0] + names[names.length - 1][0];
+		return initials.toUpperCase();
+	}
 
 	const avatarUrl = user?.user.profile
 		? `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`
@@ -362,8 +373,10 @@ export default function Navbar() {
 									</a>
 									<div className="ml-2 w-8 h-8 rounded-full bg-white text-navy-900 flex items-center justify-center text-sm font-semibold shadow">
 										<img
-											src={avatarUrl}
-											alt="Profile"
+											src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+												getInitials(fullName),
+											)}&background=orange&color=fff`}
+											alt="User Initials"
 											className="w-8 h-8 rounded-full object-cover"
 										/>
 									</div>

@@ -39,7 +39,7 @@ const ProductForm = () => {
 						description: data[0].product_description || '',
 						benefits: data[0].product_benefits || '',
 						warranty: data[0].product_warranty || '',
-						category: data[0].category_name || '',
+						category: data[0].category_id || '',
 						images:
 							typeof data[0].images === 'string' &&
 							data[0].images.length > 0
@@ -103,7 +103,11 @@ const ProductForm = () => {
 
 	const handleFileChange = (e) => {
 		const { name, files } = e.target;
-		setFormData({ ...formData, [name]: files });
+		if (name === 'images') {
+			setFormData({ ...formData, images: Array.from(files) });
+		} else {
+			setFormData({ ...formData, [name]: files[0] });
+		}
 	};
 
 	const handleRemoveImage = (index) => {
@@ -115,6 +119,14 @@ const ProductForm = () => {
 	const handleRemoveDatasheet = () => {
 		setFormData({ ...formData, datasheet: null });
 		setRemoveDatasheet(true);
+	};
+
+	const renderImagePreview = (img) => {
+		if (img instanceof File) {
+			return URL.createObjectURL(img);
+		} else {
+			return `https://dev-api.auroraenergy.co.zw/products/${img}`;
+		}
 	};
 
 	return (
@@ -189,6 +201,8 @@ const ProductForm = () => {
 							)}
 						</div>
 					))}
+
+					{/* Category */}
 					<div className="mb-4">
 						<label
 							htmlFor="category"
@@ -202,6 +216,7 @@ const ProductForm = () => {
 							value={formData.category}
 							onChange={handleChange}
 							className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+							required
 						>
 							<option value="">Select a category</option>
 							{categories.map((cat) => (
@@ -212,6 +227,7 @@ const ProductForm = () => {
 						</select>
 					</div>
 
+					{/* Images */}
 					<div className="mb-4">
 						<label className="block text-sm font-medium text-gray-700">
 							Images
@@ -223,32 +239,35 @@ const ProductForm = () => {
 							onChange={handleFileChange}
 							className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
 						/>
-						{Array.isArray(formData.images) && (
-							<div className="flex mt-2 space-x-2 flex-wrap">
-								{formData.images.map((img, index) => (
-									<div
-										key={index}
-										className="relative w-20 h-20"
-									>
-										<img
-											src={`https://dev-api.auroraenergy.co.zw/products/${img}`}
-											alt="Preview"
-											className="w-full h-full object-cover rounded"
-										/>
-										<button
-											type="button"
-											onClick={() =>
-												handleRemoveImage(index)
-											}
-											className="absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded-full"
+						{Array.isArray(formData.images) &&
+							formData.images.length > 0 && (
+								<div className="flex mt-2 space-x-2 flex-wrap">
+									{formData.images.map((img, index) => (
+										<div
+											key={index}
+											className="relative w-20 h-20"
 										>
-											X
-										</button>
-									</div>
-								))}
-							</div>
-						)}
+											<img
+												src={renderImagePreview(img)}
+												alt="Preview"
+												className="w-full h-full object-cover rounded"
+											/>
+											<button
+												type="button"
+												onClick={() =>
+													handleRemoveImage(index)
+												}
+												className="absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded-full"
+											>
+												X
+											</button>
+										</div>
+									))}
+								</div>
+							)}
 					</div>
+
+					{/* Datasheet */}
 					<div className="mb-4">
 						<label className="block text-sm font-medium text-gray-700">
 							Datasheet
@@ -276,6 +295,8 @@ const ProductForm = () => {
 							</div>
 						)}
 					</div>
+
+					{/* Buttons */}
 					<div className="flex justify-end">
 						<button
 							type="submit"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { addDealer } from '../../api';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function AddDealer() {
 	const { id } = useParams();
@@ -13,6 +13,7 @@ function AddDealer() {
 		TIN: '',
 	});
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,9 +27,16 @@ function AddDealer() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			console.log('Form data:', formData, id);
 			const response = await addDealer(formData, id);
-			console.log('Dealer added successfully:', response.data);
+			const user = JSON.parse(localStorage.getItem('user'));
+
+			if (user) {
+				user.user.dealer_id = response.dealer_id;
+				localStorage.setItem('user', JSON.stringify(user));
+			}
+
+			navigate(`/dealer/add-installations/${response.dealer_id}`);
+
 			// You can also reset the form or navigate if needed
 		} catch (error) {
 			console.error('Error adding dealer:', error);

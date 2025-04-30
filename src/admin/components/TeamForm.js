@@ -9,9 +9,11 @@ const TeamForm = () => {
 		name: '',
 		position: '',
 		bio: '',
-		picture: null,
+		picture: null, // Will store File object or existing image URL
 	});
 	const [isEditing, setIsEditing] = useState(false);
+	const [existingImage, setExistingImage] = useState(null); // Used for editing preview
+
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -28,8 +30,9 @@ const TeamForm = () => {
 						name: data[0].name,
 						position: data[0].position,
 						bio: data[0].bio,
-						picture: data[0].image || null,
+						picture: null, // Reset file input
 					});
+					setExistingImage(data[0].image); // Save image URL for preview
 					setIsEditing(true);
 				} catch (error) {
 					console.error('Error fetching team member:', error);
@@ -37,7 +40,7 @@ const TeamForm = () => {
 			};
 			fetchTeamMember();
 		}
-	}, [id, isEditing]);
+	}, [id]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -48,10 +51,14 @@ const TeamForm = () => {
 	};
 
 	const handleImageChange = (e) => {
-		setTeamMember((prev) => ({
-			...prev,
-			picture: e.target.files[0],
-		}));
+		const file = e.target.files[0];
+		if (file) {
+			setTeamMember((prev) => ({
+				...prev,
+				picture: file,
+			}));
+			setExistingImage(null); // Remove old image when new file is selected
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -60,8 +67,8 @@ const TeamForm = () => {
 		formData.append('name', teamMember.name);
 		formData.append('position', teamMember.position);
 		formData.append('bio', teamMember.bio);
-		if (teamMember.image) {
-			formData.append('picture', teamMember.image);
+		if (teamMember.picture) {
+			formData.append('picture', teamMember.picture);
 		}
 
 		try {
@@ -72,7 +79,7 @@ const TeamForm = () => {
 				await addTeamMember(formData);
 				console.log('Team member added successfully');
 			}
-			navigate('/admin/team'); // Redirect to team list after submitting
+			navigate('/admin/team');
 		} catch (error) {
 			console.error('Error submitting team member:', error);
 		}
@@ -137,18 +144,29 @@ const TeamForm = () => {
 					<input
 						type="file"
 						name="picture"
+						accept="image/*"
 						onChange={handleImageChange}
 						className="w-full p-3 border border-gray-300 rounded-lg"
 					/>
-					{teamMember.image && (
+
+					{/* Preview */}
+					{teamMember.picture ? (
 						<div className="mt-2">
 							<img
-								src={URL.createObjectURL(teamMember.image)}
+								src={URL.createObjectURL(teamMember.picture)}
 								alt="Preview"
 								className="max-w-xs h-auto rounded-lg"
 							/>
 						</div>
-					)}
+					) : existingImage ? (
+						<div className="mt-2">
+							<img
+								src={existingImage}
+								alt="Existing"
+								className="max-w-xs h-auto rounded-lg"
+							/>
+						</div>
+					) : null}
 				</div>
 
 				<div className="flex justify-end">
