@@ -365,6 +365,7 @@ export const getProductById = async (id) => {
 	try {
 		const response = await axios.get(
 			`${endpoints.products}/get-product-by-id/${id}`,
+			{ credentials: true },
 		);
 		return response.data;
 	} catch (error) {
