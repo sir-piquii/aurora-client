@@ -123,6 +123,15 @@ export default function Login() {
 							/>
 						</div>
 
+						<div className="text-right mt-2">
+							<a
+								href="/forgot-password"
+								className="text-sm text-orange-600 hover:text-orange-500 font-medium transition-all"
+							>
+								Forgot your password?
+							</a>
+						</div>
+
 						<button
 							type="submit"
 							className="w-full bg-gradient-to-r from-navy-900 to-orange-500 text-white px-6 py-3 rounded-full hover:text-orange-300 transition-all"

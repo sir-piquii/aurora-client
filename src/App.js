@@ -28,6 +28,7 @@ import AdminPanel from './admin/AdminPanel';
 import DealerPanel from './dealer/DealerPanel';
 import DealerRoute from './router/DealerRoute';
 import ProtectedRoute from './router/ProtectedRoute';
+import ForgottenPassword from './views/ForgottenPassword';
 import '@fontsource/anta';
 
 function App() {
@@ -74,6 +75,11 @@ function App() {
 						<Route element={<DealerRoute />}>
 							<Route path="/dealer/*" element={<DealerPanel />} />
 						</Route>
+						{/* Forgotten password route */}
+						<Route
+							path="/forgot-password"
+							element={<ForgottenPassword />}
+						/>
 						{/* Redirect all other paths to home */}
 						<Route path="*" element={<Navigate to="/" />} />
 					</Routes>

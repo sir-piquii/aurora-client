@@ -8,7 +8,7 @@ const BlogForm = () => {
 	const [blog, setBlog] = useState({
 		title: '',
 		author: '',
-		story: '',
+		body: '',
 	});
 	const [loading, setLoading] = useState(true);
 	const [isEditMode, setIsEditMode] = useState(false);
@@ -86,7 +86,7 @@ const BlogForm = () => {
 				<div className="mb-4">
 					<label className="block text-gray-700">Story</label>
 					<textarea
-						name="story"
+						name="body"
 						value={blog.story}
 						onChange={handleChange}
 						className="w-full px-4 py-2 border rounded-lg h-32"

@@ -18,6 +18,7 @@ const endpoints = {
 	awards: `${BASE_URL}/awards`,
 	dealer: `${BASE_URL}/dealer`,
 	quotations: `${BASE_URL}/quotations`,
+	overview: `${BASE_URL}/overview`,
 };
 
 export const getCertificates = async () => {
@@ -56,7 +57,9 @@ export const uploadCertificate = async (formData) => {
 
 export const deleteCertificate = async (id) => {
 	try {
-		const response = await axios.delete(`${endpoints.certificates}/${id}`);
+		const response = await axios.delete(
+			`${endpoints.certificates}/delete/${id}`,
+		);
 		return response.data;
 	} catch (error) {
 		console.error('Error deleting certificates:', error);
@@ -66,10 +69,38 @@ export const deleteCertificate = async (id) => {
 
 export const getAwards = async () => {
 	try {
-		const response = await axios.get(endpoints.awards);
+		const response = await axios.get(`${endpoints.awards}/`);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching awards:', error);
+		throw error;
+	}
+};
+
+export const getAwardById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.awards}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching award by ID:', error);
+		throw error;
+	}
+};
+
+export const updateAward = async (id, formData) => {
+	try {
+		const response = await axios.put(
+			`${endpoints.awards}/${id}`,
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error updating awards:', error);
 		throw error;
 	}
 };
@@ -860,7 +891,7 @@ export const resetPassword = async (token, newPassword) => {
 export const forgotPassword = async (email) => {
 	try {
 		const response = await axios.post(
-			`${endpoints.auth}/forgotpassword`,
+			`${endpoints.auth}/forgetpassword`,
 			{ email },
 			{
 				headers: {
@@ -923,9 +954,9 @@ export const updateFaqs = async (id, formData) => {
 	}
 };
 
-export const deleteFaqs = async () => {
+export const deleteFaqs = async (id) => {
 	try {
-		const response = await axios.delete(endpoints.faqs);
+		const response = await axios.delete(`${endpoints.faqs}/${id}`);
 		return response.data;
 	} catch (error) {
 		console.error('Error deleting faqs:', error);
@@ -975,6 +1006,16 @@ export const addQuotation = async (quotationData) => {
 		return response.data;
 	} catch (error) {
 		console.error('Error adding quotation:', error);
+		throw error;
+	}
+};
+
+export const getOverview = async () => {
+	try {
+		const response = await axios.get(endpoints.overview);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching overview:', error);
 		throw error;
 	}
 };

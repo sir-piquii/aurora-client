@@ -9,10 +9,11 @@ const TeamForm = () => {
 		name: '',
 		position: '',
 		bio: '',
-		picture: null, // Will store File object or existing image URL
+		image: null,
 	});
 	const [isEditing, setIsEditing] = useState(false);
-	const [existingImage, setExistingImage] = useState(null); // Used for editing preview
+	const [existingImage, setExistingImage] = useState(null);
+	const [file, setFile] = useState(null);
 
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -30,9 +31,9 @@ const TeamForm = () => {
 						name: data[0].name,
 						position: data[0].position,
 						bio: data[0].bio,
-						picture: null, // Reset file input
+						image: data[0].image,
 					});
-					setExistingImage(data[0].image); // Save image URL for preview
+					setExistingImage(data[0].image);
 					setIsEditing(true);
 				} catch (error) {
 					console.error('Error fetching team member:', error);
@@ -55,7 +56,7 @@ const TeamForm = () => {
 		if (file) {
 			setTeamMember((prev) => ({
 				...prev,
-				picture: file,
+				image: file,
 			}));
 			setExistingImage(null); // Remove old image when new file is selected
 		}
@@ -67,8 +68,8 @@ const TeamForm = () => {
 		formData.append('name', teamMember.name);
 		formData.append('position', teamMember.position);
 		formData.append('bio', teamMember.bio);
-		if (teamMember.picture) {
-			formData.append('picture', teamMember.picture);
+		if (file) {
+			formData.append('image', file);
 		}
 
 		try {
@@ -143,17 +144,17 @@ const TeamForm = () => {
 					</label>
 					<input
 						type="file"
-						name="picture"
+						name="image"
 						accept="image/*"
-						onChange={handleImageChange}
+						onChange={(e) => setFile(e.target.files[0])}
 						className="w-full p-3 border border-gray-300 rounded-lg"
 					/>
 
 					{/* Preview */}
-					{teamMember.picture ? (
+					{teamMember.image ? (
 						<div className="mt-2">
 							<img
-								src={URL.createObjectURL(teamMember.picture)}
+								src={URL.createObjectURL(teamMember.image)}
 								alt="Preview"
 								className="max-w-xs h-auto rounded-lg"
 							/>
@@ -161,7 +162,7 @@ const TeamForm = () => {
 					) : existingImage ? (
 						<div className="mt-2">
 							<img
-								src={existingImage}
+								src={`https://dev-api.auroraenergy.co.zw/team/${existingImage}`}
 								alt="Existing"
 								className="max-w-xs h-auto rounded-lg"
 							/>

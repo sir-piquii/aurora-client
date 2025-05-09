@@ -29,7 +29,9 @@ const TestimonialForm = () => {
 						person_role: data.testimonial.person_role,
 						message: data.testimonial.message,
 					});
-					setImagePreview(data.testimonial.image); // Use image URL for preview
+					setImagePreview(
+						`https://dev-api.auroraenergy.co.zw/testimonials/${data.testimonial.image}`,
+					);
 				} catch (error) {
 					console.error('Error fetching testimonial:', error);
 				}
@@ -61,7 +63,7 @@ const TestimonialForm = () => {
 		formData.append('person_role', testimonial.person_role);
 		formData.append('message', testimonial.message);
 		if (imageFile) {
-			formData.append('image', imageFile); // this key must match backend field
+			formData.append('picture', imageFile);
 		}
 
 		try {
@@ -109,8 +111,8 @@ const TestimonialForm = () => {
 					</label>
 					<input
 						type="file"
-						id="image"
-						name="image"
+						id="picture"
+						name="picture"
 						onChange={handleImageChange}
 						accept="image/*"
 						className="px-4 py-2 border border-gray-300 rounded-lg"

@@ -22,6 +22,7 @@ import Testimonials from './components/Testimonials';
 import TestimonialsForm from './components/TestimonialsForm';
 import Dealer from './components/Dealer';
 import DealerDetail from './components/DealerDetail';
+import DashboardCards from './components/DashboardCards';
 
 function AdminPanel() {
 	useEffect(() => {
@@ -86,6 +87,7 @@ function AdminPanel() {
 						path="testimonials/edit/:id"
 						element={<TestimonialsForm />}
 					/>
+					<Route path="dashboard" element={<DashboardCards />} />
 				</Routes>
 			</div>
 		</div>

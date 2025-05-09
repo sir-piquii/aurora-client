@@ -21,16 +21,44 @@ const DealerDetail = () => {
 
 	if (!dealer) return <p className="text-center mt-10">Loading...</p>;
 
-	const imageBaseUrl = 'https://dev-api.auroraenergy.co.zw/dealer';
+	const imageBaseUrl = 'https://dev-api.auroraenergy.co.zw';
 
-	const renderImages = (files) => {
+	const renderCertificates = (files) => {
 		if (!files) return null;
 		return files
 			.split(',')
 			.map((file, index) => (
 				<img
 					key={index}
-					src={`${imageBaseUrl}/${file.trim()}`}
+					src={`${imageBaseUrl}/incorporationCertificates/${file.trim()}`}
+					alt="Dealer Document"
+					className="w-32 h-32 object-cover rounded border m-2"
+				/>
+			));
+	};
+
+	const renderTax = (files) => {
+		if (!files) return null;
+		return files
+			.split(',')
+			.map((file, index) => (
+				<img
+					key={index}
+					src={`${imageBaseUrl}/taxClearanceCertificates/${file.trim()}`}
+					alt="Dealer Document"
+					className="w-32 h-32 object-cover rounded border m-2"
+				/>
+			));
+	};
+
+	const renderIds = (files) => {
+		if (!files) return null;
+		return files
+			.split(',')
+			.map((file, index) => (
+				<img
+					key={index}
+					src={`${imageBaseUrl}/IDsOfDirectors/${file.trim()}`}
 					alt="Dealer Document"
 					className="w-32 h-32 object-cover rounded border m-2"
 				/>
@@ -69,15 +97,15 @@ const DealerDetail = () => {
 				</p>
 				<div>
 					<strong>Certificate of Incorporation:</strong>
-					{renderImages(dealer.certificate_of_incorporation)}
+					{renderCertificates(dealer.certificate_of_incorporation)}
 				</div>
 				<div>
 					<strong>Tax Clearance:</strong>
-					{renderImages(dealer.tax_clearance)}
+					{renderTax(dealer.tax_clearance)}
 				</div>
 				<div>
 					<strong>IDs of Directors:</strong>
-					{renderImages(dealer.national_ID_Copies_of_the_Directors)}
+					{renderIds(dealer.national_ID_Copies_of_the_Directors)}
 				</div>
 			</div>
 
