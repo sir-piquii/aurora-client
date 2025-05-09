@@ -337,7 +337,7 @@ export const updateFeaturedProduct = async (id, formData) => {
 	}
 };
 
-export const getProductsByCategory = async (id) => {
+export const getProductsByCategory = async (id, page, perPage) => {
 	const categoryMap = {
 		'solar-panels': 1,
 		cabling: 4,
@@ -352,7 +352,7 @@ export const getProductsByCategory = async (id) => {
 
 	try {
 		const response = await axios.get(
-			`${endpoints.products}/get-product-by-category/${categoryId}`,
+			`${endpoints.products}/get-product-by-category/${categoryId}?page=${page}&perPage=${perPage}`,
 		);
 		return response.data;
 	} catch (error) {
