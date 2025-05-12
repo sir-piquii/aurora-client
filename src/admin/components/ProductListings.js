@@ -10,7 +10,6 @@ const ProductListings = ({ products, onDelete, onUpdate }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
 
   const handleViewDetails = (product) => {
@@ -21,20 +20,10 @@ const ProductListings = ({ products, onDelete, onUpdate }) => {
     setSelectedProduct(product);
     setIsFormModalOpen(true);
   };
-
   const handleDelete = (productId) => {
     setProductToDelete(productId);
-    setIsDeleteModalOpen(true);
+    onDelete(productId);
   };
-
-  const confirmDelete = () => {
-    if (productToDelete !== null) {
-      onDelete(productToDelete);
-      setIsDeleteModalOpen(false);
-      setProductToDelete(null);
-    }
-  };
-
   const handleUpdate = (updatedProduct) => {
     onUpdate(updatedProduct);
     setIsFormModalOpen(false);
@@ -53,7 +42,8 @@ const ProductListings = ({ products, onDelete, onUpdate }) => {
                 <img
                   src={`${BASE_URL}/products/${product.images.split(",")[0]}`}
                   alt={product.product_name}
-                  className="w-full h-full object-cover"
+                  style={{ mixBlendMode: "multiply" }}
+                  className="w-full h-full object-contain"
                 />
               ) : (
                 <div className="flex items-center justify-center w-full h-full bg-navy-50 text-navy-400">

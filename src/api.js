@@ -18,8 +18,78 @@ const endpoints = {
   dealer: `${BASE_URL}/dealer`,
   quotations: `${BASE_URL}/quotations`,
   overview: `${BASE_URL}/overview`,
+  brands: `${BASE_URL}/brands`,
 };
-
+// brands
+export const getBrands = async (search = null, page = 1, pageSize = 10) => {
+  try {
+    const response = await axios.get(
+      `${endpoints.brands}?search=${search}&page=${page}&pageSize=${pageSize}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+    throw error;
+  }
+};
+export const getMinBrandsDetails = async () => {
+  try {
+    const response = await axios.get(`${endpoints.brands}/min`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching min brands:", error);
+    throw error;
+  }
+};
+export const getBrandById = async (id) => {
+  try {
+    const response = await axios.get(`${endpoints.brands}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching brand by ID:", error);
+    throw error;
+  }
+};
+export const addBrand = async (brandData) => {
+  try {
+    const response = await axios.post(endpoints.brands, brandData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding brand:", error);
+    throw error;
+  }
+};
+export const updateBrand = async (id, brandData) => {
+  try {
+    const response = await axios.put(`${endpoints.brands}/${id}`, brandData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating brand:", error);
+    throw error;
+  }
+};
+export const deleteBrand = async (id) => {
+  try {
+    const response = await axios.delete(`${endpoints.brands}/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting brand:", error);
+    throw error;
+  }
+};
+// certificates
 export const getCertificates = async () => {
   try {
     const response = await axios.get(endpoints.certificates);
@@ -30,7 +100,7 @@ export const getCertificates = async () => {
   }
 };
 
-const getCertificatesById = async (id) => {
+export const getCertificatesById = async (id) => {
   try {
     const response = await axios.get(`${endpoints.certificates}/${id}`);
     return response.data;
@@ -272,14 +342,25 @@ export const getProductCategories = async () => {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (
+  category = null,
+  page = 1,
+  pageSize = 12
+) => {
   try {
-    const response = await axios.get(`${endpoints.products}/get-all-products`, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.get(
+      `${
+        endpoints.products
+      }/get-all-products?page=${page}&pageSize=${pageSize}&category=${
+        category == null || category === 0 ? "" : category
+      }`,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -378,8 +459,9 @@ export const addProduct = async (productData) => {
       `${endpoints.products}/add-product`,
       productData,
       {
+        withCredentials: true,
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "form-data/multipart",
         },
       }
     );
@@ -396,6 +478,7 @@ export const updateProduct = async (id, productData) => {
       `${endpoints.products}/update-product/${id}`,
       productData,
       {
+        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
@@ -411,7 +494,8 @@ export const updateProduct = async (id, productData) => {
 export const deleteProduct = async (id) => {
   try {
     const response = await axios.delete(
-      `${endpoints.products}/delete-product/${id}`
+      `${endpoints.products}/delete-product/${id}`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {
@@ -426,6 +510,24 @@ export const uploadProductDatasheet = async (formData, id) => {
       `${endpoints.products}/upload-datasheet/${id}`,
       formData,
       {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading product datasheet:", error);
+    throw error;
+  }
+};
+export const updateProductImages = async (formData, id) => {
+  try {
+    const response = await axios.post(
+      `${endpoints.products}/upload-product-images/${id}`,
+      formData,
+      {
+        withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
         },

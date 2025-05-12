@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { X, Upload } from "lucide-react";
-import { BASE_URL } from "../../api";
+import { X, Upload, FileText } from "lucide-react";
+import { BASE_URL, getProductCategories, getMinBrandsDetails } from "../../api";
 
 const DEFAULT_PRODUCT = {
   product_id: 0,
@@ -14,19 +14,11 @@ const DEFAULT_PRODUCT = {
   price_usd: "0.00",
   price_zwl: "0.00",
   product_benefits: "",
-  product_warranty: "1",
+  product_warranty: "",
   quantity: 0,
   supplier_id: 1,
-  supplier_name: "Freecon Solar",
+  supplier_name: "Deye",
 };
-
-const CATEGORIES = [
-  { id: 1, name: "Solar Panels" },
-  { id: 2, name: "Inverters" },
-  { id: 3, name: "Batteries" },
-  { id: 4, name: "Cabling" },
-  { id: 5, name: "Accessories" },
-];
 
 const ProductFormModal = ({
   product,
@@ -36,92 +28,69 @@ const ProductFormModal = ({
   isEditMode = false,
 }) => {
   const [formData, setFormData] = useState(product || DEFAULT_PRODUCT);
-  const [errors, setErrors] = useState({});
   const [benefits, setBenefits] = useState([]);
+  const [productCategories, setProductCategories] = useState([]);
   const [newBenefit, setNewBenefit] = useState("");
   const [isDraggingImage, setIsDraggingImage] = useState(false);
-  const [isDraggingDatasheet, setIsDraggingDatasheet] = useState(false);
+  const [newDatasheet, setNewDatasheet] = useState(null);
+  const [newImages, setNewImages] = useState([]);
+  const [brands, setBrands] = useState([]);
   useEffect(() => {
     if (product) {
       setFormData(product);
-      setBenefits(product.product_benefits.split("\n").filter((b) => b.trim()));
+      if (product.product_benefits) {
+        setBenefits(
+          product?.product_benefits.split("\n").filter((b) => b.trim())
+        );
+      }
     } else {
       setFormData(DEFAULT_PRODUCT);
       setBenefits([]);
     }
   }, [product]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "category_id") {
-      const selectedCategory = CATEGORIES.find(
-        (cat) => cat.id === parseInt(value)
-      );
-      setFormData({
-        ...formData,
-        [name]: parseInt(value),
-        category_name: selectedCategory?.name || "",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleDragOver = useCallback((e, type) => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getProductCategories();
+        setProductCategories(data);
+      } catch (error) {
+        error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const data = await getMinBrandsDetails();
+        setBrands(data);
+      } catch (error) {
+        error("Error fetching brands:", error);
+      }
+    };
+    fetchBrands();
+  }, []);
+  const handleDragOver = useCallback((e) => {
     e.preventDefault();
-    if (type === "image") {
-      setIsDraggingImage(true);
-    } else {
-      setIsDraggingDatasheet(true);
-    }
+    setIsDraggingImage(true);
   }, []);
 
-  const handleDragLeave = useCallback((type) => {
-    if (type === "image") {
-      setIsDraggingImage(false);
-    } else {
-      setIsDraggingDatasheet(false);
-    }
+  const handleDragLeave = useCallback(() => {
+    setIsDraggingImage(false);
   }, []);
 
-  const handleDrop = useCallback((e, type) => {
+  const handleDrop = useCallback((e) => {
     e.preventDefault();
     setIsDraggingImage(false);
-    setIsDraggingDatasheet(false);
-
-    const file = e.dataTransfer.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result;
-      if (type === "image") {
-        setFormData((prev) => ({ ...prev, images: result }));
-      } else {
-        setFormData((prev) => ({ ...prev, datasheet: result }));
-      }
-    };
-    reader.readAsDataURL(file);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const files = Array.from(e.dataTransfer.files);
+      setNewImages((prevImages) => [...prevImages, ...files]);
+    }
   }, []);
-
-  const handleFileInput = useCallback((e, type) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result;
-      if (type === "image") {
-        setFormData((prev) => ({ ...prev, images: result }));
-      } else {
-        setFormData((prev) => ({ ...prev, datasheet: result }));
-      }
-    };
-    reader.readAsDataURL(file);
+  const handleFileInput = useCallback((e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setNewImages([...newImages, ...Array.from(e.target.files)]);
+    }
   }, []);
   if (!isOpen) return null;
   const handleAddBenefit = () => {
@@ -130,61 +99,24 @@ const ProductFormModal = ({
       setNewBenefit("");
     }
   };
-
   const handleRemoveBenefit = (index) => {
     setBenefits(benefits.filter((_, i) => i !== index));
   };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.product_name.trim()) {
-      newErrors.product_name = "Product name is required";
-    }
-
-    if (!formData.product_description.trim()) {
-      newErrors.product_description = "Product description is required";
-    }
-
-    if (
-      isNaN(parseFloat(formData.price_usd)) ||
-      parseFloat(formData.price_usd) < 0
-    ) {
-      newErrors.price_usd = "Valid USD price is required";
-    }
-
-    if (
-      isNaN(parseFloat(formData.price_zwl)) ||
-      parseFloat(formData.price_zwl) < 0
-    ) {
-      newErrors.price_zwl = "Valid ZWL price is required";
-    }
-
-    if (formData.category_id === 0) {
-      newErrors.category_id = "Category is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (validateForm()) {
-      if (!isEditMode) {
-        formData.product_id = Math.floor(Math.random() * 1000) + 100;
-      }
-
-      const updatedFormData = {
-        ...formData,
-        product_benefits: benefits.join("|"),
-      };
-
-      onSubmit(updatedFormData);
+    if (!isEditMode) {
+      formData.product_id = Math.floor(Math.random() * 1000) + 100;
     }
+    const updatedFormData = {
+      ...formData,
+      product_benefits: benefits.join("\n"),
+      newImages: newImages,
+      newDatasheet: newDatasheet,
+    };
+    onSubmit(updatedFormData);
+    onClose();
+    setFormData(DEFAULT_PRODUCT);
   };
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div
@@ -202,33 +134,32 @@ const ProductFormModal = ({
             <X size={24} />
           </button>
         </div>
-
         <form
           onSubmit={handleSubmit}
           className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
+              {/* Product Name */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
+                <label
+                  htmlFor="product_name"
+                  className="block text-gray-700 font-medium mb-2"
+                >
                   Product Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="product_name"
+                  required
                   value={formData.product_name}
-                  onChange={handleChange}
-                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                    errors.product_name ? "border-red-500" : "border-gray-300"
-                  }`}
+                  onChange={(e) =>
+                    setFormData({ ...formData, product_name: e.target.value })
+                  }
+                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
                 />
-                {errors.product_name && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.product_name}
-                  </p>
-                )}
               </div>
-
+              {/* Product Description */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
                   Description <span className="text-red-500">*</span>
@@ -236,21 +167,18 @@ const ProductFormModal = ({
                 <textarea
                   name="product_description"
                   value={formData.product_description}
-                  onChange={handleChange}
-                  rows={3}
-                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                    errors.product_description
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
+                  required
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      product_description: e.target.value,
+                    })
+                  }
+                  rows={5}
+                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
                 />
-                {errors.product_description && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.product_description}
-                  </p>
-                )}
               </div>
-
+              {/* Product Benefits */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
                   Product Benefits
@@ -295,10 +223,10 @@ const ProductFormModal = ({
                   </div>
                 </div>
               </div>
-
+              {/* Product Images */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
-                  Product Image
+                  Product Images
                 </label>
                 <div
                   className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
@@ -306,16 +234,19 @@ const ProductFormModal = ({
                       ? "border-orange-500 bg-orange-50"
                       : "border-gray-300 hover:border-orange-500"
                   }`}
-                  onDragOver={(e) => handleDragOver(e, "image")}
-                  onDragLeave={() => handleDragLeave("image")}
-                  onDrop={(e) => handleDrop(e, "image")}
+                  onDragOver={(e) => handleDragOver(e)}
+                  onDragLeave={() => handleDragLeave()}
+                  onDrop={(e) => handleDrop(e)}
                 >
                   <input
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={(e) => handleFileInput(e, "image")}
+                    multiple
+                    max={3}
+                    onChange={(e) => handleFileInput(e)}
                     id="image-upload"
+                    required={!formData.images}
                   />
                   <label htmlFor="image-upload" className="cursor-pointer">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -324,48 +255,92 @@ const ProductFormModal = ({
                     </p>
                   </label>
                   {formData.images && (
-                    <div className="mt-4">
-                      <img
-                        src={formData.images}
-                        alt="Product preview"
-                        className="max-h-40 mx-auto rounded-md"
-                      />
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      {formData.images.split(",").map((img, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={`${BASE_URL}/products/${img}`}
+                            alt="Product preview"
+                            className="max-h-40 mx-auto rounded-md"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updatedImages = formData.images
+                                .split(",")
+                                .filter((_, i) => i !== index)
+                                .join(",");
+                              setFormData((prev) => ({
+                                ...prev,
+                                images: updatedImages,
+                              }));
+                            }}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))}
+                      {newImages.map((img, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={URL.createObjectURL(img)}
+                            alt="Product preview"
+                            className="max-h-40 mx-auto rounded-md"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updatedImages = newImages.filter(
+                                (_, i) => i !== index
+                              );
+                              setNewImages(updatedImages);
+                            }}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
               </div>
-
+              {/* Category selection */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
+                <label
+                  htmlFor="category"
+                  className="block text-gray-700 font-medium mb-2"
+                >
                   Category <span className="text-red-500">*</span>
                 </label>
                 <select
-                  name="category_id"
+                  required
+                  name="category"
                   value={formData.category_id}
-                  onChange={handleChange}
-                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                    errors.category_id ? "border-red-500" : "border-gray-300"
-                  }`}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category_id: e.target.value })
+                  }
+                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
                 >
                   <option value="0">Select a category</option>
-                  {CATEGORIES.map((category) => (
+                  {productCategories?.map((category) => (
                     <option key={category.id} value={category.id}>
-                      {category.name}
+                      {category.category}
                     </option>
                   ))}
                 </select>
-                {errors.category_id && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.category_id}
-                  </p>
-                )}
               </div>
             </div>
 
             <div>
+              {/* Pricing details */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="price_usd"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Price (USD) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -373,20 +348,19 @@ const ProductFormModal = ({
                     step="0.01"
                     min="0"
                     name="price_usd"
+                    required
                     value={formData.price_usd}
-                    onChange={handleChange}
-                    className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                      errors.price_usd ? "border-red-500" : "border-gray-300"
-                    }`}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price_usd: e.target.value })
+                    }
+                    className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
                   />
-                  {errors.price_usd && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.price_usd}
-                    </p>
-                  )}
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="price_zwl"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Price (ZWL) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -395,22 +369,20 @@ const ProductFormModal = ({
                     min="0"
                     name="price_zwl"
                     value={formData.price_zwl}
-                    onChange={handleChange}
-                    className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                      errors.price_zwl ? "border-red-500" : "border-gray-300"
-                    }`}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price_zwl: e.target.value })
+                    }
+                    className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
                   />
-                  {errors.price_zwl && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.price_zwl}
-                    </p>
-                  )}
                 </div>
               </div>
-
+              {/* Quantity and Discount */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="discount"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Discount (%)
                   </label>
                   <input
@@ -420,86 +392,128 @@ const ProductFormModal = ({
                     max="100"
                     name="discount"
                     value={formData.discount}
-                    onChange={handleChange}
+                    onChange={(e) =>
+                      setFormData({ ...formData, discount: e.target.value })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="quantity"
+                    className="block text-red-700 font-medium mb-2"
+                  >
                     Quantity
                   </label>
                   <input
                     type="number"
                     min="0"
                     name="quantity"
+                    readOnly={isEditMode}
+                    disabled={isEditMode}
                     value={formData.quantity}
-                    onChange={handleChange}
+                    onChange={(e) =>
+                      setFormData({ ...formData, quantity: e.target.value })
+                    }
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Warranty (Years)
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  name="product_warranty"
-                  value={formData.product_warranty}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Datasheet
-                </label>
-                <div
-                  className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
-                    isDraggingDatasheet
-                      ? "border-orange-500 bg-orange-50"
-                      : "border-gray-300 hover:border-orange-500"
-                  }`}
-                  onDragOver={(e) => handleDragOver(e, "datasheet")}
-                  onDragLeave={() => handleDragLeave("datasheet")}
-                  onDrop={(e) => handleDrop(e, "datasheet")}
-                >
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className="hidden"
-                    onChange={(e) => handleFileInput(e, "datasheet")}
-                    id="datasheet-upload"
-                  />
-                  <label htmlFor="datasheet-upload" className="cursor-pointer">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-sm text-gray-500">
-                      Drag and drop a datasheet here, or click to select
-                    </p>
-                  </label>
-                  {formData.datasheet && (
-                    <div className="mt-2 text-sm text-gray-600">
-                      Datasheet uploaded successfully
-                    </div>
+                  {isEditMode && (
+                    <span className="text-sm text-red-700">
+                      This field is locked for stock management purposes.
+                    </span>
                   )}
                 </div>
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Supplier
+                <label
+                  htmlFor="product_warranty"
+                  className="block text-gray-700 font-medium mb-2"
+                >
+                  Warranty Information
                 </label>
-                <input
-                  type="text"
-                  name="supplier_name"
-                  value={formData.supplier_name}
-                  onChange={handleChange}
+                <textarea
+                  name="product_warranty"
+                  value={formData.product_warranty}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      product_warranty: e.target.value,
+                    })
+                  }
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  disabled={isEditMode}
                 />
+              </div>
+              {/* Datasheet */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Datasheet
+                </label>
+                {formData.datasheet || newDatasheet ? (
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="flex items-center space-x-3">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                      <span className="text-sm text-gray-600">
+                        {newDatasheet ? newDatasheet.name : "Current Datasheet"}
+                      </span>
+                    </div>
+                    <button
+                      title="Remove Brochure"
+                      type="button"
+                      onClick={() => {
+                        if (newDatasheet) {
+                          setNewDatasheet(null);
+                        } else {
+                          setFormData({ ...formData, datasheet: "" });
+                        }
+                      }}
+                      className="p-1.5 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex items-center justify-center w-full h-20 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-500 focus:outline-none">
+                    <div className="flex flex-col items-center space-y-2">
+                      <Upload className="w-8 h-8 text-gray-400" />
+                      <span className="text-sm text-gray-500">
+                        Click to upload datasheet
+                      </span>
+                    </div>
+                    <input
+                      type="file"
+                      name="datasheet"
+                      className="hidden"
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => setNewDatasheet(e.target.files[0])}
+                    />
+                  </label>
+                )}
+              </div>
+              {/* Brand Details */}
+              <div className="mb-4">
+                <label
+                  htmlFor="category"
+                  className="block text-gray-700 font-medium mb-2"
+                >
+                  Brand <span className="text-red-500">*</span>
+                </label>
+                <select
+                  required
+                  name="category"
+                  value={formData.supplier_id}
+                  onChange={(e) =>
+                    setFormData({ ...formData, supplier_id: e.target.value })
+                  }
+                  className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 border-gray-300`}
+                >
+                  <option value="0">Select a Brand</option>
+                  {brands?.map((brand) => (
+                    <option key={brand.id} value={brand.id}>
+                      {brand.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
