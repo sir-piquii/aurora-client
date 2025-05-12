@@ -28,7 +28,8 @@ const ProductDetailsModal = ({ product, isOpen, onClose }) => {
                   <img
                     src={`${BASE_URL}/products/${product.images.split(",")[0]}`}
                     alt={product.product_name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
+                    style={{ mixBlendMode: "multiply" }}
                   />
                 ) : (
                   <div className="text-gray-400 italic">No image available</div>
@@ -88,7 +89,18 @@ const ProductDetailsModal = ({ product, isOpen, onClose }) => {
                   <div>
                     <p className="text-sm text-gray-500">Benefits</p>
                     <p>
-                      {product?.product_benefits || "No benefits available"}
+                      {(product?.product_benefits &&
+                        product.product_benefits
+                          .split("\n")
+                          .map((benefit, index) => (
+                            <span key={index}>
+                              {benefit}
+                              {index <
+                                product.product_benefits.split("\n").length -
+                                  1 && <br />}
+                            </span>
+                          ))) ||
+                        "No benefits available"}
                     </p>
                   </div>
                   <div>
@@ -100,19 +112,13 @@ const ProductDetailsModal = ({ product, isOpen, onClose }) => {
 
               <div className="bg-orange-50 rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-orange-700 mb-2">
-                  Supplier Information
+                  Brand Information
                 </h3>
                 <div className="space-y-2">
                   <div>
-                    <p className="text-sm text-gray-500">Supplier</p>
+                    <p className="text-sm text-gray-500">Brand</p>
                     <p className="font-medium">
                       {product?.supplier_name || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Supplier ID</p>
-                    <p className="font-medium">
-                      {product?.supplier_id || "N/A"}
                     </p>
                   </div>
                 </div>
