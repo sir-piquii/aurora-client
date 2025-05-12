@@ -1,10 +1,21 @@
 import { useEffect, useState, useCallback } from "react";
-import { getAwards, getAwardById, uploadAward, BASE_URL } from "../../api";
+import {
+  getAwards,
+  updateAward,
+  uploadAward,
+  deleteAward,
+  BASE_URL,
+} from "../../api";
 import { AwardIcon, Pencil, Trash2, PlusCircle } from "lucide-react";
 import AwardForm from "./AwardForm";
 import { toast } from "sonner";
-const AwardCard = ({ award, onEdit }) => {
+const AwardCard = ({ award, onEdit, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const handleDelete = async (award) => {
+    if (window.confirm("Are you sure you want to delete this award?")) {
+      onDelete(award.id);
+    }
+  };
   return (
     <>
       <div
@@ -43,6 +54,9 @@ const AwardCard = ({ award, onEdit }) => {
               <button
                 className="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-400 transition-colors"
                 title="Delete Award"
+                onClick={() => {
+                  handleDelete(award);
+                }}
               >
                 <Trash2 size={16} />
               </button>
@@ -65,7 +79,9 @@ const AwardCard = ({ award, onEdit }) => {
 
 function Awards() {
   const [awards, setAwards] = useState([]);
-  const [, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedAward, setSelectedAward] = useState(null);
   const [openAddAward, setOpenAddAward] = useState(false);
   const fetchAwards = useCallback(async () => {
     try {
@@ -82,32 +98,69 @@ function Awards() {
   }, [fetchAwards]);
 
   const onEdit = async (award) => {
-    try {
-      const data = await getAwardById(award.id);
-      console.log("Award data:", data);
-    } catch (error) {
-      console.error("Error fetching award by ID:", error);
-    }
+    setSelectedAward(award);
+    setIsEditMode(true);
+    setOpenAddAward(true);
   };
+  // delete award
   const onDelete = async (award) => {
-    // Implement delete logic here
-    console.log("Delete award:", award);
+    setIsLoading(true);
+    console.log("Deleting award:", award);
+    try {
+      await deleteAward(award);
+      toast.success("Award deleted successfully");
+    } catch (error) {
+      console.error("Error deleting award:", error);
+      toast.error("Failed to delete award");
+    } finally {
+      fetchAwards();
+      setIsLoading(false);
+    }
   };
   const handleAddAward = async (newAward) => {
-    // Implement add award logic here
-    try {
-      await uploadAward(newAward);
-      toast.success("Award added successfully");
-    } catch (error) {
-      console.error("Error adding award:", error);
-      toast.error("Failed to add award");
-    } finally {
-      setOpenAddAward(false);
-      fetchAwards();
+    //
+
+    if (!newAward) return;
+    // Check if the form is in edit mode
+    if (!isEditMode) {
+      try {
+        setIsLoading(true);
+        await uploadAward(newAward);
+        toast.success("Award added successfully");
+      } catch (error) {
+        console.error("Error adding award:", error);
+        toast.error("Failed to add award");
+      } finally {
+        setOpenAddAward(false);
+        fetchAwards();
+        setIsLoading(false);
+      }
+    } // If in edit mode, update the award
+    else {
+      try {
+        setIsLoading(true);
+        const { id } = selectedAward;
+        await updateAward(id, newAward);
+        toast.success("Award updated successfully");
+      } catch (error) {
+        console.error("Error updating award:", error);
+        toast.error("Failed to update award");
+      } finally {
+        setOpenAddAward(false);
+        setIsEditMode(false);
+        fetchAwards();
+      }
     }
   };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-50 min-h-screen">
+    <div className="p-6 w-full bg-gray-50 min-h-screen">
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div className="mb-4 md:mb-0">
@@ -120,7 +173,11 @@ function Awards() {
             </p>
           </div>
           <button
-            onClick={() => setOpenAddAward(true)}
+            onClick={() => {
+              setOpenAddAward(true);
+              setSelectedAward(null);
+            }}
+            disabled={isLoading}
             className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors shadow-sm"
           >
             <PlusCircle className="mr-2" size={20} />
@@ -140,9 +197,13 @@ function Awards() {
       </div>
       <AwardForm
         isOpen={openAddAward}
+        onClose={() => {
+          setOpenAddAward(false);
+          setSelectedAward(null);
+        }}
         onCancel={() => setOpenAddAward(false)}
         onSubmit={handleAddAward}
-        award={null}
+        award={selectedAward}
       />
     </div>
   );
