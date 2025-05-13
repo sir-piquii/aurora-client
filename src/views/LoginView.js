@@ -13,16 +13,15 @@ export default function Login() {
 	const [error, setError] = useState('');
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user")) ?? null;
 
-	const user = JSON.parse(localStorage.getItem('user')) ?? null;
-
-	if (user?.user.role === 'admin') {
-		setTimeout(() => navigate('/admin', { replace: true }), 0);
-	} else if (user?.user.role === 'dealer') {
-		setTimeout(() => navigate('/dealer', { replace: true }), 0);
-	} else if (user?.user.role === 'user') {
-		setTimeout(() => navigate('/', { replace: true }), 0);
-	}
+  if (user?.user.role === "super" || user?.user.role === "admin") {
+    setTimeout(() => navigate("/admin", { replace: true }), 0);
+  } else if (user?.user.role === "dealer") {
+    setTimeout(() => navigate("/dealer", { replace: true }), 0);
+  } else if (user?.user.role === "user") {
+    setTimeout(() => navigate("/", { replace: true }), 0);
+  }
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
