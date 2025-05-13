@@ -1,99 +1,204 @@
 import React, { useEffect, useState } from 'react';
 import {
-	FaUserShield,
-	FaUsers,
-	FaBoxOpen,
-	FaChartPie,
-	FaBolt,
-	FaPlug,
-	FaBatteryHalf,
-	FaCogs,
-	FaAward,
-	FaBlog,
-	FaPeopleCarry,
-	FaQuestionCircle,
-	FaMedal,
-	FaComments,
-	FaWarehouse,
-	FaTools,
-	FaSun,
-	FaStar,
-} from 'react-icons/fa';
+	BarChart,
+	Bar,
+	XAxis,
+	YAxis,
+	Tooltip,
+	PieChart,
+	Pie,
+	Cell,
+	Legend,
+	ResponsiveContainer,
+} from 'recharts';
 import { getOverview } from '../../api';
 
-const iconMap = {
-	System_Users: FaUserShield,
-	Products: FaBoxOpen,
-	Quotations: FaChartPie,
-	Admins: FaUserShield,
-	Users: FaUsers,
-	Applied_Dealers: FaPeopleCarry,
-	Approved_Dealers: FaMedal,
-	Solar_Panels: FaSun,
-	Cabling: FaPlug,
-	Energy_Storage: FaBatteryHalf,
-	Switch_Gear: FaCogs,
-	Hybrid_Inverters: FaBolt,
-	Accessories: FaTools,
-	Mounting_Equipment: FaWarehouse,
-	Awards: FaAward,
-	Blogs: FaBlog,
-	Team: FaUsers,
-	FAQs: FaQuestionCircle,
-	Casy_Study: FaChartPie,
-	Featured_Products: FaStar,
-	Testimonials: FaComments,
-};
+const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50', '#00c49f'];
 
-const DashboardCards = () => {
-	const [stats, setStats] = useState(null);
+const DashboardCharts = () => {
+	const [timeRange, setTimeRange] = useState('30d');
+	const [chartData, setChartData] = useState(null);
 
 	useEffect(() => {
-		document.title = 'Dashboard | Admin Panel';
-		const fetchStats = async () => {
+		const fetchData = async () => {
 			try {
-				const data = await getOverview();
-				setStats(data[0]); // Assuming the API returns an array with one object
+				const [rawData] = await getOverview(timeRange); // single object in an array
+
+				// Transform for Product Counts
+				const productCounts = [
+					{ name: 'Solar Panels', count: rawData.Solar_Panels },
+					{ name: 'Cabling', count: rawData.Cabling },
+					{ name: 'Energy Storage', count: rawData.Energy_Storage },
+					{ name: 'Switch Gear', count: rawData.Switch_Gear },
+					{
+						name: 'Hybrid Inverters',
+						count: rawData.Hybrid_Inverters,
+					},
+					{ name: 'Accessories', count: rawData.Accessories },
+					{
+						name: 'Mounting Equipment',
+						count: rawData.Mounting_Equipment,
+					},
+				];
+
+				// Example: Dummy stock status transformation (you should update this as per actual logic)
+				const stockStatus = [
+					{ status: 'In Stock', value: rawData.Products - 10 },
+					{ status: 'Out of Stock', value: 10 },
+				];
+
+				// Example: Dummy revenue by category (use real values if available)
+				const revenueByCategory = [
+					{
+						category: 'Solar Panels',
+						revenue: rawData.Solar_Panels * 500,
+					},
+					{
+						category: 'Inverters',
+						revenue: rawData.Hybrid_Inverters * 300,
+					},
+					{
+						category: 'Accessories',
+						revenue: rawData.Accessories * 100,
+					},
+				];
+
+				const dealerStatuses = [
+					{ status: 'Applied', count: rawData.Applied_Dealers },
+					{ status: 'Approved', count: rawData.Approved_Dealers },
+				];
+
+				// Example: Dummy dealer performance data (replace with actual if available)
+				const dealerPerformance = [
+					{ dealer: 'Dealer A', unitsSold: 30, revenue: 9000 },
+					{ dealer: 'Dealer B', unitsSold: 20, revenue: 6000 },
+				];
+
+				setChartData({
+					productCounts,
+					stockStatus,
+					revenueByCategory,
+					dealerStatuses,
+					dealerPerformance,
+				});
 			} catch (error) {
-				console.error('Error fetching stats:', error);
+				console.error('Error fetching dashboard data:', error);
 			}
 		};
-		fetchStats();
-	}, []);
+		fetchData();
+	}, [timeRange]);
 
-	if (!stats) {
+	if (!chartData)
 		return (
-			<p className="text-center mt-10 text-gray-500">
-				Loading dashboard...
-			</p>
+			<p className="text-center mt-10 text-gray-500">Loading charts...</p>
 		);
-	}
+
+	const {
+		productCounts,
+		stockStatus,
+		revenueByCategory,
+		dealerStatuses,
+		dealerPerformance,
+	} = chartData;
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-			{Object.entries(stats).map(([key, value]) => {
-				const Icon = iconMap[key] || FaBoxOpen;
-				return (
-					<div
-						key={key}
-						className="bg-white rounded-2xl shadow-2xl transform transition hover:scale-105 hover:shadow-xl p-6 flex flex-col items-center justify-center border border-gray-200"
-						style={{
-							perspective: '1000px',
-							boxShadow: '0 8px 20px rgba(0, 31, 63, 0.2)',
-						}}
+		<div className="p-6">
+			<div className="mb-4">
+				<label className="mr-2 font-semibold">Filter by time:</label>
+				<select
+					className="p-2 border rounded"
+					value={timeRange}
+					onChange={(e) => setTimeRange(e.target.value)}
+				>
+					<option value="7d">Last 7 Days</option>
+					<option value="30d">Last 30 Days</option>
+					<option value="90d">Last 90 Days</option>
+					<option value="1y">Last 1 Year</option>
+				</select>
+			</div>
+
+			<h2 className="text-xl font-bold mb-2">Product Counts</h2>
+			<ResponsiveContainer width="100%" height={300}>
+				<BarChart data={productCounts}>
+					<XAxis dataKey="name" />
+					<YAxis />
+					<Tooltip />
+					<Bar dataKey="count" fill="#8884d8" />
+				</BarChart>
+			</ResponsiveContainer>
+
+			<h2 className="text-xl font-bold mt-6 mb-2">Stock Status</h2>
+			<ResponsiveContainer width="100%" height={300}>
+				<PieChart>
+					<Pie
+						data={stockStatus}
+						dataKey="value"
+						nameKey="status"
+						cx="50%"
+						cy="50%"
+						outerRadius={100}
+						label
 					>
-						<Icon className="text-4xl text-navy-900 mb-4" />
-						<h3 className="text-lg font-semibold text-gray-700 text-center">
-							{key.replace(/_/g, ' ')}
-						</h3>
-						<p className="text-3xl font-bold text-navy-900 mt-2">
-							{value}
-						</p>
-					</div>
-				);
-			})}
+						{stockStatus.map((entry, index) => (
+							<Cell
+								key={`cell-${index}`}
+								fill={COLORS[index % COLORS.length]}
+							/>
+						))}
+					</Pie>
+					<Tooltip />
+					<Legend />
+				</PieChart>
+			</ResponsiveContainer>
+
+			<h2 className="text-xl font-bold mt-6 mb-2">
+				Revenue by Product Category
+			</h2>
+			<ResponsiveContainer width="100%" height={300}>
+				<BarChart data={revenueByCategory}>
+					<XAxis dataKey="category" />
+					<YAxis />
+					<Tooltip />
+					<Bar dataKey="revenue" fill="#82ca9d" />
+				</BarChart>
+			</ResponsiveContainer>
+
+			<h2 className="text-xl font-bold mt-6 mb-2">Dealer Statuses</h2>
+			<ResponsiveContainer width="100%" height={300}>
+				<PieChart>
+					<Pie
+						data={dealerStatuses}
+						dataKey="count"
+						nameKey="status"
+						cx="50%"
+						cy="50%"
+						outerRadius={100}
+						label
+					>
+						{dealerStatuses.map((entry, index) => (
+							<Cell
+								key={`cell-${index}`}
+								fill={COLORS[index % COLORS.length]}
+							/>
+						))}
+					</Pie>
+					<Tooltip />
+					<Legend />
+				</PieChart>
+			</ResponsiveContainer>
+
+			<h2 className="text-xl font-bold mt-6 mb-2">Dealer Performance</h2>
+			<ResponsiveContainer width="100%" height={300}>
+				<BarChart data={dealerPerformance}>
+					<XAxis dataKey="dealer" />
+					<YAxis />
+					<Tooltip />
+					<Bar dataKey="unitsSold" fill="#ff7f50" name="Units Sold" />
+					<Bar dataKey="revenue" fill="#00c49f" name="Revenue" />
+				</BarChart>
+			</ResponsiveContainer>
 		</div>
 	);
 };
 
-export default DashboardCards;
+export default DashboardCharts;
