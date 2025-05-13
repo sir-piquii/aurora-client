@@ -9,7 +9,7 @@ import {
   updateProductImages,
 } from "../../api";
 import ProductListings from "./ProductListings";
-import { Plus } from "lucide-react";
+import { Plus, Loader } from "lucide-react";
 import { toast } from "sonner";
 import ProductFormModal from "./ProductModalForm";
 // products header
@@ -78,7 +78,6 @@ const Products = () => {
     };
     fetchCategories();
   }, []);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   // Handle product deletion
   const handleDelete = (productId) => {
@@ -208,17 +207,14 @@ const Products = () => {
       .finally(() => {
         setIsLoading(false);
       });
-    // try {
-
-    //   }
-    // } catch (error) {
-    //   toast.error("Failed to add product.");
-    //   console.error("Error adding product:", error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
   };
-  if (isLoading) return <span>Loading...</span>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
   return (
     <>
       <ProductHeader onAddProduct={addNewProduct} />

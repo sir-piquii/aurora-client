@@ -6,7 +6,7 @@ import {
   deleteAward,
   BASE_URL,
 } from "../../api";
-import { AwardIcon, Pencil, Trash2, PlusCircle } from "lucide-react";
+import { AwardIcon, Pencil, Trash2, PlusCircle, Loader } from "lucide-react";
 import AwardForm from "./AwardForm";
 import { toast } from "sonner";
 const AwardCard = ({ award, onEdit, onDelete }) => {
@@ -154,17 +154,17 @@ function Awards() {
   };
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="loader"></div>
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="animate-spin" />
       </div>
     );
   }
   return (
     <div className="p-6 w-full bg-gray-50 min-h-screen">
       <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center text-blue-950 justify-between">
           <div className="mb-4 md:mb-0">
-            <h1 className="text-3xl font-bold text-blue-950 flex items-center">
+            <h1 className="text-3xl font-bold  flex items-center">
               <AwardIcon className="mr-2 text-orange-500" size={32} />
               <span>Awards Management</span>
             </h1>

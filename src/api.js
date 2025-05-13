@@ -19,7 +19,21 @@ const endpoints = {
   quotations: `${BASE_URL}/quotations`,
   overview: `${BASE_URL}/overview`,
   brands: `${BASE_URL}/brands`,
+  positions:`${BASE_URL}/positions`
 };
+// positions
+export const getPositions = async()=>{
+  try {
+    const response = await axios.get(
+      `${endpoints.positions}/`,
+      {withCredentials:true}
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching positions:", error);
+    throw error;
+  }
+}
 // brands
 export const getBrands = async (search = null, page = 1, pageSize = 10) => {
   try {
@@ -563,8 +577,9 @@ export const getTeamById = async (id) => {
 export const addTeamMember = async (teamData) => {
   try {
     const response = await axios.post(`${endpoints.team}/add-team`, teamData, {
+      withCredentials:true,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -595,9 +610,10 @@ export const updateTeamMember = async (id, teamData) => {
 export const updateTeamMemberImage = async (id, teamData) => {
   try {
     const response = await axios.put(
-      `${endpoints.team}/update-team-image/${id}`,
+      `${endpoints.team}/update-team-member-image/${id}`,
       teamData,
       {
+        withCredentials:true,
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -651,7 +667,7 @@ export const addTestimonial = async (testimonialData) => {
       testimonialData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
@@ -670,7 +686,7 @@ export const updateTestimonial = async (id, testimonialData) => {
       testimonialData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
@@ -904,7 +920,7 @@ export const deleteCaseStudy = async (id) => {
     throw error;
   }
 };
-
+// authentication
 export const authenticateUser = async (user, password) => {
   try {
     const response = await axios.post(
@@ -977,7 +993,34 @@ export const resetPassword = async (token, newPassword) => {
 		throw error;
 	}
 };
-
+// admins
+export const getAdmins = async () => {
+  try {
+    const response = await axios.get(`${endpoints.auth}/admins`, {withCredentials:true});
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching admins:', error);
+    throw error;
+  }
+}
+export const addAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(`${endpoints.auth}/admin`,adminData, {withCredentials:true});
+    return response.data;
+  } catch (error) {
+     console.error('Error adding admins:', error);
+    throw error;
+  }
+}
+export const deleteAdmin= async(id)=>{
+  try {
+		const response = await axios.delete(`${endpoints.auth}/user/${id}`, {withCredentials:true});
+		return response.data;
+	} catch (error) {
+		console.error('Error deleting admin:', error);
+		throw error;
+	}
+}
 export const forgotPassword = async (email) => {
 	try {
 		const response = await axios.post(
@@ -995,7 +1038,7 @@ export const forgotPassword = async (email) => {
 		throw error;
 	}
 };
-
+// 
 export const getFaqs = async () => {
 	try {
 		const response = await axios.get(endpoints.faqs);
