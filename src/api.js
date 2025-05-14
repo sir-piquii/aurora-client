@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FaSquare } from 'react-icons/fa';
 export const BASE_URL =
-  process.env.REACT_APP_API_URL || "https://dev-api.auroraenergy.co.zw"; //https://dev-api.auroraenergy.co.zw
+  process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
 
 const endpoints = {
   products: `${BASE_URL}/products`,
@@ -19,21 +19,20 @@ const endpoints = {
   quotations: `${BASE_URL}/quotations`,
   overview: `${BASE_URL}/overview`,
   brands: `${BASE_URL}/brands`,
-  positions:`${BASE_URL}/positions`
+  positions: `${BASE_URL}/positions`,
 };
 // positions
-export const getPositions = async()=>{
+export const getPositions = async () => {
   try {
-    const response = await axios.get(
-      `${endpoints.positions}/`,
-      {withCredentials:true}
-    );
+    const response = await axios.get(`${endpoints.positions}/`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching positions:", error);
     throw error;
   }
-}
+};
 // brands
 export const getBrands = async (search = null, page = 1, pageSize = 10) => {
   try {
@@ -228,7 +227,9 @@ export const addDealer = async (dealerData, userId) => {
 
 export const getDealerById = async (id) => {
   try {
-    const response = await axios.get(`${endpoints.dealer}/${id}`);
+    const response = await axios.get(`${endpoints.dealer}/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching dealer by ID:", error);

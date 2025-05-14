@@ -1,113 +1,122 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Home,
+  User,
+  FileText,
+  Package,
+  Settings,
+  LogOut,
+  Award,
+} from "lucide-react";
 
 const Sidebar = () => {
-	const user = JSON.parse(localStorage.getItem('user')) ?? null;
-	const userId = user?.user?.id;
-	const dealerId = user?.user?.dealer_id ?? null;
-	const fullName = user?.user?.fullName;
-	const profileImage = user?.user?.profile;
-	const isDealer = user?.user.role === 'dealer';
-	function getInitials(name) {
-		if (!name) return 'U';
-		const names = name.trim().split(' ');
-		const initials =
-			names.length === 1
-				? names[0][0]
-				: names[0][0] + names[names.length - 1][0];
-		return initials.toUpperCase();
-	}
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem("user")) ?? null;
+  const useAuth = useContext(AuthContext);
+  const { user: userData } = useAuth;
+  const isDealer = userData.user?.role === 2;
+  const isPendingDealer = false;
+  const navItems = [
+    { name: "Home", path: "/dealer", icon: <Home size={20} /> },
+    { name: "Profile", path: "/dealer/profile", icon: <User size={20} /> },
+    ...(isDealer
+      ? [
+          {
+            name: "Quotations",
+            path: "/dealer/quotations",
+            icon: <FileText size={20} />,
+          },
+          {
+            name: "Orders",
+            path: "/dealer/orders",
+            icon: <Package size={20} />,
+          },
+        ]
+      : []),
+    {
+      name: "Settings",
+      path: "/dealer/settings",
+      icon: <Settings size={20} />,
+    },
+  ];
 
-	return (
-		<div className="w-64 min-h-screen bg-white shadow-lg p-6">
-			<h2 className="text-2xl font-bold text-navy-900 mb-4">Dashboard</h2>
+  return (
+    <aside className="sticky left-0 top-0 z-40 h-screen w-64 hidden md:flex flex-col bg-gray-90 text-white shadow-xl transition-transform">
+      {/* Logo */}
+      <div className="flex items-center justify-center h-16">
+        <div className="flex items-center">
+          <span className="ml-2 text-xl text-gray-950 font-bold">
+            My Dashboard
+          </span>
+        </div>
+      </div>
+      <hr />
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`flex items-center p-3 rounded-lg hover:bg-gray-800 hover:text-gray-300 transition-colors ${
+              location.pathname === item.path
+                ? "bg-gray-800 text-orange-500"
+                : "text-gray-800"
+            }`}
+          >
+            <span className="mr-3">{item.icon}</span>
+            <span>{item.name}</span>
+          </Link>
+        ))}
 
-			<div className="flex flex-col items-center mb-6">
-				<img
-					src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-						getInitials(fullName),
-					)}&background=orange&color=fff`}
-					alt="User Initials"
-					className="w-16 h-16 rounded-full object-cover mb-2"
-				/>
-				<p className="text-navy-900 font-medium text-center">
-					{fullName}
-				</p>
-			</div>
+        {!isDealer && !isPendingDealer && (
+          <Link
+            to="/dealer/register"
+            className="flex items-center p-3 mt-6 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 transition-all"
+          >
+            <Award size={20} className="mr-3" />
+            <span>Become a Dealer</span>
+          </Link>
+        )}
 
-			{isDealer && (
-				<ul>
-					<li>
-						<Link
-							to={`/dealer/orders/${userId}`}
-							className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-						>
-							Orders
-						</Link>
-					</li>
-					<li>
-						<Link
-							to={`/dealer/quotations/${userId}`}
-							className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-						>
-							Quotations
-						</Link>
-					</li>
-				</ul>
-			)}
+        {isPendingDealer && (
+          <div className="flex items-center p-3 mt-6 rounded-lg bg-yellow-100 text-yellow-800">
+            <span className="text-sm">Verification in progress</span>
+          </div>
+        )}
+      </nav>
 
-			{!isDealer && (
-				<ul>
-					{dealerId === null && (
-						<li>
-							<Link
-								to={`/dealer/add-dealer/${userId}`}
-								className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-							>
-								Dealer Application
-							</Link>
-						</li>
-					)}
-					{dealerId && (
-						<>
-							<li>
-								<Link
-									to={`/dealer/add-installations/${dealerId}`}
-									className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-								>
-									Add Installations
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={`/dealer/upload-certificate/${dealerId}`}
-									className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-								>
-									Upload Certificate of Incorporation
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={`/dealer/upload-tax-clearance/${dealerId}`}
-									className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-								>
-									Upload Tax Clearance Certificate
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={`/dealer/upload-ids-of-directors/${dealerId}`}
-									className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
-								>
-									Upload IDs of Directors
-								</Link>
-							</li>
-						</>
-					)}
-				</ul>
-			)}
-		</div>
-	);
+      {/* Profile Section */}
+
+      {/* Logout */}
+      <button className="flex items-center p-4 text-gray-300 hover:text-white transition-colors border-t border-gray-800">
+        <LogOut size={20} className="mr-3" />
+        <span>Logout</span>
+      </button>
+    </aside>
+  );
 };
 
 export default Sidebar;
+/* <div className="p-4 border-t border-gray-800">
+        <div className="flex items-center">
+          {user.avatar ? (
+            <img
+              src={user.avatar}
+              alt={user.name}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+              <User size={20} className="text-gray-300" />
+            </div>
+          )}
+          <div className="ml-3">
+            <p className="text-sm font-medium text-white">{user.name}</p>
+            <p className="text-xs text-gray-400">
+              {user.role === 2 ? "Verified Dealer" : "Regular User"}
+            </p>
+          </div>
+        </div>
+      </div> */

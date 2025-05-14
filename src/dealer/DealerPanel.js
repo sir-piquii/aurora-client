@@ -1,26 +1,40 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { DealerProvider } from '../context/DealerContext';
 import Sidebar from './Sidebar';
-import AddDealer from './components/AddDealer';
-import AddInstallations from './components/AddInstallations';
-import UploadCertificateOfIncorporation from './components/UploadCertificateOfIncorporation';
-import UploadTaxClearanceCertificate from './components/UploadTaxClearanceCertificate';
-import UploadIdsOfDirectors from './components/UploadIdsOfDirectors';
 import Quotations from './components/Quotations';
+import Dashboard from './components/Dashboard';
+import LandingPage from './components/LandingPage';
+import Profile from './components/Profile';
+import { Toaster } from 'sonner';
+import DealerRegPortal from './components/DealerRegPortal';
 
 function DealerPanel() {
 	useEffect(() => {
 		document.title = 'Dealer Registration';
-		const user = JSON.parse(localStorage.getItem('user')) ?? null;
-		const dealerId = user?.user?.dealerId;
 	}, []);
-
 	return (
-		<div className="dealer-panel flex">
-			<Sidebar />
+		<DealerProvider >
+			<div className="flex gap-2">
+				<Sidebar />
+				{/* Content Area */}
+				<Routes>
+						<Route path="/" element={<Dashboard />}>
+							<Route index element={<LandingPage />} />
+							<Route path="/profile" element={<Profile/>} />
+							<Route path="register" element={<DealerRegPortal />} />
+							<Route path="quotations/" element={<Quotations />} />
+						</Route>
+				</Routes>
+			</div>
+			<Toaster/>
+		</DealerProvider>
+	);
+}
 
-			{/* Content Area */}
-			<div className="dealer-content flex-1 p-6">
+export default DealerPanel;
+/**
+ * <div className="dealer-content flex-1 p-6">
 				<Routes>
 					<Route path="add-dealer/:id" element={<AddDealer />} />
 					<Route
@@ -44,8 +58,5 @@ function DealerPanel() {
 					<Route path="quotations/:id" element={<Quotations />} />
 				</Routes>
 			</div>
-		</div>
-	);
-}
-
-export default DealerPanel;
+ * 
+ */
