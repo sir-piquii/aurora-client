@@ -6,6 +6,7 @@ import AddInstallations from './components/AddInstallations';
 import UploadCertificateOfIncorporation from './components/UploadCertificateOfIncorporation';
 import UploadTaxClearanceCertificate from './components/UploadTaxClearanceCertificate';
 import UploadIdsOfDirectors from './components/UploadIdsOfDirectors';
+import Quotations from './components/Quotations';
 
 function DealerPanel() {
 	useEffect(() => {
@@ -21,7 +22,7 @@ function DealerPanel() {
 			{/* Content Area */}
 			<div className="dealer-content flex-1 p-6">
 				<Routes>
-					<Route path="add-dealer/:userId" element={<AddDealer />} />
+					<Route path="add-dealer/:id" element={<AddDealer />} />
 					<Route
 						path="add-installations/:id"
 						element={<AddInstallations />}
@@ -38,6 +39,9 @@ function DealerPanel() {
 						path="upload-ids-of-directors/:id"
 						element={<UploadIdsOfDirectors />}
 					/>
+				</Routes>
+				<Routes>
+					<Route path="quotations/:id" element={<Quotations />} />
 				</Routes>
 			</div>
 		</div>

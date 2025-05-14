@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, ChevronDown, Instagram, Mail } from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react';
 import {
 	FaXTwitter,
 	FaFacebook,
@@ -11,14 +11,15 @@ import {
 	FaPhone,
 	FaYoutube,
 	FaTiktok,
+	FaInstagram,
 } from 'react-icons/fa6';
+import { Mail } from 'lucide-react';
 import Logo from './../logo.png';
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [insightsDropdownOpen, setInsightsDropdownOpen] = useState(false);
-	// New states for mobile dropdowns
 	const [mobileProductsDropdownOpen, setMobileProductsDropdownOpen] =
 		useState(false);
 	const [mobileInsightsDropdownOpen, setMobileInsightsDropdownOpen] =
@@ -26,26 +27,27 @@ export default function Navbar() {
 	const closeDropdownTimer = useRef(null);
 	const insightsCloseTimer = useRef(null);
 
-	// Dummy user for demonstration. Replace with your actual auth logic.
+	// Dummy user logic; replace with real auth
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
-	const isAdmin = user?.user.role == 'admin' ?? false;
+	const fullName = user?.user?.fullName;
+	const isAdmin = user?.user?.role === 'admin';
 
-	// State for basket count, which is derived from the localStorage cart.
 	const [basketCount, setBasketCount] = useState(0);
 
-	// Function to update basket count by reading from localStorage
+	// Update basket count from localStorage
 	const updateBasketCount = () => {
 		const storedCart = localStorage.getItem('cart');
 		if (storedCart) {
-			const cart = JSON.parse(storedCart);
-			if (cart.items && Array.isArray(cart.items)) {
-				// Sum the quantities of each item (default quantity to 1 if not set)
-				const count = cart.items.reduce(
-					(total, item) => total + (item.quantity || 1),
-					0,
-				);
+			try {
+				const cart = JSON.parse(storedCart);
+				const count = Array.isArray(cart.items)
+					? cart.items.reduce(
+							(sum, item) => sum + (item.quantity || 1),
+							0,
+					  )
+					: 0;
 				setBasketCount(count);
-			} else {
+			} catch {
 				setBasketCount(0);
 			}
 		} else {
@@ -53,21 +55,13 @@ export default function Navbar() {
 		}
 	};
 
-	// Update basket count on component mount and listen for custom events.
 	useEffect(() => {
 		updateBasketCount();
-
-		// Listen for cross-tab storage changes
 		const handleStorageChange = (e) => {
-			if (e.key === 'cart') {
-				updateBasketCount();
-			}
+			if (e.key === 'cart') updateBasketCount();
 		};
-
-		// Listen for a custom "cartUpdated" event fired from other components
 		window.addEventListener('storage', handleStorageChange);
 		window.addEventListener('cartUpdated', updateBasketCount);
-
 		return () => {
 			window.removeEventListener('storage', handleStorageChange);
 			window.removeEventListener('cartUpdated', updateBasketCount);
@@ -76,14 +70,12 @@ export default function Navbar() {
 
 	const handleLinkClick = () => {
 		setIsOpen(false);
-		// Optionally close mobile dropdowns when a link is clicked.
 		setMobileProductsDropdownOpen(false);
 		setMobileInsightsDropdownOpen(false);
 	};
 
 	const handleMouseEnter = () => {
-		if (closeDropdownTimer.current)
-			clearTimeout(closeDropdownTimer.current);
+		clearTimeout(closeDropdownTimer.current);
 		setIsDropdownOpen(true);
 	};
 
@@ -93,24 +85,74 @@ export default function Navbar() {
 		}, 200);
 	};
 
-	// For medium screens / touch devices for Products:
-	const handleProductsClick = (event) => {
-		// If the dropdown is not already open, intercept the click to open it.
+	const handleProductsClick = (e) => {
 		if (!isDropdownOpen) {
-			event.preventDefault();
+			e.preventDefault();
 			setIsDropdownOpen(true);
 		}
-		// Otherwise, allow navigation on second tap.
 	};
 
-	// For Insights & News desktop dropdown
-	const handleInsightsClick = (event) => {
-		// Prevent default navigation to allow toggling the dropdown
+	const handleInsightsClick = (e) => {
 		if (!insightsDropdownOpen) {
-			event.preventDefault();
+			e.preventDefault();
 			setInsightsDropdownOpen(true);
 		}
 	};
+
+	function getInitials(name) {
+		if (!name) return 'U';
+		const names = name.trim().split(' ');
+		const initials =
+			names.length === 1
+				? names[0][0]
+				: names[0][0] + names[names.length - 1][0];
+		return initials.toUpperCase();
+	}
+
+	const avatarUrl = user?.user.profile
+		? `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`
+		: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+				user?.user.name || 'User',
+		  )}&background=0D8ABC&color=fff`;
+
+	if (isAdmin) {
+		const user = JSON.parse(localStorage.getItem('user'));
+
+		return (
+			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
+				<div className="container mx-auto flex items-center justify-between p-4">
+					<a href="/">
+						<img src={Logo} alt="Logo" style={{ width: '175px' }} />
+					</a>
+					<ul className="hidden md:flex space-x-6 text-white font-medium items-center">
+						<li className="flex items-center space-x-3 px-3 py-1 rounded">
+							<img
+								src={avatarUrl}
+								alt="Profile"
+								className="w-8 h-8 rounded-full object-cover"
+							/>
+							<span className="text-white">
+								{user?.user.fullName || 'Admin'}
+							</span>
+						</li>
+						<li>
+							<a
+								href="/"
+								onClick={() => {
+									localStorage.removeItem('authToken');
+									localStorage.removeItem('user');
+									window.location.reload();
+								}}
+								className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
+							>
+								Logout
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		);
+	}
 
 	return (
 		<>
@@ -134,16 +176,13 @@ export default function Navbar() {
 							href="tel:+263242783999"
 							className="flex items-center space-x-1"
 						>
-							<div className="flex items-center space-x-1">
-								<FaPhone size={16} />
-								<span className="hidden md:inline">
-									+263 242 783 999
-								</span>
-							</div>
+							<FaPhone size={16} />
+							<span className="hidden md:inline">
+								+263 242 783 999
+							</span>
 						</a>
 						<a
 							href="mailto:info@auroraenergy.co.zw"
-							target="_blank"
 							className="flex items-center space-x-1"
 						>
 							<Mail size={16} />
@@ -152,63 +191,37 @@ export default function Navbar() {
 							</span>
 						</a>
 					</div>
-
-					{/* Social Icons */}
 					<div className="flex space-x-3">
-						<a
-							href="https://www.facebook.com/share/15imcziZ2b/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href="#">
 							<FaFacebook size={16} />
 						</a>
-						<a
-							href="https://x.com/AuroraEnergyZW?s=09"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href="#">
 							<FaXTwitter size={16} />
 						</a>
-						<a
-							href="https://www.instagram.com/auroraenergyzimbabwe?igsh=MXNpOTFvZnRubTljcQ=="
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Instagram size={16} />
+						<a href="#">
+							<FaInstagram size={16} />
 						</a>
-						<a
-							href="https://www.linkedin.com/company/aurora-energy1/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href="#">
 							<FaLinkedin size={16} />
 						</a>
-						<a
-							href="https://youtube.com/@auroraenergyzimbabwe?si=huqdG42TA1NBS8Iy"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href="#">
 							<FaYoutube size={16} />
 						</a>
-						<a
-							href="https://www.tiktok.com/@aurora_energy_zimbabwe?_t=ZM-8tiPYsaBl0X&_r=1"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href="#">
 							<FaTiktok size={16} />
 						</a>
 					</div>
 				</div>
 			</div>
 
-			{/* Navbar */}
+			{/* Main Navbar */}
 			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
 				<div className="container mx-auto flex items-center justify-between p-4">
 					<a href="/">
 						<img src={Logo} alt="Logo" style={{ width: '175px' }} />
 					</a>
 
-					{/* Mobile Menu Button */}
+					{/* Mobile Toggle */}
 					<button
 						className="md:hidden"
 						onClick={() => setIsOpen(!isOpen)}
@@ -222,14 +235,14 @@ export default function Navbar() {
 
 					{/* Desktop Menu */}
 					<ul className="hidden md:flex space-x-6 text-white font-medium items-center">
-						<li className="hover:text-orange-500 cursor-pointer">
+						<li className="hover:text-orange-500">
 							<a href="/">Home</a>
 						</li>
-						<li className="hover:text-orange-500 cursor-pointer">
+						<li className="hover:text-orange-500">
 							<a href="/about">About Us</a>
 						</li>
 						<li
-							className="relative cursor-pointer"
+							className="relative"
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>
@@ -264,9 +277,9 @@ export default function Navbar() {
 										'Cabling',
 										'Accessories',
 										'Switch Gear',
-									].map((item, index) => (
+									].map((item, i) => (
 										<li
-											key={index}
+											key={i}
 											className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500"
 										>
 											<a
@@ -281,12 +294,10 @@ export default function Navbar() {
 								</ul>
 							)}
 						</li>
-						{/* Insights & News Dropdown for Desktop */}
 						<li
-							className="relative cursor-pointer"
+							className="relative"
 							onMouseEnter={() => {
-								if (insightsCloseTimer.current)
-									clearTimeout(insightsCloseTimer.current);
+								clearTimeout(insightsCloseTimer.current);
 								setInsightsDropdownOpen(true);
 							}}
 							onMouseLeave={() => {
@@ -302,7 +313,7 @@ export default function Navbar() {
 									onClick={handleInsightsClick}
 									className="hover:text-orange-500"
 								>
-									Insights &amp; News
+									Insights & News
 								</a>
 								<button
 									onClick={(e) => {
@@ -330,17 +341,17 @@ export default function Navbar() {
 								</ul>
 							)}
 						</li>
-						<li className="hover:text-orange-500 cursor-pointer">
+						<li className="hover:text-orange-500">
 							<a href="/contact">Contact Us</a>
 						</li>
 
-						{/* Conditional Auth Links */}
+						{/* Auth Links */}
 						{!user ? (
 							<>
 								<li>
 									<a
 										href="/login"
-										className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+										className="bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white"
 									>
 										Login
 									</a>
@@ -348,53 +359,53 @@ export default function Navbar() {
 								<li>
 									<a
 										href="/signup"
-										className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
+										className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
 									>
 										Sign Up
 									</a>
 								</li>
 							</>
-						) : isAdmin ? (
-							<li>
-								<a
-									href="/admin"
-									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
-								>
-									Admin Portal
-								</a>
-							</li>
 						) : (
-							<li>
-								<a
-									href="/dealer"
-									className="bg-gradient-to-r from-orange-500 to-navy-900 text-white px-3 py-1 rounded hover:text-orange-300 transition"
-								>
-									Dealer Registration
-								</a>
-							</li>
+							<>
+								<li className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white">
+									<a href="/dealer" className="text-white">
+										Dashboard
+									</a>
+									<div className="ml-2 w-8 h-8 rounded-full bg-white text-navy-900 flex items-center justify-center text-sm font-semibold shadow">
+										<img
+											src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+												getInitials(fullName),
+											)}&background=orange&color=fff`}
+											alt="User Initials"
+											className="w-8 h-8 rounded-full object-cover"
+										/>
+									</div>
+								</li>
+
+								<li>
+									<a
+										href="/"
+										onClick={() => {
+											localStorage.removeItem(
+												'authToken',
+											);
+											localStorage.removeItem('user');
+											window.location.reload();
+										}}
+										className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
+									>
+										Logout
+									</a>
+								</li>
+							</>
 						)}
-						{user && (
-							<li>
-								<a
-									href="/"
-									onClick={() => {
-										localStorage.removeItem('authToken');
-										localStorage.removeItem('user');
-										window.location.reload(); // Refresh to update UI
-									}}
-									className="bg-gradient-to-r from-navy-900 to-orange-500 text-white px-3 py-1 rounded hover:text-orange-300 transition"
-								>
-									Logout
-								</a>
-							</li>
-						)}
-						{/* Cart Element */}
 						<li>
+							{' '}
 							<a
 								href="/cart"
-								className="text-white px-3 py-1 rounded flex items-center hidden md:flex hover:text-orange-500"
+								className="flex items-center space-x-1 hover:text-orange-500 text-white"
 							>
-								<FaCartShopping size={16} className="mr-1" />
+								<FaCartShopping size={16} />
 								<span>{basketCount}</span>
 							</a>
 						</li>
@@ -409,7 +420,7 @@ export default function Navbar() {
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.3 }}
-							className="fixed inset-0 z-50"
+							className="fixed inset-0 z-50 bg-black bg-opacity-50"
 							onClick={() => setIsOpen(false)}
 						>
 							<motion.div
@@ -418,7 +429,7 @@ export default function Navbar() {
 								animate={{ x: 0 }}
 								exit={{ x: '-100%' }}
 								transition={{ duration: 0.3 }}
-								className="w-4/5 bg-navy-900/75 shadow-lg p-6 flex flex-col space-y-6"
+								className="w-4/5 h-full bg-navy-900 p-6 flex flex-col space-y-4 overflow-y-auto"
 							>
 								<button
 									className="self-end"
@@ -435,7 +446,6 @@ export default function Navbar() {
 									{
 										name: 'Products',
 										href: '/products',
-										dropdown: true,
 										subItems: [
 											'Solar Panels',
 											'Hybrid Inverters',
@@ -449,7 +459,6 @@ export default function Navbar() {
 									{
 										name: 'Insights & News',
 										href: '/insights',
-										dropdown: true,
 										subItems: [
 											{ name: 'Blogs', href: '/blogs' },
 											{
@@ -459,190 +468,133 @@ export default function Navbar() {
 										],
 									},
 									{ name: 'Contact Us', href: '/contact' },
-								].map((item, index) => {
-									if (item.dropdown) {
-										return (
-											<React.Fragment key={index}>
-												<li className="py-2 border-b flex items-center justify-between">
-													<a
-														href={item.href}
-														className="hover:text-orange-500"
-														onClick={
-															handleLinkClick
-														}
-													>
-														{item.name}
-													</a>
-													<button
-														onClick={(e) => {
-															e.stopPropagation();
-															if (
-																item.name ===
-																'Products'
-															) {
-																setMobileProductsDropdownOpen(
-																	(prev) =>
-																		!prev,
-																);
-															} else if (
-																item.name ===
-																'Insights & News'
-															) {
-																setMobileInsightsDropdownOpen(
-																	(prev) =>
-																		!prev,
-																);
-															}
-														}}
-													>
-														<ChevronDown
-															size={18}
-															className="hover:text-orange-500"
-														/>
-													</button>
-												</li>
-												{item.name === 'Products' &&
-													mobileProductsDropdownOpen && (
-														<ul className="pl-4">
-															{item.subItems.map(
-																(
-																	subItem,
-																	subIndex,
-																) => (
-																	<li
-																		key={
-																			subIndex
-																		}
-																		className="py-2 border-b hover:text-orange-500 cursor-pointer"
-																		onClick={
-																			handleLinkClick
-																		}
-																	>
-																		<a
-																			href={`/category/${subItem
-																				.toLowerCase()
-																				.replace(
-																					/ /g,
-																					'-',
-																				)}`}
-																		>
-																			{
-																				subItem
-																			}
-																		</a>
-																	</li>
-																),
-															)}
-														</ul>
-													)}
-												{item.name ===
-													'Insights & News' &&
-													mobileInsightsDropdownOpen && (
-														<ul className="pl-4">
-															{item.subItems.map(
-																(
-																	subItem,
-																	subIndex,
-																) => (
-																	<li
-																		key={
-																			subIndex
-																		}
-																		className="py-2 border-b hover:text-orange-500 cursor-pointer"
-																		onClick={
-																			handleLinkClick
-																		}
-																	>
-																		<a
-																			href={
-																				subItem.href
-																			}
-																		>
-																			{
-																				subItem.name
-																			}
-																		</a>
-																	</li>
-																),
-															)}
-														</ul>
-													)}
-											</React.Fragment>
-										);
-									} else {
-										return (
-											<li
-												key={index}
-												className="py-2 border-b hover:text-orange-500 cursor-pointer"
-												onClick={handleLinkClick}
+								].map((item, idx) => (
+									<div key={idx}>
+										<div
+											className="flex justify-between items-center py-2 border-b"
+											onClick={handleLinkClick}
+										>
+											<a
+												href={item.href}
+												className="text-white text-lg"
 											>
-												<a href={item.href}>
-													{item.name}
-												</a>
-											</li>
-										);
-									}
-								})}
-								{/* Conditional Auth Links for Mobile */}
-								{!user?.isLoggedIn ? (
+												{item.name}
+											</a>
+											{item.subItems && (
+												<button
+													onClick={() => {
+														if (
+															item.name ===
+															'Products'
+														)
+															setMobileProductsDropdownOpen(
+																(prev) => !prev,
+															);
+														if (
+															item.name ===
+															'Insights & News'
+														)
+															setMobileInsightsDropdownOpen(
+																(prev) => !prev,
+															);
+													}}
+												>
+													<ChevronDown className="text-white" />
+												</button>
+											)}
+										</div>
+										{item.subItems &&
+											item.name === 'Products' &&
+											mobileProductsDropdownOpen && (
+												<ul className="pl-4 text-white">
+													{item.subItems.map(
+														(sub, i) => (
+															<li
+																key={i}
+																className="py-2 border-b"
+																onClick={
+																	handleLinkClick
+																}
+															>
+																<a
+																	href={`/category/${sub
+																		.toLowerCase()
+																		.replace(
+																			/ /g,
+																			'-',
+																		)}`}
+																>
+																	{sub}
+																</a>
+															</li>
+														),
+													)}
+												</ul>
+											)}
+										{item.subItems &&
+											item.name === 'Insights & News' &&
+											mobileInsightsDropdownOpen && (
+												<ul className="pl-4 text-white">
+													{item.subItems.map(
+														(sub, i) => (
+															<li
+																key={i}
+																className="py-2 border-b"
+																onClick={
+																	handleLinkClick
+																}
+															>
+																<a
+																	href={
+																		sub.href
+																	}
+																>
+																	{sub.name}
+																</a>
+															</li>
+														),
+													)}
+												</ul>
+											)}
+									</div>
+								))}
+								{/* Auth */}
+								{!user ? (
 									<>
-										<li
-											className="py-2 border-b hover:text-orange-500 cursor-pointer"
-											onClick={handleLinkClick}
+										<a
+											href="/login"
+											className="block text-white bg-orange-500 text-center py-2 rounded"
 										>
-											<a
-												href="/login"
-												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-											>
-												Login
-											</a>
-										</li>
-										<li
-											className="py-2 border-b hover:text-orange-500 cursor-pointer"
-											onClick={handleLinkClick}
+											Login
+										</a>
+										<a
+											href="/signup"
+											className="block text-white bg-orange-500 text-center py-2 rounded"
 										>
-											<a
-												href="/signup"
-												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-											>
-												Sign Up
-											</a>
-										</li>
+											Sign Up
+										</a>
 									</>
 								) : (
-									user?.isAdmin && (
-										<li
-											className="py-2 border-b hover:text-orange-500 cursor-pointer"
-											onClick={handleLinkClick}
-										>
-											<a
-												href="/admin-portal"
-												className="text-white px-3 py-1 rounded hover:bg-orange-500 transition"
-											>
-												Admin Portal
-											</a>
-										</li>
-									)
-								)}
-
-								{/* Cart Element (non-clickable) */}
-								<li
-									className="py-2 border-b"
-									onClick={handleLinkClick}
-								>
-									<a
-										href="/cart"
-										className="text-white px-3 py-1 flex items-center rounded hover:text-orange-500"
+									<button
+										onClick={() => {
+											localStorage.removeItem(
+												'authToken',
+											);
+											localStorage.removeItem('user');
+											window.location.reload();
+										}}
+										className="block text-white bg-navy-900 border border-orange-500 text-center py-2 rounded"
 									>
-										<FaCartShopping
-											size={16}
-											className="mr-1"
-										/>
-										<span>
-											Shopping Cart: {basketCount}
-										</span>
-									</a>
-								</li>
+										Logout
+									</button>
+								)}
+								<a
+									href="/cart"
+									className="flex items-center space-x-2 text-white py-2"
+								>
+									<FaCartShopping size={18} />
+									<span>{basketCount}</span>
+								</a>
 							</motion.div>
 						</motion.div>
 					)}

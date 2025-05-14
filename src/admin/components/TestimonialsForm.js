@@ -9,10 +9,11 @@ import {
 const TestimonialForm = () => {
 	const [testimonial, setTestimonial] = useState({
 		person: '',
-		image: '',
 		person_role: '',
 		message: '',
 	});
+	const [imageFile, setImageFile] = useState(null);
+	const [imagePreview, setImagePreview] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -25,10 +26,12 @@ const TestimonialForm = () => {
 					const data = await getTestimonialById(id);
 					setTestimonial({
 						person: data.testimonial.person,
-						image: data.testimonial.image,
 						person_role: data.testimonial.person_role,
 						message: data.testimonial.message,
 					});
+					setImagePreview(
+						`https://dev-api.auroraenergy.co.zw/testimonials/${data.testimonial.image}`,
+					);
 				} catch (error) {
 					console.error('Error fetching testimonial:', error);
 				}
@@ -45,17 +48,33 @@ const TestimonialForm = () => {
 		}));
 	};
 
+	const handleImageChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setImageFile(file);
+			setImagePreview(URL.createObjectURL(file));
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const formData = new FormData();
+		formData.append('person', testimonial.person);
+		formData.append('person_role', testimonial.person_role);
+		formData.append('message', testimonial.message);
+		if (imageFile) {
+			formData.append('picture', imageFile);
+		}
+
 		try {
 			if (isEditing) {
-				await updateTestimonial(id, testimonial);
+				await updateTestimonial(id, formData);
 				console.log('Testimonial updated successfully');
 			} else {
-				await addTestimonial(testimonial);
+				await addTestimonial(formData);
 				console.log('Testimonial added successfully');
 			}
-			navigate('/admin/testimonials'); // Redirect after submit
+			navigate('/admin/testimonials');
 		} catch (error) {
 			console.error('Error submitting testimonial:', error);
 		}
@@ -69,6 +88,7 @@ const TestimonialForm = () => {
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white p-6 rounded-lg shadow-lg space-y-4"
+				encType="multipart/form-data"
 			>
 				<div className="flex flex-col space-y-2">
 					<label htmlFor="person" className="font-semibold text-sm">
@@ -87,17 +107,23 @@ const TestimonialForm = () => {
 
 				<div className="flex flex-col space-y-2">
 					<label htmlFor="image" className="font-semibold text-sm">
-						Image URL
+						Person Image
 					</label>
 					<input
-						type="text"
-						id="image"
-						name="image"
-						value={testimonial.image}
-						onChange={handleChange}
+						type="file"
+						id="picture"
+						name="picture"
+						onChange={handleImageChange}
+						accept="image/*"
 						className="px-4 py-2 border border-gray-300 rounded-lg"
-						required
 					/>
+					{imagePreview && (
+						<img
+							src={imagePreview}
+							alt="Preview"
+							className="w-32 h-32 object-cover mt-2 rounded-lg border"
+						/>
+					)}
 				</div>
 
 				<div className="flex flex-col space-y-2">
@@ -133,19 +159,19 @@ const TestimonialForm = () => {
 					/>
 				</div>
 
-				<div className="flex justify-end space-x-4">
-					<button
-						type="button"
-						onClick={() => navigate('/admin/testimonials')}
-						className="bg-gray-500 text-white px-4 py-2 rounded-full"
-					>
-						Cancel
-					</button>
+				<div className="flex justify-end">
 					<button
 						type="submit"
-						className="bg-orange-500 text-white px-4 py-2 rounded-full"
+						className="bg-orange-500 text-white px-6 py-2 rounded-full"
 					>
 						{isEditing ? 'Update Testimonial' : 'Add Testimonial'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
 					</button>
 				</div>
 			</form>

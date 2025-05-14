@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Products from './components/Products';
+import ProductForm from './components/ProductForm';
+import FeaturedProductForm from './components/FeaturedProductForm';
 import FeaturedProducts from './components/FeaturedProducts';
 import Articles from './components/Articles';
 import ArticleForm from './components/ArticlesForm';
@@ -18,6 +20,9 @@ import Team from './components/Team';
 import TeamForm from './components/TeamForm';
 import Testimonials from './components/Testimonials';
 import TestimonialsForm from './components/TestimonialsForm';
+import Dealer from './components/Dealer';
+import DealerDetail from './components/DealerDetail';
+import DashboardCards from './components/DashboardCards';
 
 function AdminPanel() {
 	useEffect(() => {
@@ -41,13 +46,17 @@ function AdminPanel() {
 					<Route path="case-studies" element={<CaseStudies />} />
 					<Route path="team" element={<Team />} />
 					<Route path="testimonials" element={<Testimonials />} />
+					<Route path="dealers" element={<Dealer />} />
+					<Route path="dealers/:id" element={<DealerDetail />} />
+					<Route path="products/add" element={<ProductForm />} />
+					<Route path="products/edit/:id" element={<ProductForm />} />
 					<Route
-						path="case-studies/add"
-						element={<CaseStudyForm />}
+						path="featured-products/add"
+						element={<FeaturedProductForm />}
 					/>
 					<Route
-						path="case-studies/edit/:id"
-						element={<CaseStudyForm />}
+						path="featured-products/edit/:id"
+						element={<FeaturedProductForm />}
 					/>
 					<Route path="articles/add" element={<ArticleForm />} />
 					<Route path="articles/edit/:id" element={<ArticleForm />} />
@@ -59,6 +68,15 @@ function AdminPanel() {
 						path="certificates/add"
 						element={<CertificatesForm />}
 					/>
+					<Route path="awards/add" element={<CertificatesForm />} />
+					<Route
+						path="case-studies/add"
+						element={<CaseStudyForm />}
+					/>
+					<Route
+						path="case-studies/edit/:id"
+						element={<CaseStudyForm />}
+					/>
 					<Route path="team/add" element={<TeamForm />} />
 					<Route path="team/edit/:id" element={<TeamForm />} />
 					<Route
@@ -69,6 +87,7 @@ function AdminPanel() {
 						path="testimonials/edit/:id"
 						element={<TestimonialsForm />}
 					/>
+					<Route path="dashboard" element={<DashboardCards />} />
 				</Routes>
 			</div>
 		</div>

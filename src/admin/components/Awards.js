@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { getAwards } from '../../api';
+import { getAwards, getAwardById } from '../../api';
 
 function Awards() {
 	const [awards, setAwards] = useState([]);
+
 	useEffect(() => {
 		const fetchAwards = async () => {
 			try {
-				const data = await getAwards();
+				console.log('Fetching awards...');
+				const data = await getAwards;
+				// const data = await getAwardById(1);
 				setAwards(data);
 			} catch (error) {
 				console.error('Error fetching awards:', error);

@@ -42,9 +42,8 @@ export default function SignUp() {
 			}
 
 			const response = await registerUser(signupData);
-			console.log('Registration successful:', response);
 
-			if (!response.ok) {
+			if (response.message !== 'Success!') {
 				throw new Error(
 					response.errorMessage || 'Registration failed.',
 				);

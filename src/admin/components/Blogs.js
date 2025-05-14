@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getBlogs, getBlogById } from '../../api';
+import { getBlogs, getBlogById, deleteBlog } from '../../api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { HandHelping } from 'lucide-react';
 
 const Blogs = () => {
 	const [blogs, setBlogs] = useState([]);
@@ -37,6 +38,24 @@ const Blogs = () => {
 		}
 	};
 
+	const handleDelete = (blogId) => {
+		const confirmDelete = window.confirm(
+			'Are you sure you want to delete this blog?',
+		);
+		if (confirmDelete) {
+			const deleteBlogAsync = async () => {
+				try {
+					await deleteBlog(blogId);
+					setBlogs(blogs.filter((blog) => blog.id !== blogId));
+					console.log('Blog deleted successfully.');
+				} catch (error) {
+					console.error('Error deleting blog:', error);
+				}
+			};
+			deleteBlogAsync();
+		}
+	};
+
 	return (
 		<div className="max-w-7xl mx-auto my-12 px-4">
 			<h2 className="text-2xl font-bold mb-6 text-navy-900">
@@ -65,7 +84,7 @@ const Blogs = () => {
 								<tr key={blog.id} className="hover:bg-gray-50">
 									<td className="p-3 border">{blog.id}</td>
 									<td className="p-3 border max-w-xs truncate">
-										{blog.title}
+										{blog.tite}
 									</td>
 									<td className="p-3 border">
 										{blog.author}
@@ -78,6 +97,9 @@ const Blogs = () => {
 											className="text-navy-900 cursor-pointer"
 										/>
 										<FaTrash
+											onClick={() =>
+												handleDelete(blog.id)
+											}
 											size={18}
 											className="text-orange-500 cursor-pointer"
 										/>

@@ -8,13 +8,13 @@ const CaseStudyForm = () => {
 		location: '',
 		systemCapacity: '',
 	});
-	const [isEditing, setIsEditing] = useState(false);
+	const [isEditMode, setIsEditMode] = useState(false);
 	const { id } = useParams();
 	const navigate = useNavigate(); // Replace useHistory with useNavigate()
 
 	useEffect(() => {
 		if (id) {
-			setIsEditing(true);
+			setIsEditMode(true);
 			const fetchCaseStudy = async () => {
 				try {
 					const data = await getCaseStudyById(id);
@@ -44,7 +44,7 @@ const CaseStudyForm = () => {
 		e.preventDefault();
 
 		try {
-			if (isEditing) {
+			if (isEditMode) {
 				await updateCaseStudy(id, caseStudy);
 			} else {
 				await addCaseStudy(caseStudy);
@@ -58,7 +58,7 @@ const CaseStudyForm = () => {
 	return (
 		<div className="max-w-7xl mx-auto my-12 px-4">
 			<h2 className="text-2xl font-bold mb-6 text-navy-900">
-				{isEditing ? 'Edit Case Study' : 'Add Case Study'}
+				{isEditMode ? 'Edit Case Study' : 'Add Case Study'}
 			</h2>
 			<form
 				onSubmit={handleSubmit}
@@ -112,12 +112,19 @@ const CaseStudyForm = () => {
 						className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md"
 					/>
 				</div>
-				<div className="mt-6 justify-end">
+				<div className="flex justify-end">
 					<button
 						type="submit"
 						className="bg-orange-500 text-white px-6 py-2 rounded-full"
 					>
-						{isEditing ? 'Update Case Study' : 'Add Case Study'}
+						{isEditMode ? 'Update Case Study' : 'Add Case Study'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
 					</button>
 				</div>
 			</form>

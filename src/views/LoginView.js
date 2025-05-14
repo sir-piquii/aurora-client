@@ -14,6 +14,16 @@ export default function Login() {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 
+	const user = JSON.parse(localStorage.getItem('user')) ?? null;
+
+	if (user?.user.role === 'admin') {
+		setTimeout(() => navigate('/admin', { replace: true }), 0);
+	} else if (user?.user.role === 'dealer') {
+		setTimeout(() => navigate('/dealer', { replace: true }), 0);
+	} else if (user?.user.role === 'user') {
+		setTimeout(() => navigate('/', { replace: true }), 0);
+	}
+
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
 		setLoginData({
@@ -37,7 +47,14 @@ export default function Login() {
 			);
 
 			login(user);
-			navigate('/');
+
+			if (user.user.role === 'admin') {
+				setTimeout(() => navigate('/admin', { replace: true }), 0);
+			} else if (user.user.role === 'dealer') {
+				setTimeout(() => navigate('/dealer', { replace: true }), 0);
+			} else {
+				setTimeout(() => navigate('/', { replace: true }), 0);
+			}
 		} catch (err) {
 			setError(err.message);
 		}
@@ -104,6 +121,15 @@ export default function Login() {
 								placeholder="Enter your password"
 								className="w-full py-2 px-4 rounded-full border border-gray-300 focus:border-orange-500 focus:outline-none transition-all"
 							/>
+						</div>
+
+						<div className="text-right mt-2">
+							<a
+								href="/forgot-password"
+								className="text-sm text-orange-600 hover:text-orange-500 font-medium transition-all"
+							>
+								Forgot your password?
+							</a>
 						</div>
 
 						<button

@@ -62,84 +62,66 @@ const Testimonials = () => {
 
 			<Link
 				to="/admin/testimonials/add"
-				className="bg-orange-500 text-white px-4 py-2 rounded-full mb-4 inline-block"
+				className="bg-orange-500 text-white px-4 py-2 rounded-full mb-6 inline-block"
 			>
 				Add Testimonial
 			</Link>
 
-			<div className="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
-				<table className="w-full border-collapse border border-gray-300">
-					<thead>
-						<tr className="bg-gray-100 text-left">
-							<th className="p-3 border">ID</th>
-							<th className="p-3 border">Person</th>
-							<th className="p-3 border">Image</th>
-							<th className="p-3 border">Role</th>
-							<th className="p-3 border">Message</th>
-							<th className="p-3 border">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{currentTestimonials.length > 0 ? (
-							currentTestimonials.map((testimonial) => (
-								<tr
-									key={testimonial.id}
-									className="hover:bg-gray-50"
-								>
-									<td className="p-3 border">
-										{testimonial.id}
-									</td>
-									<td className="p-3 border">
-										{testimonial.person}
-									</td>
-									<td className="p-3 border truncate max-w-xs">
-										{testimonial.image && (
-											<img
-												src={`https://dev-api.auroraenergy.co.zw/testimonials/${testimonial.image}`}
-												alt="Preview"
-												className="max-w-full h-auto rounded-lg"
-											/>
-										)}
-									</td>
-									<td className="p-3 border">
-										{testimonial.person_role}
-									</td>
-									<td className="p-3 border truncate max-w-xs">
-										{testimonial.message}
-									</td>
-									<td className="border p-4 flex items-center justify-center space-x-4">
-										<Link
-											to={`/admin/testimonials/edit/${testimonial.id}`}
-											className="text-navy-900"
-										>
-											<FaEdit
-												size={18}
-												className="cursor-pointer"
-											/>
-										</Link>
-										<FaTrash
-											onClick={() =>
-												handleDelete(testimonial.id)
-											}
-											size={18}
-											className="text-orange-500 cursor-pointer"
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{currentTestimonials.length > 0 ? (
+					currentTestimonials.map((testimonial) => (
+						<div
+							key={testimonial.id}
+							className="bg-white rounded-lg shadow-lg p-4 relative"
+						>
+							<div className="flex items-start justify-between">
+								<div className="flex items-center space-x-4">
+									{testimonial.image && (
+										<img
+											src={`https://dev-api.auroraenergy.co.zw/testimonials/${testimonial.image}`}
+											alt={testimonial.person}
+											className="w-14 h-14 object-cover rounded-full"
 										/>
-									</td>
-								</tr>
-							))
-						) : (
-							<tr>
-								<td colSpan="6" className="p-4 text-center">
-									No testimonials available.
-								</td>
-							</tr>
-						)}
-					</tbody>
-				</table>
+									)}
+									<div>
+										<h3 className="font-semibold text-lg text-navy-900">
+											{testimonial.person}
+										</h3>
+										<p className="text-sm text-gray-600">
+											{testimonial.person_role}
+										</p>
+									</div>
+								</div>
+								<div className="flex space-x-3">
+									<Link
+										to={`/admin/testimonials/edit/${testimonial.id}`}
+										className="text-navy-900"
+									>
+										<FaEdit className="cursor-pointer" />
+									</Link>
+									<FaTrash
+										onClick={() =>
+											handleDelete(testimonial.id)
+										}
+										size={16}
+										className="text-orange-500 cursor-pointer"
+									/>
+								</div>
+							</div>
+							<p className="mt-4 text-gray-700">
+								{testimonial.message}
+							</p>
+						</div>
+					))
+				) : (
+					<p className="text-center col-span-full text-gray-600">
+						No testimonials available.
+					</p>
+				)}
 			</div>
 
 			{/* Pagination Controls */}
-			<div className="flex justify-center mt-6 space-x-2">
+			<div className="flex justify-center mt-10 space-x-2">
 				{Array.from(
 					{
 						length: Math.ceil(

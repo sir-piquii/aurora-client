@@ -9,9 +9,12 @@ const TeamForm = () => {
 		name: '',
 		position: '',
 		bio: '',
-		picture: null,
+		image: null,
 	});
 	const [isEditing, setIsEditing] = useState(false);
+	const [existingImage, setExistingImage] = useState(null);
+	const [file, setFile] = useState(null);
+
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -28,8 +31,9 @@ const TeamForm = () => {
 						name: data[0].name,
 						position: data[0].position,
 						bio: data[0].bio,
-						picture: data[0].image || null,
+						image: data[0].image,
 					});
+					setExistingImage(data[0].image);
 					setIsEditing(true);
 				} catch (error) {
 					console.error('Error fetching team member:', error);
@@ -37,7 +41,7 @@ const TeamForm = () => {
 			};
 			fetchTeamMember();
 		}
-	}, [id, isEditing]);
+	}, [id]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -48,10 +52,14 @@ const TeamForm = () => {
 	};
 
 	const handleImageChange = (e) => {
-		setTeamMember((prev) => ({
-			...prev,
-			picture: e.target.files[0],
-		}));
+		const file = e.target.files[0];
+		if (file) {
+			setTeamMember((prev) => ({
+				...prev,
+				image: file,
+			}));
+			setExistingImage(null); // Remove old image when new file is selected
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -60,8 +68,8 @@ const TeamForm = () => {
 		formData.append('name', teamMember.name);
 		formData.append('position', teamMember.position);
 		formData.append('bio', teamMember.bio);
-		if (teamMember.image) {
-			formData.append('picture', teamMember.image);
+		if (file) {
+			formData.append('image', file);
 		}
 
 		try {
@@ -72,7 +80,7 @@ const TeamForm = () => {
 				await addTeamMember(formData);
 				console.log('Team member added successfully');
 			}
-			navigate('/admin/team'); // Redirect to team list after submitting
+			navigate('/admin/team');
 		} catch (error) {
 			console.error('Error submitting team member:', error);
 		}
@@ -136,11 +144,14 @@ const TeamForm = () => {
 					</label>
 					<input
 						type="file"
-						name="picture"
-						onChange={handleImageChange}
+						name="image"
+						accept="image/*"
+						onChange={(e) => setFile(e.target.files[0])}
 						className="w-full p-3 border border-gray-300 rounded-lg"
 					/>
-					{teamMember.image && (
+
+					{/* Preview */}
+					{teamMember.image ? (
 						<div className="mt-2">
 							<img
 								src={URL.createObjectURL(teamMember.image)}
@@ -148,15 +159,32 @@ const TeamForm = () => {
 								className="max-w-xs h-auto rounded-lg"
 							/>
 						</div>
-					)}
+					) : existingImage ? (
+						<div className="mt-2">
+							<img
+								src={`https://dev-api.auroraenergy.co.zw/team/${existingImage}`}
+								alt="Existing"
+								className="max-w-xs h-auto rounded-lg"
+							/>
+						</div>
+					) : null}
 				</div>
 
-				<button
-					type="submit"
-					className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-400"
-				>
-					{isEditing ? 'Update Member' : 'Add Member'}
-				</button>
+				<div className="flex justify-end">
+					<button
+						type="submit"
+						className="bg-orange-500 text-white px-6 py-2 rounded-full"
+					>
+						{isEditing ? 'Update Member' : 'Add Member'}
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate(-1)}
+						className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

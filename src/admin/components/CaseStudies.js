@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getCaseStudies } from '../../api';
+import { getCaseStudies, deleteCaseStudy } from '../../api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -37,7 +37,13 @@ const CaseStudies = () => {
 		if (confirmDelete) {
 			const deleteCaseStudyAsync = async () => {
 				try {
-					console.log('Deleted case study ID:', caseStudyId);
+					await deleteCaseStudy(caseStudyId);
+					setCaseStudies(
+						caseStudies.filter(
+							(caseStudy) => caseStudy.id !== caseStudyId,
+						),
+					);
+					console.log('Case study deleted successfully.');
 				} catch (error) {
 					console.error('Error deleting case study:', error);
 				}

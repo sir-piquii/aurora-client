@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CertificatesForm = () => {
 	const [title, setTitle] = useState('');
 	const [type, setType] = useState('');
-	const [path, setPath] = useState('');
+	const [file, setFile] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -13,9 +13,13 @@ const CertificatesForm = () => {
 		e.preventDefault();
 		setLoading(true);
 
+		const formData = new FormData();
+		formData.append('title', title);
+		formData.append('type', type);
+		formData.append('certificate', file); // adjust key name to match backend
+
 		try {
-			// Add a new certificate
-			await uploadCertificate({ title, type, path });
+			await uploadCertificate(formData); // Your API should handle FormData
 			console.log('Certificate added successfully!');
 			navigate('/admin/certificates');
 		} catch (error) {
@@ -64,33 +68,37 @@ const CertificatesForm = () => {
 							className="w-full p-3 border border-gray-300 rounded-lg"
 						/>
 					</div>
-
 					<div className="mb-4">
 						<label
 							htmlFor="path"
 							className="block text-gray-700 font-medium mb-2"
 						>
-							Path
+							Certificate File
 						</label>
 						<input
-							type="text"
+							type="file"
 							id="path"
-							value={path}
-							onChange={(e) => setPath(e.target.value)}
+							onChange={(e) => setFile(e.target.files[0])}
 							required
 							className="w-full p-3 border border-gray-300 rounded-lg"
 						/>
 					</div>
-
 					<div className="flex justify-end">
 						<button
 							type="submit"
-							className={`px-4 py-2 bg-orange-500 text-white rounded-lg ${
+							className={`px-4 py-2 bg-orange-500 text-white rounded-full ${
 								loading ? 'opacity-50 cursor-not-allowed' : ''
 							}`}
 							disabled={loading}
 						>
 							{loading ? 'Adding...' : 'Add Certificate'}
+						</button>
+						<button
+							type="button"
+							onClick={() => navigate(-1)}
+							className="ml-4 bg-gray-400 text-white px-6 py-2 rounded-full"
+						>
+							Cancel
 						</button>
 					</div>
 				</form>

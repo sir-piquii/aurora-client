@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { addDealer } from '../../api';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function AddDealer() {
+	const { id } = useParams();
 	const [formData, setFormData] = useState({
+		user: id,
 		registeredCompanyName: '',
 		tradingName: '',
 		companyRegistrationNumber: '',
@@ -11,7 +13,7 @@ function AddDealer() {
 		TIN: '',
 	});
 	const [loading, setLoading] = useState(false);
-	const userId = localStorage.getItem('userId');
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,8 +27,16 @@ function AddDealer() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const response = await addDealer(formData, userId);
-			console.log('Dealer added successfully:', response.data);
+			const response = await addDealer(formData, id);
+			const user = JSON.parse(localStorage.getItem('user'));
+
+			if (user) {
+				user.user.dealer_id = response.dealer_id;
+				localStorage.setItem('user', JSON.stringify(user));
+			}
+
+			navigate(`/dealer/add-installations/${response.dealer_id}`);
+
 			// You can also reset the form or navigate if needed
 		} catch (error) {
 			console.error('Error adding dealer:', error);

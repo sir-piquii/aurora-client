@@ -1,18 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+	FaChartLine,
+	FaBox,
+	FaStar,
+	FaNewspaper,
+	FaBlog,
+	FaCircleQuestion,
+	FaCertificate,
+	FaAward,
+	FaBriefcase,
+	FaUsers,
+	FaCommentDots,
+	FaUserShield,
+	FaCircleCheck,
+} from 'react-icons/fa6';
 
 const Sidebar = () => {
 	const menuItems = [
-		{ name: 'Products', path: '/admin/products' },
-		{ name: 'Featured Products', path: '/admin/featured-products' },
-		{ name: 'Articles', path: '/admin/articles' },
-		{ name: 'Blogs', path: '/admin/blogs' },
-		{ name: 'FAQs', path: '/admin/faqs' },
-		{ name: 'Certificates', path: '/admin/certificates' },
-		{ name: 'Awards', path: '/admin/awards' },
-		{ name: 'Case Studies', path: '/admin/case-studies' },
-		{ name: 'Team', path: '/admin/team' },
-		{ name: 'Testimonials', path: '/admin/testimonials' },
+		{ name: 'Dashboard', path: '/admin/dashboard', icon: <FaChartLine /> },
+		{ name: 'Products', path: '/admin/products', icon: <FaBox /> },
+		{
+			name: 'Featured Products',
+			path: '/admin/featured-products',
+			icon: <FaStar />,
+		},
+		{ name: 'Articles', path: '/admin/articles', icon: <FaNewspaper /> },
+		{ name: 'Blogs', path: '/admin/blogs', icon: <FaBlog /> },
+		{ name: 'FAQs', path: '/admin/faqs', icon: <FaCircleQuestion /> },
+		{
+			name: 'Certificates',
+			path: '/admin/certificates',
+			icon: <FaCertificate />,
+		},
+		{ name: 'Awards', path: '/admin/awards', icon: <FaAward /> },
+		{
+			name: 'Case Studies',
+			path: '/admin/case-studies',
+			icon: <FaBriefcase />,
+		},
+		{ name: 'Team', path: '/admin/team', icon: <FaUsers /> },
+		{
+			name: 'Testimonials',
+			path: '/admin/testimonials',
+			icon: <FaCommentDots />,
+		},
+		{
+			name: 'User Management',
+			path: '/admin/user-management',
+			icon: <FaUserShield />,
+		},
+		{
+			name: 'Dealer Verification',
+			path: '/admin/dealers',
+			icon: <FaCircleCheck />,
+		},
 	];
 
 	return (
@@ -25,9 +67,10 @@ const Sidebar = () => {
 					<li key={index}>
 						<Link
 							to={item.path}
-							className="block px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
+							className="flex items-center space-x-3 px-4 py-2 rounded-lg transition-all text-navy-900 hover:bg-orange-500 hover:text-white"
 						>
-							{item.name}
+							<span className="text-lg">{item.icon}</span>
+							<span>{item.name}</span>
 						</Link>
 					</li>
 				))}

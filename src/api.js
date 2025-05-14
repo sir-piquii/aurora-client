@@ -17,6 +17,8 @@ const endpoints = {
 	faqs: `${BASE_URL}/faqs`,
 	awards: `${BASE_URL}/awards`,
 	dealer: `${BASE_URL}/dealer`,
+	quotations: `${BASE_URL}/quotations`,
+	overview: `${BASE_URL}/overview`,
 };
 
 export const getCertificates = async () => {
@@ -55,7 +57,9 @@ export const uploadCertificate = async (formData) => {
 
 export const deleteCertificate = async (id) => {
 	try {
-		const response = await axios.delete(`${endpoints.certificates}/${id}`);
+		const response = await axios.delete(
+			`${endpoints.certificates}/delete/${id}`,
+		);
 		return response.data;
 	} catch (error) {
 		console.error('Error deleting certificates:', error);
@@ -65,10 +69,38 @@ export const deleteCertificate = async (id) => {
 
 export const getAwards = async () => {
 	try {
-		const response = await axios.get(endpoints.awards);
+		const response = await axios.get(`${endpoints.awards}/`);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching awards:', error);
+		throw error;
+	}
+};
+
+export const getAwardById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.awards}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching award by ID:', error);
+		throw error;
+	}
+};
+
+export const updateAward = async (id, formData) => {
+	try {
+		const response = await axios.put(
+			`${endpoints.awards}/${id}`,
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error updating awards:', error);
 		throw error;
 	}
 };
@@ -111,6 +143,54 @@ export const addDealer = async (dealerData, userId) => {
 		return response.data;
 	} catch (error) {
 		console.error('Error adding dealer:', error);
+		throw error;
+	}
+};
+
+export const getDealerById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.dealer}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching dealer by ID:', error);
+		throw error;
+	}
+};
+
+export const getDealers = async () => {
+	try {
+		const response = await axios.get(endpoints.dealer);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching dealers:', error);
+		throw error;
+	}
+};
+
+export const updateDealerStatus = async (id, dealerData) => {
+	try {
+		const response = await axios.put(
+			`${endpoints.dealer}/update-status/${id}`,
+			dealerData,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error updating dealer status:', error);
+		throw error;
+	}
+};
+
+export const verifyDealer = async (id) => {
+	try {
+		const response = await axios.put(`${endpoints.dealer}/verify/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error verifying dealer:', error);
 		throw error;
 	}
 };
@@ -187,6 +267,16 @@ export const addDealerInstallation = async (formData, id) => {
 	}
 };
 
+export const getProductCategories = async () => {
+	try {
+		const response = await axios.get(`${endpoints.products}/categories`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching product categories:', error);
+		throw error;
+	}
+};
+
 export const getAllProducts = async () => {
 	try {
 		const response = await axios.get(
@@ -209,7 +299,7 @@ export const getFeaturedProducts = async () => {
 	}
 };
 
-export const addFeaturedProducts = async (formData) => {
+export const addFeaturedProduct = async (formData) => {
 	try {
 		const response = await axios.post(
 			`${endpoints.featured}/add-featured`,
@@ -222,7 +312,7 @@ export const addFeaturedProducts = async (formData) => {
 	}
 };
 
-export const deleteFeaturedProducts = async (id) => {
+export const deleteFeaturedProduct = async (id) => {
 	try {
 		const response = await axios.delete(
 			`${endpoints.featured}/delete-featured/${id}`,
@@ -234,7 +324,7 @@ export const deleteFeaturedProducts = async (id) => {
 	}
 };
 
-export const updateFeaturedProducts = async (id, formData) => {
+export const updateFeaturedProduct = async (id, formData) => {
 	try {
 		const response = await axios.put(
 			`${endpoints.featured}/update-featured/${id}`,
@@ -247,7 +337,7 @@ export const updateFeaturedProducts = async (id, formData) => {
 	}
 };
 
-export const getProductsByCategory = async (id) => {
+export const getProductsByCategory = async (id, page, perPage) => {
 	const categoryMap = {
 		'solar-panels': 1,
 		cabling: 4,
@@ -262,7 +352,7 @@ export const getProductsByCategory = async (id) => {
 
 	try {
 		const response = await axios.get(
-			`${endpoints.products}/get-product-by-category/${categoryId}`,
+			`${endpoints.products}/get-product-by-category/${categoryId}?page=${page}&perPage=${perPage}`,
 		);
 		return response.data;
 	} catch (error) {
@@ -275,6 +365,7 @@ export const getProductById = async (id) => {
 	try {
 		const response = await axios.get(
 			`${endpoints.products}/get-product-by-id/${id}`,
+			{ credentials: true },
 		);
 		return response.data;
 	} catch (error) {
@@ -801,7 +892,7 @@ export const resetPassword = async (token, newPassword) => {
 export const forgotPassword = async (email) => {
 	try {
 		const response = await axios.post(
-			`${endpoints.auth}/forgotpassword`,
+			`${endpoints.auth}/forgetpassword`,
 			{ email },
 			{
 				headers: {
@@ -864,9 +955,9 @@ export const updateFaqs = async (id, formData) => {
 	}
 };
 
-export const deleteFaqs = async () => {
+export const deleteFaqs = async (id) => {
 	try {
-		const response = await axios.delete(endpoints.faqs);
+		const response = await axios.delete(`${endpoints.faqs}/${id}`);
 		return response.data;
 	} catch (error) {
 		console.error('Error deleting faqs:', error);
@@ -882,6 +973,50 @@ export const searchFaqsByKeyword = async (keyword) => {
 		return response.data;
 	} catch (error) {
 		console.error('Error searching faqs by keyword:', error);
+		throw error;
+	}
+};
+
+export const getQuotations = async () => {
+	try {
+		const response = await axios.get(endpoints.quotations);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching quotations:', error);
+		throw error;
+	}
+};
+
+export const getQuotationById = async (id) => {
+	try {
+		const response = await axios.get(`${endpoints.quotations}/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching quotation by ID:', error);
+		throw error;
+	}
+};
+
+export const addQuotation = async (quotationData) => {
+	try {
+		const response = await axios.post(endpoints.quotations, quotationData, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error('Error adding quotation:', error);
+		throw error;
+	}
+};
+
+export const getOverview = async () => {
+	try {
+		const response = await axios.get(endpoints.overview);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching overview:', error);
 		throw error;
 	}
 };

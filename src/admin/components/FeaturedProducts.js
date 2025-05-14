@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-	getFeaturedProducts,
-	deleteProduct,
-	updateFeaturedProducts,
-	addFeaturedProducts,
-} from '../../api';
+import { getFeaturedProducts, deleteFeaturedProduct } from '../../api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import FeaturedProductForm from './FeaturedProductForm'; // The form component
+import { Link } from 'react-router-dom';
 
 const FeaturedProducts = () => {
 	const [featuredProducts, setFeaturedProducts] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [isEditing, setIsEditing] = useState(false);
-	const [currentProduct, setCurrentProduct] = useState(null);
 	const productsPerPage = 10;
 
 	useEffect(() => {
@@ -45,7 +38,7 @@ const FeaturedProducts = () => {
 		);
 		if (confirmDelete) {
 			try {
-				await deleteProduct(productId);
+				await deleteFeaturedProduct(productId);
 				setFeaturedProducts(
 					featuredProducts.filter(
 						(product) => product.id !== productId,
@@ -57,51 +50,20 @@ const FeaturedProducts = () => {
 		}
 	};
 
-	const handleEdit = (productId) => {
-		setIsEditing(true);
-		const productToEdit = featuredProducts.find(
-			(product) => product.id === productId,
-		);
-		setCurrentProduct(productToEdit);
-	};
-
-	const handleAdd = () => {
-		setIsEditing(true);
-		setCurrentProduct(null); // Clear form for adding new product
-	};
-
 	return (
-		<div className="admin-featured-products mt-4">
-			<h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+		<div className="max-w-7xl mx-auto my-12 px-4">
+			<h2 className="text-2xl font-bold mb-4">
+				Manage Featured Products
+			</h2>
 
 			{/* Add Featured Product Button */}
-			<button
-				onClick={handleAdd}
+			<Link
+				to="/admin/featured-products/add"
 				className="bg-orange-500 text-white px-4 py-2 rounded-full mb-4 inline-block"
 			>
 				Add Featured Product
-			</button>
-
-			{/* Show the Form for Adding/Editing Featured Product */}
-			{isEditing && (
-				<FeaturedProductForm
-					product={currentProduct}
-					onCancel={() => setIsEditing(false)}
-					onSave={async (updatedProduct) => {
-						if (updatedProduct.id) {
-							// Update existing product
-							await updateFeaturedProducts(updatedProduct);
-						} else {
-							// Add new product
-							await addFeaturedProducts(updatedProduct);
-						}
-						setIsEditing(false);
-					}}
-				/>
-			)}
-
-			{/* Display the list of featured products */}
-			{!isEditing && (
+			</Link>
+			<div className="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
 				<table className="w-full border-collapse border border-gray-300">
 					<thead>
 						<tr className="bg-gray-200">
@@ -115,51 +77,61 @@ const FeaturedProducts = () => {
 								Name
 							</th>
 							<th className="border border-gray-300 px-4 py-2">
-								Description
-							</th>
-							<th className="border border-gray-300 px-4 py-2">
 								Actions
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						{currentItems.map((product) => (
-							<tr key={product.id} className="text-center">
-								<td className="border border-gray-300 px-4 py-2">
-									{product.id}
-								</td>
-								<td className="border border-gray-300 px-4 py-2">
-									<img
-										src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
-										alt={product.name}
-										className="h-16 w-16 object-cover mx-auto"
-									/>
-								</td>
-								<td className="border border-gray-300 px-4 py-2">
-									{product.name}
-								</td>
-								<td className="border border-gray-300 px-4 py-2">
-									{product.description}
-								</td>
-								<td className="border border-gray-300 px-4 py-2 flex items-center justify-center space-x-4">
-									<FaEdit
-										onClick={() => handleEdit(product.id)}
-										size={18}
-										className="text-navy-900 cursor-pointer"
-									/>
-									<FaTrash
-										onClick={() => handleDelete(product.id)}
-										size={18}
-										className="text-orange-500 cursor-pointer"
-									/>
+						{currentItems.length > 0 ? (
+							currentItems.map((product) => (
+								<tr key={product.id}>
+									<td className="border border-gray-300 px-4 py-2">
+										{product.id}
+									</td>
+									<td className="border border-gray-300 px-4 py-2">
+										<img
+											src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
+											alt={product.name}
+											className="w-16 h-16 object-cover"
+										/>
+									</td>
+									<td className="border border-gray-300 px-4 py-2">
+										{product.name}
+									</td>
+									<td className="border p-4 flex items-center justify-center space-x-4">
+										<Link
+											to={`/admin/featured-products/edit/${product.id}`}
+											className="text-navy-900"
+										>
+											<FaEdit
+												size={18}
+												className="cursor-pointer"
+											/>
+										</Link>
+										<FaTrash
+											onClick={() =>
+												handleDelete(product.id)
+											}
+											size={18}
+											className="text-orange-500 cursor-pointer"
+										/>
+									</td>
+								</tr>
+							))
+						) : (
+							<tr>
+								<td
+									colSpan="4"
+									className="text-center border border-gray-300 px-4 py-2"
+								>
+									No featured products found.
 								</td>
 							</tr>
-						))}
+						)}
 					</tbody>
 				</table>
-			)}
+			</div>
 
-			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6 space-x-2">
 				{Array.from(
 					{
@@ -167,17 +139,17 @@ const FeaturedProducts = () => {
 							featuredProducts.length / productsPerPage,
 						),
 					},
-					(_, i) => (
+					(_, index) => (
 						<button
-							key={i}
-							onClick={() => paginate(i + 1)}
-							className={`px-4 py-2 rounded-full text-white transition-all ${
-								currentPage === i + 1
-									? 'bg-orange-500'
-									: 'bg-navy-900 hover:bg-orange-400'
+							key={index + 1}
+							onClick={() => paginate(index + 1)}
+							className={`px-4 py-2 rounded-full ${
+								currentPage === index + 1
+									? 'bg-orange-500 text-white'
+									: 'bg-gray-200 text-gray-700'
 							}`}
 						>
-							{i + 1}
+							{index + 1}
 						</button>
 					),
 				)}
