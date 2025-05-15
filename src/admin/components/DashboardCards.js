@@ -117,86 +117,112 @@ const DashboardCharts = () => {
 				</select>
 			</div>
 
-			<h2 className="text-xl font-bold mb-2">Product Counts</h2>
-			<ResponsiveContainer width="100%" height={300}>
-				<BarChart data={productCounts}>
-					<XAxis dataKey="name" />
-					<YAxis />
-					<Tooltip />
-					<Bar dataKey="count" fill="#8884d8" />
-				</BarChart>
-			</ResponsiveContainer>
+			{/* Top Row: All Bar Charts */}
+			<div className="flex flex-col lg:flex-row gap-6">
+				<div className="flex-1 bg-white p-4 rounded shadow">
+					<h2 className="text-lg font-bold mb-2">Product Counts</h2>
+					<ResponsiveContainer width="100%" height={250}>
+						<BarChart data={productCounts}>
+							<XAxis dataKey="name" />
+							<YAxis />
+							<Tooltip />
+							<Bar dataKey="count" fill="#8884d8" />
+						</BarChart>
+					</ResponsiveContainer>
+				</div>
 
-			<h2 className="text-xl font-bold mt-6 mb-2">Stock Status</h2>
-			<ResponsiveContainer width="100%" height={300}>
-				<PieChart>
-					<Pie
-						data={stockStatus}
-						dataKey="value"
-						nameKey="status"
-						cx="50%"
-						cy="50%"
-						outerRadius={100}
-						label
-					>
-						{stockStatus.map((entry, index) => (
-							<Cell
-								key={`cell-${index}`}
-								fill={COLORS[index % COLORS.length]}
+				<div className="flex-1 bg-white p-4 rounded shadow">
+					<h2 className="text-lg font-bold mb-2">
+						Revenue by Category
+					</h2>
+					<ResponsiveContainer width="100%" height={250}>
+						<BarChart data={revenueByCategory}>
+							<XAxis dataKey="category" />
+							<YAxis />
+							<Tooltip />
+							<Bar dataKey="revenue" fill="#82ca9d" />
+						</BarChart>
+					</ResponsiveContainer>
+				</div>
+
+				<div className="flex-1 bg-white p-4 rounded shadow">
+					<h2 className="text-lg font-bold mb-2">
+						Dealer Performance
+					</h2>
+					<ResponsiveContainer width="100%" height={250}>
+						<BarChart data={dealerPerformance}>
+							<XAxis dataKey="dealer" />
+							<YAxis />
+							<Tooltip />
+							<Bar
+								dataKey="unitsSold"
+								fill="#ff7f50"
+								name="Units Sold"
 							/>
-						))}
-					</Pie>
-					<Tooltip />
-					<Legend />
-				</PieChart>
-			</ResponsiveContainer>
-
-			<h2 className="text-xl font-bold mt-6 mb-2">
-				Revenue by Product Category
-			</h2>
-			<ResponsiveContainer width="100%" height={300}>
-				<BarChart data={revenueByCategory}>
-					<XAxis dataKey="category" />
-					<YAxis />
-					<Tooltip />
-					<Bar dataKey="revenue" fill="#82ca9d" />
-				</BarChart>
-			</ResponsiveContainer>
-
-			<h2 className="text-xl font-bold mt-6 mb-2">Dealer Statuses</h2>
-			<ResponsiveContainer width="100%" height={300}>
-				<PieChart>
-					<Pie
-						data={dealerStatuses}
-						dataKey="count"
-						nameKey="status"
-						cx="50%"
-						cy="50%"
-						outerRadius={100}
-						label
-					>
-						{dealerStatuses.map((entry, index) => (
-							<Cell
-								key={`cell-${index}`}
-								fill={COLORS[index % COLORS.length]}
+							<Bar
+								dataKey="revenue"
+								fill="#00c49f"
+								name="Revenue"
 							/>
-						))}
-					</Pie>
-					<Tooltip />
-					<Legend />
-				</PieChart>
-			</ResponsiveContainer>
+						</BarChart>
+					</ResponsiveContainer>
+				</div>
+			</div>
 
-			<h2 className="text-xl font-bold mt-6 mb-2">Dealer Performance</h2>
-			<ResponsiveContainer width="100%" height={300}>
-				<BarChart data={dealerPerformance}>
-					<XAxis dataKey="dealer" />
-					<YAxis />
-					<Tooltip />
-					<Bar dataKey="unitsSold" fill="#ff7f50" name="Units Sold" />
-					<Bar dataKey="revenue" fill="#00c49f" name="Revenue" />
-				</BarChart>
-			</ResponsiveContainer>
+			{/* Bottom Grid: Pie Charts in Two Columns */}
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+				<div className="bg-white p-4 rounded shadow">
+					<h2 className="text-lg font-bold mb-2">Stock Status</h2>
+					<ResponsiveContainer width="100%" height={300}>
+						<PieChart>
+							<Pie
+								data={stockStatus}
+								dataKey="value"
+								nameKey="status"
+								cx="50%"
+								cy="50%"
+								outerRadius={100}
+								label
+							>
+								{stockStatus.map((entry, index) => (
+									<Cell
+										key={`cell-${index}`}
+										fill={COLORS[index % COLORS.length]}
+									/>
+								))}
+							</Pie>
+							<Tooltip />
+							<Legend />
+						</PieChart>
+					</ResponsiveContainer>
+				</div>
+
+				<div className="bg-white p-4 rounded shadow">
+					<h2 className="text-lg font-bold mb-2">Dealer Statuses</h2>
+					<ResponsiveContainer width="100%" height={300}>
+						<PieChart>
+							<Pie
+								data={dealerStatuses}
+								dataKey="count"
+								nameKey="status"
+								cx="50%"
+								cy="50%"
+								outerRadius={100}
+								label
+							>
+								{dealerStatuses.map((entry, index) => (
+									<Cell
+										key={`cell-${index}`}
+										fill={COLORS[index % COLORS.length]}
+									/>
+								))}
+							</Pie>
+							<Tooltip />
+							<Legend />
+						</PieChart>
+					</ResponsiveContainer>
+				</div>
+			</div>
 		</div>
 	);
 };
