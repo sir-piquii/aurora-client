@@ -29,13 +29,9 @@ export default function Navbar() {
 
 	// Dummy user logic; replace with real auth
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
-<<<<<<< Updated upstream
-	const isAdmin = user?.user.role == 'admin' ?? false;
-=======
 	const fullName = user?.user?.fullName;
 	const isAdmin =
 		user?.user?.role === 'admin' || user?.user?.role === 'super';
->>>>>>> Stashed changes
 
 	const [basketCount, setBasketCount] = useState(0);
 

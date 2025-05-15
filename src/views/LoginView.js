@@ -14,8 +14,6 @@ export default function Login() {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 
-<<<<<<< Updated upstream
-=======
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
 
 	if (user?.user.role === 'admin' || user?.user.role === 'super') {
@@ -26,7 +24,6 @@ export default function Login() {
 		setTimeout(() => navigate('/', { replace: true }), 0);
 	}
 
->>>>>>> Stashed changes
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
 		setLoginData({
@@ -50,9 +47,6 @@ export default function Login() {
 			);
 
 			login(user);
-<<<<<<< Updated upstream
-			navigate('/');
-=======
 
 			if (user.user.role === 'admin' || user.user.role === 'super') {
 				setTimeout(() => navigate('/admin', { replace: true }), 0);
@@ -61,7 +55,6 @@ export default function Login() {
 			} else {
 				setTimeout(() => navigate('/', { replace: true }), 0);
 			}
->>>>>>> Stashed changes
 		} catch (err) {
 			setError(err.message);
 		}
