@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaChartPie } from 'react-icons/fa6';
 import {
 	BarChart,
 	Bar,
@@ -13,7 +14,7 @@ import {
 } from 'recharts';
 import { getOverview } from '../../api';
 
-const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50', '#00c49f'];
+const COLORS = ['#de7a37', '#092045', '#ffc658', '#ff7f50', '#00c49f'];
 
 const DashboardCharts = () => {
 	const [timeRange, setTimeRange] = useState('30d');
@@ -22,9 +23,8 @@ const DashboardCharts = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [rawData] = await getOverview(timeRange); // single object in an array
+				const [rawData] = await getOverview(timeRange);
 
-				// Transform for Product Counts
 				const productCounts = [
 					{ name: 'Solar Panels', count: rawData.Solar_Panels },
 					{ name: 'Cabling', count: rawData.Cabling },
@@ -41,13 +41,11 @@ const DashboardCharts = () => {
 					},
 				];
 
-				// Example: Dummy stock status transformation (you should update this as per actual logic)
 				const stockStatus = [
 					{ status: 'In Stock', value: rawData.Products - 10 },
 					{ status: 'Out of Stock', value: 10 },
 				];
 
-				// Example: Dummy revenue by category (use real values if available)
 				const revenueByCategory = [
 					{
 						category: 'Solar Panels',
@@ -68,11 +66,17 @@ const DashboardCharts = () => {
 					{ status: 'Approved', count: rawData.Approved_Dealers },
 				];
 
-				// Example: Dummy dealer performance data (replace with actual if available)
 				const dealerPerformance = [
 					{ dealer: 'Dealer A', unitsSold: 30, revenue: 9000 },
 					{ dealer: 'Dealer B', unitsSold: 20, revenue: 6000 },
 				];
+
+				const summary = {
+					products: rawData.Products,
+					dealers: rawData.Approved_Dealers + rawData.Applied_Dealers,
+					orders: rawData.Total_Orders,
+					quotations: rawData.Total_Quotations,
+				};
 
 				setChartData({
 					productCounts,
@@ -80,11 +84,13 @@ const DashboardCharts = () => {
 					revenueByCategory,
 					dealerStatuses,
 					dealerPerformance,
+					summary,
 				});
 			} catch (error) {
 				console.error('Error fetching dashboard data:', error);
 			}
 		};
+
 		fetchData();
 	}, [timeRange]);
 
@@ -99,6 +105,7 @@ const DashboardCharts = () => {
 		revenueByCategory,
 		dealerStatuses,
 		dealerPerformance,
+		summary,
 	} = chartData;
 
 	return (
@@ -117,7 +124,47 @@ const DashboardCharts = () => {
 				</select>
 			</div>
 
-			{/* Top Row: All Bar Charts */}
+			{/* Summary Cards */}
+			<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+				<div className="bg-white p-4 rounded shadow text-center flex flex-col items-center">
+					<FaChartPie className="text-[#092045] w-6 h-6 mb-2" />
+					<h3 className="text-sm font-medium text-gray-500">
+						Total Products
+					</h3>
+					<p className="text-2xl font-bold text-gray-800">
+						{summary.products}
+					</p>
+				</div>
+				<div className="bg-white p-4 rounded shadow text-center flex flex-col items-center">
+					<FaChartPie className="text-[#092045] w-6 h-6 mb-2" />
+					<h3 className="text-sm font-medium text-gray-500">
+						Total Dealers
+					</h3>
+					<p className="text-2xl font-bold text-gray-800">
+						{summary.dealers}
+					</p>
+				</div>
+				<div className="bg-white p-4 rounded shadow text-center flex flex-col items-center">
+					<FaChartPie className="text-[#092045] w-6 h-6 mb-2" />
+					<h3 className="text-sm font-medium text-gray-500">
+						Total Orders
+					</h3>
+					<p className="text-2xl font-bold text-gray-800">
+						{summary.orders}
+					</p>
+				</div>
+				<div className="bg-white p-4 rounded shadow text-center flex flex-col items-center">
+					<FaChartPie className="text-[#092045] w-6 h-6 mb-2" />
+					<h3 className="text-sm font-medium text-gray-500">
+						Total Quotations
+					</h3>
+					<p className="text-2xl font-bold text-gray-800">
+						{summary.quotations}
+					</p>
+				</div>
+			</div>
+
+			{/* Top Row: Bar Charts */}
 			<div className="flex flex-col lg:flex-row gap-6">
 				<div className="flex-1 bg-white p-4 rounded shadow">
 					<h2 className="text-lg font-bold mb-2">Product Counts</h2>
@@ -126,7 +173,7 @@ const DashboardCharts = () => {
 							<XAxis dataKey="name" />
 							<YAxis />
 							<Tooltip />
-							<Bar dataKey="count" fill="#8884d8" />
+							<Bar dataKey="count" fill="#092045" />
 						</BarChart>
 					</ResponsiveContainer>
 				</div>
@@ -140,7 +187,7 @@ const DashboardCharts = () => {
 							<XAxis dataKey="category" />
 							<YAxis />
 							<Tooltip />
-							<Bar dataKey="revenue" fill="#82ca9d" />
+							<Bar dataKey="revenue" fill="#092045" />
 						</BarChart>
 					</ResponsiveContainer>
 				</div>
@@ -156,12 +203,12 @@ const DashboardCharts = () => {
 							<Tooltip />
 							<Bar
 								dataKey="unitsSold"
-								fill="#ff7f50"
+								fill="#092045"
 								name="Units Sold"
 							/>
 							<Bar
 								dataKey="revenue"
-								fill="#00c49f"
+								fill="#ff7f50"
 								name="Revenue"
 							/>
 						</BarChart>
@@ -169,7 +216,7 @@ const DashboardCharts = () => {
 				</div>
 			</div>
 
-			{/* Bottom Grid: Pie Charts in Two Columns */}
+			{/* Bottom Row: Pie Charts */}
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 				<div className="bg-white p-4 rounded shadow">
 					<h2 className="text-lg font-bold mb-2">Stock Status</h2>

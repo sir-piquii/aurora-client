@@ -6,29 +6,26 @@ import { Link } from 'react-router-dom';
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 	const productsPerPage = 10;
 
 	useEffect(() => {
 		document.title = 'Products | Admin Panel';
+		setCurrentPage(1); // Reset to page 1 when component mounts
+	}, []);
+
+	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const data = await getAllProducts();
-				setProducts(data);
+				const data = await getAllProducts(currentPage, productsPerPage);
+				setProducts(data.rows);
+				setTotalPages(Math.ceil(data.count / productsPerPage));
 			} catch (error) {
 				console.error('Error fetching products:', error);
 			}
 		};
 		fetchProducts();
-	}, []);
-
-	const indexOfLastProduct = currentPage * productsPerPage;
-	const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-	const currentProducts = products.slice(
-		indexOfFirstProduct,
-		indexOfLastProduct,
-	);
-
-	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	}, [currentPage]);
 
 	const handleDelete = (productId) => {
 		const confirmDelete = window.confirm(
@@ -79,8 +76,8 @@ const Products = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{currentProducts.length > 0 ? (
-							currentProducts.map((product) => (
+						{products.length > 0 ? (
+							products.map((product) => (
 								<tr
 									key={product.product_id}
 									className="hover:bg-gray-50"
@@ -166,22 +163,19 @@ const Products = () => {
 
 			{/* Pagination Controls */}
 			<div className="flex justify-center mt-6 space-x-2">
-				{Array.from(
-					{ length: Math.ceil(products.length / productsPerPage) },
-					(_, i) => (
-						<button
-							key={i}
-							onClick={() => paginate(i + 1)}
-							className={`px-4 py-2 rounded-full text-white transition-all ${
-								currentPage === i + 1
-									? 'bg-orange-500'
-									: 'bg-navy-900 hover:bg-orange-400'
-							}`}
-						>
-							{i + 1}
-						</button>
-					),
-				)}
+				{Array.from({ length: totalPages }, (_, i) => (
+					<button
+						key={i}
+						onClick={() => setCurrentPage(i + 1)}
+						className={`px-4 py-2 rounded-full text-white transition-all ${
+							currentPage === i + 1
+								? 'bg-orange-500'
+								: 'bg-navy-900 hover:bg-orange-400'
+						}`}
+					>
+						{i + 1}
+					</button>
+				))}
 			</div>
 		</div>
 	);

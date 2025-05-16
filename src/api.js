@@ -277,10 +277,10 @@ export const getProductCategories = async () => {
 	}
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (page, perPage) => {
 	try {
 		const response = await axios.get(
-			`${endpoints.products}/get-all-products`,
+			`${endpoints.products}/get-all-products?page=${page}&perPage=${perPage}`,
 		);
 		return response.data;
 	} catch (error) {

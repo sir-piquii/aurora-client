@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getDealerById } from '../../api';
+import { getDealerById, verifyDealer } from '../../api';
 
 const DealerDetail = () => {
 	const { id } = useParams();
@@ -18,6 +18,23 @@ const DealerDetail = () => {
 		};
 		fetchDealer();
 	}, [id]);
+
+	const handleApprove = async () => {
+		try {
+			await verifyDealer(id, 'approved');
+			navigate('/admin/dealers');
+		} catch (error) {
+			console.error('Error approving dealer:', error);
+		}
+	};
+	const handleReject = async () => {
+		try {
+			await verifyDealer(id, 'rejected');
+			navigate('/admin/dealers');
+		} catch (error) {
+			console.error('Error rejecting dealer:', error);
+		}
+	};
 
 	if (!dealer) return <p className="text-center mt-10">Loading...</p>;
 
@@ -110,10 +127,16 @@ const DealerDetail = () => {
 			</div>
 
 			<div className="flex justify-end space-x-4 mt-6">
-				<button className="bg-navy-900 text-white px-4 py-2 rounded-full">
+				<button
+					onClick={handleApprove}
+					className="bg-navy-900 text-white px-4 py-2 rounded-full"
+				>
 					Approve
 				</button>
-				<button className="bg-orange-500 text-white px-4 py-2 rounded-full">
+				<button
+					onClick={handleReject}
+					className="bg-orange-500 text-white px-4 py-2 rounded-full"
+				>
 					Reject
 				</button>
 				<button
