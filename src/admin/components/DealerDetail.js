@@ -183,10 +183,10 @@ const DealerVerification = () => {
       setLoading(true);
       await changeDealerStatus(dealer.dealer_id, { status: newStatus });
       toast.success("Status changed");
-	  fetchDealer()
+      fetchDealer();
     } catch (error) {
       console.error(error);
-	  toast.error("Failed to change status")
+      toast.error("Failed to change status");
     } finally {
       setLoading(false);
     }
@@ -199,6 +199,7 @@ const DealerVerification = () => {
       </div>
     );
   }
+  console.log(dealer);
   const documentIds = dealer?.national_ID_Copies_of_the_Directors
     ? dealer?.national_ID_Copies_of_the_Directors?.split(",")
     : [];
@@ -423,7 +424,7 @@ const DealerVerification = () => {
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-medium text-gray-900 mb-4">
                 Installations (
-                {dealer.installations ? dealer.installations?.length : 0})
+                {dealer?.installations ? dealer.installations?.length : 0})
               </h2>
 
               {dealer.installations === null ||

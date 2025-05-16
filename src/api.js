@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const BASE_URL =
   process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
-
 const endpoints = {
   products: `${BASE_URL}/products`,
   featured: `${BASE_URL}/featured`,
@@ -250,9 +249,18 @@ export const changeDealerStatus = async (id, status) => {
     throw error;
   }
 };
-export const getDealers = async () => {
+export const getDealers = async (
+  reg_status = null,
+  page_number = 1,
+  page_size = 10
+) => {
   try {
-    const response = await axios.get(`${endpoints.dealer}/`);
+    const params = {};
+    if (reg_status !== null) params.reg_status = reg_status;
+    if (page_number !== null) params.page_number = page_number;
+    if (page_size !== null) params.page_size = page_size;
+
+    const response = await axios.get(`${endpoints.dealer}/`, { params });
     return response.data;
   } catch (error) {
     console.error("Error fetching dealers:", error);

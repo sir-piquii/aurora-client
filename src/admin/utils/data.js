@@ -8,9 +8,9 @@ export const STATUS_CODES = {
 };
 
 export const STATUS_LABELS = {
-  [STATUS_CODES.PENDING_DOCUMENTS]: "Pending Documents",
-  [STATUS_CODES.PENDING_INSTALLATIONS]: "Pending Installations",
-  [STATUS_CODES.PENDING_APPROVAL]: "Pending Approval",
+  [STATUS_CODES.PENDING_DOCUMENTS]: "Pending_Documents",
+  [STATUS_CODES.PENDING_INSTALLATIONS]: "Pending_Installations",
+  [STATUS_CODES.PENDING_APPROVAL]: "Pending_Approval",
   [STATUS_CODES.APPROVED]: "Approved",
   [STATUS_CODES.REGISTERED]: "Registered",
   [STATUS_CODES.SUSPENDED]: "Suspended",
