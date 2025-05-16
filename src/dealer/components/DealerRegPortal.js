@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import DocumentUploadsForm from "./forms/DocumentUploadsForm";
 import { DealerContext } from "../../context/Context";
 import { AuthContext } from "../../context/AuthContext";
-import { addDealer, addDealerInstallation } from "../../api";
+import {
+  addDealer,
+  addDealerInstallation,
+  uploadTaxCertificate,
+  uploadIncorporationCertificate,
+  uploadNationalId,
+} from "../../api";
 // Initial dealer data
 
 const DealerRegistration = () => {
@@ -19,6 +25,7 @@ const DealerRegistration = () => {
   const [dealer, setDealer] = useState(initialDealer);
   const useAuth = useContext(AuthContext);
   const { user: userData } = useAuth;
+  const dealer_status = dealer?.reg_status ? dealer.reg_status : "Not Started";
   // Check if company details are completed
   const isCompanyDetailsComplete = () => {
     return (
@@ -33,13 +40,18 @@ const DealerRegistration = () => {
     return (
       dealer.tax_clearance !== null &&
       dealer.certificate_of_incorporation !== null &&
-      dealer.national_ID_Copies_of_the_Directors !== null
+      dealer.national_ID_Copies_of_the_Directors.split(",").length >= 3
     );
   };
 
   // Check if installations are added
   const isInstallationsComplete = () => {
-    return dealer.dealer_installations !== null;
+    const dealerInstallations = dealer?.installations
+      ? typeof dealer?.installations === "string"
+        ? JSON.parse(dealer?.installations)
+        : dealer?.installations
+      : [];
+    return dealerInstallations.length >= 3;
   };
 
   // Update completed sections based on dealer data
@@ -66,8 +78,10 @@ const DealerRegistration = () => {
       const response = await addDealer(companyDetails, userData.user.id);
       console.log(response);
       toast.success("Your company details have been successfully saved.");
-      // Close the section
       setActiveSection(null);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while saving your company details.");
@@ -80,10 +94,28 @@ const DealerRegistration = () => {
   const handleDocumentUploadsSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Simulate API call
-      console.log(data);
-      toast.success("Your documents have been successfully uploaded.");
-      // Close the section
+      // Extract document files from data
+      const taxClearance = data.tax_clearance;
+      const certificateOfIncorporation = data.certificate_of_incorporation;
+      const nationalIdCopies = data.national_ID_Copies_of_the_Directors;
+      if (taxClearance && typeof taxClearance !== "string") {
+        await handleUploadTaxCertificate(dealer.dealer_id, taxClearance);
+      }
+      if (
+        certificateOfIncorporation &&
+        typeof certificateOfIncorporation !== "string"
+      ) {
+        await handleUploadIncorporationCertificate(
+          dealer.dealer_id,
+          certificateOfIncorporation
+        );
+      }
+      if (nationalIdCopies && typeof nationalIdCopies !== "string") {
+        await handleUploadNationalId(dealer.dealer_id, nationalIdCopies);
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
       setActiveSection(null);
     } catch (error) {
       console.error(error);
@@ -100,16 +132,53 @@ const DealerRegistration = () => {
       // Simulate API call
       const installationsArray = JSON.parse(data.dealer_installations);
       installationsArray.forEach(async (installation) => {
-        await addDealerInstallation(installation, 22);
+        await addDealerInstallation(installation, dealer.dealer_id);
       });
       toast.success("Your installation details have been successfully saved.");
       // Close the section
       setActiveSection(null);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while saving your installation details.");
     } finally {
       setIsLoading(false);
+    }
+  };
+  const handleUploadTaxCertificate = async (id, certificate) => {
+    try {
+      const formData = new FormData();
+      formData.append("taxClearance", certificate);
+      await uploadTaxCertificate(formData, id);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload tax certificate!");
+    }
+  };
+  const handleUploadIncorporationCertificate = async (id, certificate) => {
+    try {
+      const formData = new FormData();
+      formData.append("certificate", certificate);
+      await uploadIncorporationCertificate(formData, id);
+      toast.success("Tax Certificate Uploaded");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload tax certificate!");
+    }
+  };
+  const handleUploadNationalId = async (id, certificates) => {
+    try {
+      const formData = new FormData();
+      certificates.forEach((certificate) => {
+        formData.append("IDsOfDirectors", certificate);
+      });
+      await uploadNationalId(formData, id);
+      toast.success("IDs uploaded successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload tax certificate!");
     }
   };
 
@@ -119,12 +188,14 @@ const DealerRegistration = () => {
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">
           Dealer Registration Portal
         </h1>
+        <div className="flex justify-end mx-auto p-2">
+          <span className="text-orange-500 text-sm">Status: {dealer_status}</span>
+        </div>
         <div className="max-w-3xl mx-auto">
           <ProgressTracker
             completedSections={completedSections}
             totalSections={3}
           />
-
           <div className="mt-8 space-y-6">
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
               <button
@@ -160,7 +231,9 @@ const DealerRegistration = () => {
               <button
                 onClick={() =>
                   setActiveSection(
-                    activeSection === "documents" ? null : "documents"
+                    isCompanyDetailsComplete && activeSection === "documents"
+                      ? null
+                      : "documents"
                   )
                 }
                 className={`w-full px-6 py-4 text-left font-medium flex justify-between items-center ${
@@ -190,7 +263,10 @@ const DealerRegistration = () => {
               <button
                 onClick={() =>
                   setActiveSection(
-                    activeSection === "installations" ? null : "installations"
+                    isCompanyDetailsComplete &&
+                      activeSection === "installations"
+                      ? null
+                      : "installations"
                   )
                 }
                 className={`w-full px-6 py-4 text-left font-medium flex justify-between items-center ${

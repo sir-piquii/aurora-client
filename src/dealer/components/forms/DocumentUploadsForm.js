@@ -64,12 +64,8 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (validateForm()) {
-      // In a real application, you would upload the files to a server
-      // and then pass the URLs or file paths back
-      // For this demo, we'll just pass the file names
-      onSubmit(fileNames);
+      onSubmit(files);
     }
   };
 
@@ -93,27 +89,55 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
 
         <div
           className={`border-2 border-dashed rounded-lg p-4 transition-colors duration-200 ${
-            fileName
+            fileName &&
+            (Array.isArray(fileName) ? fileName.length > 0 : fileName)
               ? "border-green-500 bg-green-50 dark:bg-green-900/10"
               : error
               ? "border-red-500 bg-red-50 dark:bg-red-900/10"
               : "border-slate-300 dark:border-slate-600 hover:border-blue-500 dark:hover:border-blue-400"
           }`}
         >
-          {fileName ? (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <FileText className="h-5 w-5 text-green-500" />
-                <span className="text-sm truncate max-w-xs">{fileName}</span>
-                {dealer[field] && <Check className="h-4 w-4 text-green-500" />}
-              </div>
-              <button
-                type="button"
-                onClick={() => removeFile(field)}
-                className="text-slate-500 hover:text-red-500 transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
+          {fileName &&
+          (Array.isArray(fileName) ? fileName.length > 0 : fileName) ? (
+            <div className="flex flex-col space-y-2">
+              {(Array.isArray(fileName) ? fileName : [fileName]).map(
+                (name, idx) => (
+                  <div className="flex items-center justify-between" key={idx}>
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-5 w-5 text-green-500" />
+                      <span className="text-sm truncate max-w-xs">{name}</span>
+                      {dealer[field] && (
+                        <Check className="h-4 w-4 text-green-500" />
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (multiple) {
+                          setFiles((prev) => ({
+                            ...prev,
+                            [field]: (prev[field] || []).filter(
+                              (_, i) => i !== idx
+                            ),
+                          }));
+                          setFileNames((prev) => ({
+                            ...prev,
+                            [field]: (prev[field] || []).filter(
+                              (_, i) => i !== idx
+                            ),
+                          }));
+                        } else {
+                          removeFile(field);
+                        }
+                      }}
+                      disabled={multiple}
+                      className="text-slate-500 hover:text-red-500 transition-colors"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+                )
+              )}
             </div>
           ) : (
             <div>
@@ -122,7 +146,28 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
                 type="file"
                 accept={accept}
                 multiple={multiple}
-                onChange={(e) => handleFileChange(e, field)}
+                onChange={(e) => {
+                  const selectedFiles = Array.from(e.target.files || []);
+                  if (multiple) {
+                    setFiles((prev) => ({
+                      ...prev,
+                      [field]: selectedFiles,
+                    }));
+                    setFileNames((prev) => ({
+                      ...prev,
+                      [field]: selectedFiles.map((file) => file.name),
+                    }));
+                    if (errors[field]) {
+                      setErrors((prev) => {
+                        const newErrors = { ...prev };
+                        delete newErrors[field];
+                        return newErrors;
+                      });
+                    }
+                  } else {
+                    handleFileChange(e, field);
+                  }
+                }}
                 className="hidden"
               />
               <label

@@ -1,10 +1,7 @@
-import { getQuotationsByUser } from "../../api";
-import { useState, useCallback, useEffect, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { getQuotations } from "../../api";
+import { useState, useCallback, useEffect } from "react";
 import {
   FileText,
-  Plus,
-  Filter,
   ChevronDown,
   ChevronUp,
   Printer,
@@ -12,7 +9,34 @@ import {
   ExternalLink,
   Loader,
 } from "lucide-react";
-import StatusBadge from "./ui/StatusBadge";
+const StatusBadge = ({ status }) => {
+  const getStatusStyles = () => {
+    switch (status) {
+      case "pending":
+        return "bg-amber-100 text-amber-800 border-amber-200";
+      case "approved":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "rejected":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "expired":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
+
+  const getStatusText = () => {
+    return status.charAt(0).toUpperCase() + status.slice(1);
+  };
+
+  return (
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles()}`}
+    >
+      {getStatusText()}
+    </span>
+  );
+};
 
 // Quotations Card
 const QuotationCard = ({ quotation }) => {
@@ -156,21 +180,6 @@ const QuotationCard = ({ quotation }) => {
               </div>
             </div>
           </div>
-
-          <div className="mt-4 flex flex-wrap gap-2 justify-end">
-            <button className="inline-flex items-center px-3 py-1.5 border border-indigo-600 text-xs font-medium rounded text-indigo-600 bg-white hover:bg-indigo-50 transition-colors duration-200">
-              <Printer size={16} className="mr-1" />
-              Print
-            </button>
-            <button className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
-              <Download size={16} className="mr-1" />
-              Download PDF
-            </button>
-            <button className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200">
-              <ExternalLink size={16} className="mr-1" />
-              View Full Quotation
-            </button>
-          </div>
         </div>
       )}
     </div>
@@ -181,15 +190,11 @@ const QuotationCard = ({ quotation }) => {
 const Quotations = () => {
   const [loading, setLoading] = useState(false);
   const [quotations, setQuotations] = useState([]);
-  const useAuth = useContext(AuthContext);
-  const { user: userData } = useAuth;
   const fetchQuotations = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getQuotationsByUser(
-        userData.user.email,
-        userData.user.id
-      );
+      const data = await getQuotations();
+      console.log(data);
       setQuotations(data);
     } catch (error) {
       console.error("Error fetching quotations:", error);
@@ -221,9 +226,9 @@ const Quotations = () => {
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Your Quotations</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Quotations</h1>
           <p className="text-sm text-gray-500 mt-1">
-            View and manage all your quotation requests
+            View and manage all quotation requests
           </p>
         </div>
       </div>
@@ -239,8 +244,8 @@ const Quotations = () => {
               Quotation Overview
             </h2>
             <p className="text-gray-600 text-sm mt-1">
-              Below are all the quotations you've requested. Click on any
-              quotation to view more details or take action.
+              Below are all the quotations requested. Click on any quotation to
+              view more details or take action.
             </p>
           </div>
         </div>

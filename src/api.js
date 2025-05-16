@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FaSquare } from 'react-icons/fa';
+
 export const BASE_URL =
   process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
 
@@ -237,9 +237,22 @@ export const getDealerById = async (id) => {
   }
 };
 
+export const changeDealerStatus = async (id, status) => {
+  try {
+    const response = await axios.put(
+      `${endpoints.dealer}/status/${id}`,
+      status,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching dealers:", error);
+    throw error;
+  }
+};
 export const getDealers = async () => {
   try {
-    const response = await axios.get(endpoints.dealer);
+    const response = await axios.get(`${endpoints.dealer}/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching dealers:", error);
@@ -578,7 +591,7 @@ export const getTeamById = async (id) => {
 export const addTeamMember = async (teamData) => {
   try {
     const response = await axios.post(`${endpoints.team}/add-team`, teamData, {
-      withCredentials:true,
+      withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -614,7 +627,7 @@ export const updateTeamMemberImage = async (id, teamData) => {
       `${endpoints.team}/update-team-member-image/${id}`,
       teamData,
       {
-        withCredentials:true,
+        withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -942,182 +955,233 @@ export const authenticateUser = async (user, password) => {
 };
 
 export const registerUser = async (userData) => {
-	try {
-		const response = await axios.post(
-			`${endpoints.auth}/register`,
-			userData,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error registering user:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.post(`${endpoints.auth}/register`, userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error;
+  }
 };
 
 export const verifyEmail = async (verificationCode) => {
-	try {
-		const response = await axios.post(
-			`${endpoints.auth}/verifyemail`,
-			{ verificationCode },
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error verifying user:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.post(
+      `${endpoints.auth}/verifyemail`,
+      { verificationCode },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    throw error;
+  }
 };
-
+export const getQuotationsByUser = async (email, id) => {
+  try {
+    const response = await axios.get(
+      `${endpoints.quotations}/get-by-user?id=${id}&email=${email}`,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user quotations:", error);
+    throw error;
+  }
+};
 export const resetPassword = async (token, newPassword) => {
-	try {
-		const response = await axios.post(
-			`${endpoints.auth}/resetpassword/${token}`,
-			{ newPassword },
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error resetting password:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.post(
+      `${endpoints.auth}/resetpassword/${token}`,
+      { newPassword },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    throw error;
+  }
+};
+export const updateProfile = async (id, profile) => {
+  try {
+    const response = await axios.put(
+      `${endpoints.auth}/update-profile/${id}`,
+      profile,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const changePassword = async (id, data) => {
+  try {
+    const response = await axios.put(
+      `${endpoints.auth}/change-password/${id}`,
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 // admins
 export const getAdmins = async () => {
   try {
-    const response = await axios.get(`${endpoints.auth}/admins`, {withCredentials:true});
+    const response = await axios.get(`${endpoints.auth}/admins`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
-    console.error('Error fetching admins:', error);
+    console.error("Error fetching admins:", error);
     throw error;
   }
-}
+};
 export const addAdmin = async (adminData) => {
   try {
-    const response = await axios.post(`${endpoints.auth}/admin`,adminData, {withCredentials:true});
+    const response = await axios.post(`${endpoints.auth}/admin`, adminData, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
-     console.error('Error adding admins:', error);
+    console.error("Error adding admins:", error);
     throw error;
   }
-}
-export const deleteAdmin= async(id)=>{
-  try {
-		const response = await axios.delete(`${endpoints.auth}/user/${id}`, {withCredentials:true});
-		return response.data;
-	} catch (error) {
-		console.error('Error deleting admin:', error);
-		throw error;
-	}
-}
-export const forgotPassword = async (email) => {
-	try {
-		const response = await axios.post(
-			`${endpoints.auth}/forgetpassword`,
-			{ email },
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error sending forgot password email:', error);
-		throw error;
-	}
 };
-// 
+export const deleteAdmin = async (id) => {
+  try {
+    const response = await axios.delete(`${endpoints.auth}/user/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting admin:", error);
+    throw error;
+  }
+};
+export const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post(
+      `${endpoints.auth}/forgetpassword`,
+      { email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error sending forgot password email:", error);
+    throw error;
+  }
+};
+//
 export const getFaqs = async () => {
-	try {
-		const response = await axios.get(endpoints.faqs);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching faqs:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(endpoints.faqs);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching faqs:", error);
+    throw error;
+  }
 };
 
 export const getFAQById = async (id) => {
-	try {
-		const response = await axios.get(`${endpoints.faqs}/${id}`);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching faq by ID:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(`${endpoints.faqs}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching faq by ID:", error);
+    throw error;
+  }
 };
 
 export const addFaqs = async (formData) => {
-	try {
-		const response = await axios.post(endpoints.faqs, formData, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-		return response.data;
-	} catch (error) {
-		console.error('Error adding faqs:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.post(endpoints.faqs, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding faqs:", error);
+    throw error;
+  }
 };
 
 export const updateFaqs = async (id, formData) => {
-	try {
-		const response = await axios.put(`${endpoints.faqs}/${id}`, formData, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-		return response.data;
-	} catch (error) {
-		console.error('Error updating faqs:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.put(`${endpoints.faqs}/${id}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating faqs:", error);
+    throw error;
+  }
 };
 
 export const deleteFaqs = async (id) => {
-	try {
-		const response = await axios.delete(`${endpoints.faqs}/${id}`);
-		return response.data;
-	} catch (error) {
-		console.error('Error deleting faqs:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.delete(`${endpoints.faqs}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting faqs:", error);
+    throw error;
+  }
 };
 
 export const searchFaqsByKeyword = async (keyword) => {
-	try {
-		const response = await axios.get(
-			`${endpoints.faqs}/search?keyword=${keyword}`,
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error searching faqs by keyword:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(
+      `${endpoints.faqs}/search?keyword=${keyword}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error searching faqs by keyword:", error);
+    throw error;
+  }
 };
 
 export const getQuotations = async () => {
-	try {
-		const response = await axios.get(endpoints.quotations);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching quotations:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(`${endpoints.quotations}/`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching quotations:", error);
+    throw error;
+  }
 };
 
 export const getQuotationById = async (id) => {

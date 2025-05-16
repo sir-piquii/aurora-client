@@ -9,120 +9,136 @@ function ProductDetailView() {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [userRole, setUserRole] = useState(null);
 	const [showModal, setShowModal] = useState(false);
-	const [quoteForm, setQuoteForm] = useState({
-		customer_name: '',
-		customer_address: '',
-		customer_email: '',
-		customer_phone: '',
-		notes: '',
-		quantity: 1,
-	});
+	const storedUser = localStorage.getItem("user");
+  let username = "";
+  let email = "";
+  let userId = null;
+  if (storedUser) {
+    try {
+      const userObj = JSON.parse(storedUser);
+      username = userObj.user?.username || "";
+      email = userObj.user?.email || "";
+      userId = userObj.user?.id || null;
+    } catch (e) {
+      console.error("Error parsing storedUser:", e);
+    }
+  }
+  const [quoteForm, setQuoteForm] = useState({
+    userId: userId || null,
+    customer_name: username,
+    customer_address: "",
+    customer_email: email,
+    customer_phone: "",
+    notes: "",
+    quantity: 1,
+  });
+  // Parse storedUser and extract username and email
 
-	useEffect(() => {
-		document.title = `Product Detail | Aurora`;
-		const user = JSON.parse(localStorage.getItem('user'));
-		setUserRole(user?.user?.role || null);
+  useEffect(() => {
+    document.title = `Product Detail | Aurora`;
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUserRole(user?.user?.role || null);
 
-		const fetchProduct = async () => {
-			try {
-				const data = await getProductById(productId);
-				setProduct(data[0]);
-			} catch (error) {
-				console.error('Error fetching product by ID:', error);
-			} finally {
-				setLoading(false);
-			}
-		};
+    const fetchProduct = async () => {
+      try {
+        const data = await getProductById(productId);
+        setProduct(data[0]);
+      } catch (error) {
+        console.error("Error fetching product by ID:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-		fetchProduct();
-	}, [productId]);
+    fetchProduct();
+  }, [productId]);
 
-	useEffect(() => {
-		if (product?.images) {
-			const imagesArray = product.images.split(',');
-			setSelectedImage(imagesArray[0]);
-		}
-	}, [product]);
+  useEffect(() => {
+    if (product?.images) {
+      const imagesArray = product.images.split(",");
+      setSelectedImage(imagesArray[0]);
+    }
+  }, [product]);
 
-	const handleAddToCart = () => {
-		const storedCart = localStorage.getItem('cart');
-		let cart = storedCart ? JSON.parse(storedCart) : null;
-		const now = Date.now();
-		const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+  const handleAddToCart = () => {
+    const storedCart = localStorage.getItem("cart");
+    let cart = storedCart ? JSON.parse(storedCart) : null;
+    const now = Date.now();
+    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
 
-		if (cart && cart.expires && now > cart.expires) {
-			cart = null;
-		}
+    if (cart && cart.expires && now > cart.expires) {
+      cart = null;
+    }
 
-		if (!cart) {
-			cart = {
-				items: [],
-				expires: now + THIRTY_DAYS,
-			};
-		}
+    if (!cart) {
+      cart = {
+        items: [],
+        expires: now + THIRTY_DAYS,
+      };
+    }
 
-		const existingItem = cart.items.find(
-			(item) => item.productId === product.product_id,
-		);
+    const existingItem = cart.items.find(
+      (item) => item.productId === product.product_id
+    );
 
-		if (existingItem) {
-			existingItem.quantity += 1;
-		} else {
-			cart.items.push({
-				productId: product.product_id,
-				productName: product.product_name,
-				image: selectedImage,
-				quantity: 1,
-			});
-		}
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.items.push({
+        productId: product.product_id,
+        productName: product.product_name,
+        image: selectedImage,
+        quantity: 1,
+      });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Product added to cart!");
+  };
 
-		localStorage.setItem('cart', JSON.stringify(cart));
-		alert('Product added to cart!');
-	};
+  const handleRequestQuote = () => {
+    setShowModal(true);
+  };
 
-	const handleRequestQuote = () => {
-		setShowModal(true);
-	};
+  const handleChange = (e) => {
+    setQuoteForm({ ...quoteForm, [e.target.name]: e.target.value });
+  };
 
-	const handleChange = (e) => {
-		setQuoteForm({ ...quoteForm, [e.target.name]: e.target.value });
-	};
+  const handleQuoteSubmit = async (e) => {
+    e.preventDefault();
 
-	const handleQuoteSubmit = async (e) => {
-		e.preventDefault();
+    const quotePayload = {
+      userId: userId,
+      customer_name: quoteForm.customer_name,
+      customer_address: quoteForm.customer_address,
+      customer_email: quoteForm.customer_email,
+      customer_phone: quoteForm.customer_phone,
+      notes: quoteForm.notes,
+      products: [
+        {
+          product_id: product.product_id,
+          quantity: parseInt(quoteForm.quantity, 10),
+        },
+      ],
+    };
 
-		const quotePayload = {
-			customer_name: quoteForm.customer_name,
-			customer_address: quoteForm.customer_address,
-			customer_email: quoteForm.customer_email,
-			customer_phone: quoteForm.customer_phone,
-			notes: quoteForm.notes,
-			products: [
-				{
-					product_id: product.product_id,
-					quantity: parseInt(quoteForm.quantity, 10),
-				},
-			],
-		};
-
-		try {
-			await addQuotation(quotePayload);
-			alert('Your quote request has been submitted successfully!');
-			setShowModal(false);
-			// Optionally reset form
-			setQuoteForm({
-				customer_name: '',
-				customer_address: '',
-				customer_email: '',
-				customer_phone: '',
-				notes: '',
-				quantity: 1,
-			});
-		} catch (error) {
-			console.error('Error submitting quote:', error);
-			alert('Failed to submit quote. Please try again.');
-		}
-	};
+    try {
+      await addQuotation(quotePayload);
+      alert("Your quote request has been submitted successfully!");
+      setShowModal(false);
+      // Optionally reset form
+      setQuoteForm({
+        customer_name: "",
+        customer_address: "",
+        customer_email: "",
+        customer_phone: "",
+        notes: "",
+        quantity: 1,
+      });
+    } catch (error) {
+      console.error("Error submitting quote:", error);
+      alert("Failed to submit quote. Please try again.");
+    }
+  };
 
 	const displayPrice =
 		userRole === 'dealer' &&

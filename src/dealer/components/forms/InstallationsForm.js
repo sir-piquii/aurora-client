@@ -6,9 +6,11 @@ import FormField from "../ui/FormField";
 const InstallationsForm = ({ dealer, onSubmit, isLoading }) => {
   // Parse existing installations if available
   const parseInstallations = () => {
-    if (!dealer.dealer_installations) return [];
+    if (!dealer.installations) return [];
     try {
-      return JSON.parse(dealer.dealer_installations);
+      return typeof dealer.installations === "string"
+        ? JSON.parse(dealer.installations)
+        : dealer.installations;
     } catch (e) {
       return [];
     }

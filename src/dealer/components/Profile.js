@@ -1,19 +1,18 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   User,
   Building2,
   FileText,
   Wrench,
   Lock,
-  Mail,
   UserCircle,
-  CheckCircle,
   AlertCircle,
   Loader2,
 } from "lucide-react";
 import FormField from "./ui/FormField";
 import { DealerContext } from "../../context/Context.js";
 import { toast } from "sonner";
+import { updateProfile, changePassword, BASE_URL } from "../../api.js";
 const Profile = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -25,7 +24,6 @@ const Profile = () => {
     user_username: dealer.user_username,
     user_full_name: dealer.user_full_name,
   });
-  console.log(dealer);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -45,13 +43,17 @@ const Profile = () => {
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await updateProfile(dealer.id, {
+        email: profileData.user_email,
+        username: profileData.user_username,
+        fullName: profileData.user_full_name,
+      });
       toast.success("Your profile details have been successfully updated.");
-
       setIsEditingProfile(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("Failed to update profile details.");
@@ -64,19 +66,16 @@ const Profile = () => {
     e.preventDefault();
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast({
-        title: "Error",
-        description: "New passwords do not match.",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
+      toast.error("New passwords do not match.");
       return;
     }
-
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await changePassword(dealer.id, {
+        oldPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      });
       toast.success("Your password has been successfully changed.");
       setIsChangingPassword(false);
       setPasswordData({
@@ -85,7 +84,9 @@ const Profile = () => {
         confirmPassword: "",
       });
     } catch (error) {
-      toast.error("Failed to update password.");
+      toast.error(
+        "Failed to update password. Please check your credentials and try again"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -254,28 +255,60 @@ const Profile = () => {
             </h2>
           </div>
           <dl className="grid grid-cols-1 gap-4">
-            <div>
+            <div className="basis-1 md:basis-1/2 lg:basis-1/2">
               <dt className="text-sm text-slate-500 dark:text-slate-400">
                 Tax Clearance
               </dt>
               <dd className="text-slate-900 dark:text-white">
-                {dealer.tax_clearance || "Not uploaded"}
+                {dealer.tax_clearance ? (
+                  <img
+                    src={`${BASE_URL}/taxClearanceCertificates/${dealer.tax_clearance}`}
+                    alt="Tax Clearance"
+                    className="w-full h-40 object-contain mix-blend-multiply rounded shadow"
+                  />
+                ) : (
+                  "Not uploaded"
+                )}
               </dd>
             </div>
-            <div>
+            <div className="basis-1 md:basis-1/2 lg:basis-1/2">
               <dt className="text-sm text-slate-500 dark:text-slate-400">
                 Certificate of Incorporation
               </dt>
               <dd className="text-slate-900 dark:text-white">
-                {dealer.certificate_of_incorporation || "Not uploaded"}
+                {dealer.certificate_of_incorporation ? (
+                  <img
+                    src={`${BASE_URL}/incorporationCertificates/${dealer.certificate_of_incorporation}`}
+                    alt="Certificate of Incorporation"
+                    className="w-full object-contain mix-blend-multiply h-40 rounded shadow"
+                  />
+                ) : (
+                  "Not uploaded"
+                )}
               </dd>
             </div>
+
             <div>
               <dt className="text-sm text-slate-500 dark:text-slate-400">
                 National ID Copies
               </dt>
               <dd className="text-slate-900 dark:text-white">
-                {dealer.national_ID_Copies_of_the_Directors || "Not uploaded"}
+                {dealer.national_ID_Copies_of_the_Directors ? (
+                  <div className="w-full flex-wrap flex gap-2">
+                    {dealer?.national_ID_Copies_of_the_Directors
+                      ?.split(",")
+                      .map((image, index) => (
+                        <img
+                          key={index}
+                          src={`${BASE_URL}/IDsOfDirectors/${image}`}
+                          alt="National ID Copies"
+                          className="w-30 h-40 rounded shadow"
+                        />
+                      ))}
+                  </div>
+                ) : (
+                  "Not uploaded"
+                )}
               </dd>
             </div>
           </dl>
@@ -289,9 +322,63 @@ const Profile = () => {
               Installations
             </h2>
           </div>
+          {dealer.installations ? (
+            <div className="space-y-4">
+              {(typeof dealer.installations === "string"
+                ? JSON.parse(dealer.installations)
+                : dealer.installations
+              ).map((installation, index) => (
+                <div
+                  key={installation.id}
+                  className="bg-slate-50 dark:bg-slate-700/30 p-4 rounded-lg"
+                >
+                  <h3 className="font-medium text-slate-900 dark:text-white mb-2">
+                    Installation {index + 1}
+                  </h3>
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <dt className="text-sm text-slate-500 dark:text-slate-400">
+                        System Description
+                      </dt>
+                      <dd className="text-slate-900 dark:text-white">
+                        {installation.systemDescription}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-slate-500 dark:text-slate-400">
+                        Size of System
+                      </dt>
+                      <dd className="text-slate-900 dark:text-white">
+                        {installation.sizeOfSystem}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-slate-500 dark:text-slate-400">
+                        Email
+                      </dt>
+                      <dd className="text-slate-900 dark:text-white">
+                        {installation.email}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-slate-500 dark:text-slate-400">
+                        Phone Number
+                      </dt>
+                      <dd className="text-slate-900 dark:text-white">
+                        {installation.phoneNumber}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-slate-500 dark:text-slate-400">
+              No installations added
+            </p>
+          )}
         </div>
       </div>
-
       {/* Change Password */}
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">

@@ -3,6 +3,8 @@ import { getDealerById } from "../api";
 import { DealerContext } from "./Context";
 import { AuthContext } from "./AuthContext";
 import { toast } from "sonner";
+import { Loader } from "lucide-react";
+
 export const DealerProvider = ({ children }) => {
   const [dealer, setDealer] = useState(null);
   const useAuth = useContext(AuthContext);
@@ -24,7 +26,11 @@ export const DealerProvider = ({ children }) => {
     fetchDealer();
   }, [fetchDealer]);
   if (loading) {
-    return <span>Loading...</span>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="animate-spin" />
+      </div>
+    );
   }
   return (
     <DealerContext.Provider value={{ dealer, loading }}>

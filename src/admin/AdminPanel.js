@@ -25,6 +25,7 @@ import DealerDetail from './components/DealerDetail';
 import DashboardCards from './components/DashboardCards';
 import { Toaster } from "sonner";
 import UserManagement from "./components/UserManagement";
+import Quotations from "./components/Quotations";
 function AdminPanel() {
   useEffect(() => {
     document.title = "Admin Panel";
@@ -71,6 +72,7 @@ function AdminPanel() {
           <Route path="team/edit/:id" element={<TeamForm />} />
           <Route path="testimonials/add" element={<TestimonialsForm />} />
           <Route path="testimonials/edit/:id" element={<TestimonialsForm />} />
+          <Route path="quotations" element={<Quotations />} />
           <Route path="dashboard" element={<DashboardCards />} />
         </Routes>
       </div>

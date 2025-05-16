@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,12 +11,11 @@ import {
   Award,
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarOpen, closeSideBar }) => {
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user")) ?? null;
   const useAuth = useContext(AuthContext);
   const { user: userData } = useAuth;
-  const isDealer = userData.user?.role === 2;
+  const isDealer = userData.user?.role_id === 2;
   const isPendingDealer = false;
   const navItems = [
     { name: "Home", path: "/dealer", icon: <Home size={20} /> },
@@ -28,22 +27,19 @@ const Sidebar = () => {
             path: "/dealer/quotations",
             icon: <FileText size={20} />,
           },
-          {
-            name: "Orders",
-            path: "/dealer/orders",
-            icon: <Package size={20} />,
-          },
         ]
       : []),
-    {
-      name: "Settings",
-      path: "/dealer/settings",
-      icon: <Settings size={20} />,
-    },
   ];
 
   return (
-    <aside className="sticky left-0 top-0 z-40 h-screen w-64 hidden md:flex flex-col bg-gray-90 text-white shadow-xl transition-transform">
+    <aside
+      className={`
+      fixed lg:static top-32 bottom-0 left-0 z-[100]
+      w-64 bg-white shadow-lg transform transition-transform duration-200 ease-in-out
+      flex flex-col
+      ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+    `}
+    >
       {/* Logo */}
       <div className="flex items-center justify-center h-16">
         <div className="flex items-center">
@@ -59,6 +55,7 @@ const Sidebar = () => {
           <Link
             key={item.path}
             to={item.path}
+            onClick={closeSideBar}
             className={`flex items-center p-3 rounded-lg hover:bg-gray-800 hover:text-gray-300 transition-colors ${
               location.pathname === item.path
                 ? "bg-gray-800 text-orange-500"

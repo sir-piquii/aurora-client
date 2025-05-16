@@ -144,23 +144,16 @@ const LandingPage = () => {
               benefits, increased visibility, and higher profits.
             </p>
             <div className="flex justify-center flex-wrap gap-4">
-              {!user || user.role_id === 1 ? (
-                <Link
-                  to="/dealer/register"
-                  className="inline-flex items-center px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
-                >
-                  Apply Now
-                  <ArrowRight size={20} className="ml-2" />
-                </Link>
-              ) : (
-                <Link
-                  to="/dealer/dashboard"
-                  className="inline-flex items-center px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
-                >
-                  Go to Dashboard
-                  <ArrowRight size={20} className="ml-2" />
-                </Link>
-              )}
+              {!user ||
+                (user.role_id === 1 && (
+                  <Link
+                    to="/dealer/register"
+                    className="inline-flex items-center px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
+                  >
+                    Apply Now
+                    <ArrowRight size={20} className="ml-2" />
+                  </Link>
+                ))}
               <Link
                 to="#benefits"
                 className="inline-flex items-center px-6 py-3 rounded-lg bg-transparent border border-white hover:bg-white/10 text-white font-medium transition-colors"
@@ -214,15 +207,18 @@ const LandingPage = () => {
           <RegistrationSteps />
 
           {/* CTA */}
-          <div className="text-center mt-12">
-            <Link
-              to="/dealer/register"
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-blue-900 hover:bg-blue-950 text-white font-medium transition-colors"
-            >
-              Start Application
-              <CheckCircle size={20} className="ml-2" />
-            </Link>
-          </div>
+          {!user ||
+            (user.role_id === 1 && (
+              <div className="text-center mt-12">
+                <Link
+                  to="/dealer/register"
+                  className="inline-flex items-center px-6 py-3 rounded-lg bg-blue-900 hover:bg-blue-950 text-white font-medium transition-colors"
+                >
+                  Start Application
+                  <CheckCircle size={20} className="ml-2" />
+                </Link>
+              </div>
+            ))}
         </div>
       </section>
 
