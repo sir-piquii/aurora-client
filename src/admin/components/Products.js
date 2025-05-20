@@ -45,6 +45,19 @@ const Products = () => {
     };
     fetchProducts();
   }, []);
+  useEffect(() => {
+    document.title = "Products | Admin Panel";
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        console.log(data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

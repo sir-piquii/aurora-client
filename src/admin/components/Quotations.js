@@ -1,15 +1,6 @@
-import { getQuotations, updateQuotationStatus } from "../../api";
+import { getQuotations } from "../../api";
 import { useState, useCallback, useEffect } from "react";
-import {
-  FileText,
-  ChevronDown,
-  ChevronUp,
-  Loader,
-  Filter,
-  CheckCircle,
-  XCircle,
-} from "lucide-react";
-import { toast } from "sonner";
+import { FileText, ChevronDown, ChevronUp, Loader } from "lucide-react";
 const StatusBadge = ({ status }) => {
   const getStatusStyles = () => {
     switch (status) {
@@ -40,13 +31,10 @@ const StatusBadge = ({ status }) => {
 };
 
 // Quotations Card
-const QuotationCard = ({ quotation, onChangeStatus }) => {
+const QuotationCard = ({ quotation }) => {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => {
     setExpanded(!expanded);
-  };
-  const changeStatus = (status) => {
-    onChangeStatus(status);
   };
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden transform transition-all duration-200 hover:shadow-md">
@@ -61,7 +49,7 @@ const QuotationCard = ({ quotation, onChangeStatus }) => {
 
           <div>
             <div className="flex items-center gap-3">
-              {quotation.status && <StatusBadge status={quotation.status} />}
+              {quotation.status && <StatusBadge status={"approved"} />}
             </div>
             <p className="text-sm text-gray-500 mt-1">
               {quotation.requester_name}
@@ -183,34 +171,6 @@ const QuotationCard = ({ quotation, onChangeStatus }) => {
               </div>
             </div>
           </div>
-          <div className="flex w-full gap-2 mt-2 flex-end">
-            {quotation.status !== "Approved" &&
-              quotation.status !== "Rejected" && (
-                <button
-                  onClick={() =>
-                    changeStatus({
-                      quotation: quotation.id,
-                      status: "Approved",
-                    })
-                  }
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <CheckCircle size={16} className="mr-2" />
-                  Approve
-                </button>
-              )}
-            {quotation.status !== "Rejected" && (
-              <button
-                onClick={() =>
-                  changeStatus({ quotation: quotation.id, status: "Rejected" })
-                }
-                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <XCircle size={16} className="mr-2" />
-                Reject
-              </button>
-            )}
-          </div>
         </div>
       )}
     </div>
@@ -221,10 +181,6 @@ const QuotationCard = ({ quotation, onChangeStatus }) => {
 const Quotations = () => {
   const [loading, setLoading] = useState(false);
   const [quotations, setQuotations] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("All");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const fetchQuotations = useCallback(async () => {
     try {
       setLoading(true);
@@ -239,19 +195,6 @@ const Quotations = () => {
   useEffect(() => {
     fetchQuotations();
   }, [fetchQuotations]);
-  const changeQuotationStatus = async ({ quotation: id, status }) => {
-    try {
-      setLoading(true);
-      await updateQuotationStatus(id, status);
-      toast.success("Status Changed");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to update quotation status");
-    } finally {
-      setLoading(false);
-      fetchQuotations();
-    }
-  };
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -280,64 +223,19 @@ const Quotations = () => {
       </div>
 
       <div className="bg-[#FFFBF5] rounded-lg p-4 border border-gray-200 shadow-sm mb-6">
-        <div className="flex items-center gap-3 relative">
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-              <FileText className="h-5 w-5 text-orange-600" />
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-gray-900">
-                Quotation Overview
-              </h2>
-              <p className="text-gray-600 text-sm mt-1">
-                Below are all the quotations requested. Click on any quotation
-                to view more details or take action.
-              </p>
-            </div>
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <FileText className="h-5 w-5 text-orange-600" />
           </div>
-          <div className="relative ml-auto">
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            >
-              <div className="flex items-center">
-                <Filter size={18} className="mr-2 text-gray-400" />
-                {selectedFilter
-                  ? selectedFilter || "Filter by status"
-                  : "Filter by status"}
-              </div>
-              <ChevronDown size={16} className="text-gray-400" />
-            </button>
 
-            {isFilterOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-                <div className="py-1" role="menu" aria-orientation="vertical">
-                  <button
-                    onClick={() => {
-                      setSelectedFilter("All");
-                      setIsFilterOpen(false);
-                      setPageNumber(1);
-                    }}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    All Statuses
-                  </button>
-                  {["Pending", "Approved", "Rejected"].map((status, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setSelectedFilter(status);
-                        setIsFilterOpen(false);
-                        setPageNumber(1);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+          <div>
+            <h2 className="text-lg font-medium text-gray-900">
+              Quotation Overview
+            </h2>
+            <p className="text-gray-600 text-sm mt-1">
+              Below are all the quotations requested. Click on any quotation to
+              view more details or take action.
+            </p>
           </div>
         </div>
 
@@ -381,11 +279,7 @@ const Quotations = () => {
       </div>
       <div className="space-y-4">
         {quotations.map((quotation) => (
-          <QuotationCard
-            key={quotation.id}
-            onChangeStatus={changeQuotationStatus}
-            quotation={quotation}
-          />
+          <QuotationCard key={quotation.id} quotation={quotation} />
         ))}
       </div>
     </div>

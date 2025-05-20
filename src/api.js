@@ -799,7 +799,7 @@ export const deleteCaseStudy = async (id) => {
     throw error;
   }
 };
-
+// authentication
 export const authenticateUser = async (user, password) => {
   try {
     const response = await axios.post(
@@ -850,7 +850,18 @@ export const verifyEmail = async (verificationCode) => {
     throw error;
   }
 };
-
+export const getQuotationsByUser = async (email, id) => {
+  try {
+    const response = await axios.get(
+      `${endpoints.quotations}/get-by-user?id=${id}&email=${email}`,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user quotations:", error);
+    throw error;
+  }
+};
 export const resetPassword = async (token, newPassword) => {
   try {
     const response = await axios.post(
@@ -868,7 +879,58 @@ export const resetPassword = async (token, newPassword) => {
     throw error;
   }
 };
-
+export const changePassword = async (id, data) => {
+  try {
+    const response = await axios.put(
+      `${endpoints.auth}/change-password/${id}`,
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+// admins
+export const getAdmins = async () => {
+  try {
+    const response = await axios.get(`${endpoints.auth}/admins`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching admins:", error);
+    throw error;
+  }
+};
+export const addAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(`${endpoints.auth}/admin`, adminData, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding admins:", error);
+    throw error;
+  }
+};
+export const deleteAdmin = async (id) => {
+  try {
+    const response = await axios.delete(`${endpoints.auth}/user/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting admin:", error);
+    throw error;
+  }
+};
 export const forgotPassword = async (email) => {
   try {
     const response = await axios.post(
@@ -886,7 +948,7 @@ export const forgotPassword = async (email) => {
     throw error;
   }
 };
-
+//
 export const getFaqs = async () => {
   try {
     const response = await axios.get(endpoints.faqs);

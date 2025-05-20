@@ -26,8 +26,5 @@
     "main.0ab380b0.css.map": "/static/css/main.0ab380b0.css.map",
     "main.bc2757ce.js.map": "/static/js/main.bc2757ce.js.map"
   },
-  "entrypoints": [
-    "static/css/main.0ab380b0.css",
-    "static/js/main.bc2757ce.js"
-  ]
+  "entrypoints": ["static/css/main.0ab380b0.css", "static/js/main.bc2757ce.js"]
 }
