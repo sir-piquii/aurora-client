@@ -23,75 +23,60 @@ import TestimonialsForm from './components/TestimonialsForm';
 import Dealer from './components/Dealer';
 import DealerDetail from './components/DealerDetail';
 import DashboardCards from './components/DashboardCards';
-
+import { Toaster } from "sonner";
+import UserManagement from "./components/UserManagement";
 function AdminPanel() {
-	useEffect(() => {
-		document.title = 'Admin Panel';
-	}, []);
-	return (
-		<div className="admin-panel flex">
-			<Sidebar />
-			<div className="admin-content flex-1 p-6">
-				<Routes>
-					<Route path="products" element={<Products />} />
-					<Route
-						path="featured-products"
-						element={<FeaturedProducts />}
-					/>
-					<Route path="articles" element={<Articles />} />
-					<Route path="blogs" element={<Blogs />} />
-					<Route path="faqs" element={<FAQs />} />
-					<Route path="certificates" element={<Certificates />} />
-					<Route path="awards" element={<Awards />} />
-					<Route path="case-studies" element={<CaseStudies />} />
-					<Route path="team" element={<Team />} />
-					<Route path="testimonials" element={<Testimonials />} />
-					<Route path="dealers" element={<Dealer />} />
-					<Route path="dealers/:id" element={<DealerDetail />} />
-					<Route path="products/add" element={<ProductForm />} />
-					<Route path="products/edit/:id" element={<ProductForm />} />
-					<Route
-						path="featured-products/add"
-						element={<FeaturedProductForm />}
-					/>
-					<Route
-						path="featured-products/edit/:id"
-						element={<FeaturedProductForm />}
-					/>
-					<Route path="articles/add" element={<ArticleForm />} />
-					<Route path="articles/edit/:id" element={<ArticleForm />} />
-					<Route path="blogs/add" element={<BlogForm />} />
-					<Route path="blogs/edit/:id" element={<BlogForm />} />
-					<Route path="faqs/add" element={<FAQsForm />} />
-					<Route path="faqs/edit/:id" element={<FAQsForm />} />
-					<Route
-						path="certificates/add"
-						element={<CertificatesForm />}
-					/>
-					<Route path="awards/add" element={<CertificatesForm />} />
-					<Route
-						path="case-studies/add"
-						element={<CaseStudyForm />}
-					/>
-					<Route
-						path="case-studies/edit/:id"
-						element={<CaseStudyForm />}
-					/>
-					<Route path="team/add" element={<TeamForm />} />
-					<Route path="team/edit/:id" element={<TeamForm />} />
-					<Route
-						path="testimonials/add"
-						element={<TestimonialsForm />}
-					/>
-					<Route
-						path="testimonials/edit/:id"
-						element={<TestimonialsForm />}
-					/>
-					<Route path="dashboard" element={<DashboardCards />} />
-				</Routes>
-			</div>
-		</div>
-	);
+  useEffect(() => {
+    document.title = "Admin Panel";
+  }, []);
+  return (
+    <div className="admin-panel flex">
+      <Sidebar />
+      <div className="admin-content flex-1 p-6">
+        <Routes>
+          <Route path="products" element={<Products />} />
+          <Route path="featured-products" element={<FeaturedProducts />} />
+          <Route path="articles" element={<Articles />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="faqs" element={<FAQs />} />
+          <Route path="certificates" element={<Certificates />} />
+          <Route path="awards" element={<Awards />} />
+          <Route path="case-studies" element={<CaseStudies />} />
+          <Route path="team" element={<Team />} />
+          <Route path="testimonials" element={<Testimonials />} />
+          <Route path="dealers" element={<Dealer />} />
+          <Route path="user-management" element={<UserManagement />} />
+          <Route path="dealers/:id" element={<DealerDetail />} />
+          <Route path="products/add" element={<ProductForm />} />
+          <Route path="products/edit/:id" element={<ProductForm />} />
+          <Route
+            path="featured-products/add"
+            element={<FeaturedProductForm />}
+          />
+          <Route
+            path="featured-products/edit/:id"
+            element={<FeaturedProductForm />}
+          />
+          <Route path="articles/add" element={<ArticleForm />} />
+          <Route path="articles/edit/:id" element={<ArticleForm />} />
+          <Route path="blogs/add" element={<BlogForm />} />
+          <Route path="blogs/edit/:id" element={<BlogForm />} />
+          <Route path="faqs/add" element={<FAQsForm />} />
+          <Route path="faqs/edit/:id" element={<FAQsForm />} />
+          <Route path="certificates/add" element={<CertificatesForm />} />
+          <Route path="awards/add" element={<CertificatesForm />} />
+          <Route path="case-studies/add" element={<CaseStudyForm />} />
+          <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
+          <Route path="team/add" element={<TeamForm />} />
+          <Route path="team/edit/:id" element={<TeamForm />} />
+          <Route path="testimonials/add" element={<TestimonialsForm />} />
+          <Route path="testimonials/edit/:id" element={<TestimonialsForm />} />
+          <Route path="dashboard" element={<DashboardCards />} />
+        </Routes>
+      </div>
+      <Toaster />
+    </div>
+  );
 }
 
 export default AdminPanel;

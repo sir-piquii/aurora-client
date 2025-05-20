@@ -110,11 +110,12 @@ export default function Navbar() {
 		return initials.toUpperCase();
 	}
 
-	const avatarUrl = user?.user.profile
-		? `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`
-		: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-				user?.user.name || 'User',
-		  )}&background=0D8ABC&color=fff`;
+	const avatarUrl =
+    user?.user.profile == "avatar" || !user?.user.profile
+      ? `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          user?.user.name || "User"
+        )}&background=0D8ABC&color=fff`
+      : `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`;
 
 	if (isAdmin) {
 		const user = JSON.parse(localStorage.getItem('user'));
