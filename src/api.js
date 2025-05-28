@@ -1,7 +1,7 @@
-import axios from 'axios';
-
+import axios from "axios";
 export const BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
+  process.env.REACT_APP_API_URL || "https://dev-api.auroraenergy.co.zw"; //https://dev-api.auroraenergy.co.zw
+
 const endpoints = {
   products: `${BASE_URL}/products`,
   featured: `${BASE_URL}/featured`,
@@ -19,8 +19,26 @@ const endpoints = {
   overview: `${BASE_URL}/overview`,
   brands: `${BASE_URL}/brands`,
   positions: `${BASE_URL}/positions`,
+  statistics: `${BASE_URL}/statistics/`
 };
+// statistics
+export const getStatistics = async(range, category)=>{
+  try {
+    const response = await axios.get(endpoints.statistics,{
+      withCredentials: true,
+      params: {
+        range: range || null,
+        category: category || null
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
 // positions
+
 export const getPositions = async () => {
   try {
     const response = await axios.get(`${endpoints.positions}/`, {
@@ -249,18 +267,21 @@ export const changeDealerStatus = async (id, status) => {
     throw error;
   }
 };
-export const getDealers = async (
-  reg_status = null,
-  page_number = 1,
-  page_size = 10
-) => {
+//reg_status, page_number, page_size
+export const getDealers = async (reg_status, page_number, page_size) => {
   try {
     const params = {};
-    if (reg_status !== null) params.reg_status = reg_status;
-    if (page_number !== null) params.page_number = page_number;
-    if (page_size !== null) params.page_size = page_size;
+    if (reg_status !== undefined && reg_status !== null)
+      params.reg_status = reg_status;
+    if (page_number !== undefined && page_number !== null)
+      params.page_number = page_number;
+    if (page_size !== undefined && page_size !== null)
+      params.page_size = page_size;
 
-    const response = await axios.get(`${endpoints.dealer}/`, { params });
+    const response = await axios.get(`${endpoints.dealer}/`, {
+      withCredentials: true,
+      params,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching dealers:", error);
@@ -905,7 +926,7 @@ export const addCaseStudy = async (caseStudyData) => {
   try {
     const response = await axios.post(endpoints.caseStudies, caseStudyData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -1180,11 +1201,14 @@ export const searchFaqsByKeyword = async (keyword) => {
   }
 };
 
-export const getQuotations = async () => {
+export const getQuotations = async (status, page, pageSize) => {
   try {
-    const response = await axios.get(`${endpoints.quotations}/`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${endpoints.quotations}/?status=${status}&pageSize=${pageSize}&page=${page}`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching quotations:", error);
@@ -1193,35 +1217,53 @@ export const getQuotations = async () => {
 };
 
 export const getQuotationById = async (id) => {
-	try {
-		const response = await axios.get(`${endpoints.quotations}/${id}`);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching quotation by ID:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(`${endpoints.quotations}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching quotation by ID:", error);
+    throw error;
+  }
 };
 
 export const addQuotation = async (quotationData) => {
-	try {
-		const response = await axios.post(endpoints.quotations, quotationData, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-		return response.data;
-	} catch (error) {
-		console.error('Error adding quotation:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.post(endpoints.quotations, quotationData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding quotation:", error);
+    throw error;
+  }
 };
-
+export const changeQuotationStatus = async (id, status) => {
+  console.log(status);
+  try {
+    const response = await axios.put(
+      `${endpoints.quotations}/${id}`,
+      { status: status },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding quotation:", error);
+    throw error;
+  }
+};
 export const getOverview = async () => {
-	try {
-		const response = await axios.get(endpoints.overview);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching overview:', error);
-		throw error;
-	}
+  try {
+    const response = await axios.get(endpoints.overview);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching overview:", error);
+    throw error;
+  }
 };

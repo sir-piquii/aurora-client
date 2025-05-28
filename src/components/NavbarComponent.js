@@ -30,7 +30,8 @@ export default function Navbar() {
 	// Dummy user logic; replace with real auth
 	const user = JSON.parse(localStorage.getItem('user')) ?? null;
 	const fullName = user?.user?.fullName;
-	const isAdmin = user?.user?.role === 'admin';
+	const isAdmin =
+		user?.user?.role === 'admin' || user?.user?.role === 'super';
 
 	const [basketCount, setBasketCount] = useState(0);
 
@@ -110,7 +111,7 @@ export default function Navbar() {
 	}
 
 	const avatarUrl =
-    user?.user.profile == "avatar" || !user?.user.profile
+    user?.user.profile === "avatar" || !user?.user.profile
       ? `https://ui-avatars.com/api/?name=${encodeURIComponent(
           user?.user.name || "User"
         )}&background=0D8ABC&color=fff`
