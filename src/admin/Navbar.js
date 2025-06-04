@@ -7,19 +7,23 @@ const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user")) ?? null;
   const fullName = user?.user?.fullName;
   const avatarUrl =
-    user?.user.profile == "avatar" || !user?.user.profile
+    user?.user.profile === "avatar" || !user?.user.profile
       ? `https://ui-avatars.com/api/?name=${encodeURIComponent(
           user?.user.name || "User"
         )}&background=0D8ABC&color=fff`
       : `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`;
-
   const { toggle } = useSidebar;
+
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
       <div className="flex items-center justify-between px-4 py-3">
         {/* Mobile menu button */}
         <button
-          onClick={toggle}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            toggle();
+          }}
           className="lg:hidden p-2 rounded-lg text-navy-500 hover:bg-gray-100"
           aria-label="Toggle sidebar"
         >
@@ -32,7 +36,10 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {/* User profile */}
           <div className="flex items-center">
-            <span className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100">
+            <a
+              href="/admin/profile"
+              className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100"
+            >
               <img
                 src={avatarUrl}
                 alt="Avatar Preview"
@@ -41,7 +48,7 @@ const Navbar = () => {
               <span className="hidden md:inline-block text-sm font-medium text-navy-700">
                 {fullName}
               </span>
-            </span>
+            </a>
           </div>
           {/*Logout */}
           <button

@@ -1,6 +1,6 @@
 import axios from "axios";
 export const BASE_URL =
-  process.env.REACT_APP_API_URL || "https://dev-api.auroraenergy.co.zw"; //https://dev-api.auroraenergy.co.zw
+  process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
 
 const endpoints = {
   products: `${BASE_URL}/products`,
@@ -19,24 +19,42 @@ const endpoints = {
   overview: `${BASE_URL}/overview`,
   brands: `${BASE_URL}/brands`,
   positions: `${BASE_URL}/positions`,
-  statistics: `${BASE_URL}/statistics/`
+  statistics: `${BASE_URL}/statistics/`,
+  sales: `${BASE_URL}/sales/`,
 };
-// statistics
-export const getStatistics = async(range, category)=>{
+// sales
+export const getSales = async (range, category) => {
   try {
-    const response = await axios.get(endpoints.statistics,{
+    const response = await axios.get(endpoints.sales, {
       withCredentials: true,
       params: {
         range: range || null,
-        category: category || null
-      }
-    })
+        category: category || null,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error(error)
-    throw error
+    console.error(error);
+    throw error;
   }
-}
+};
+// statistics
+export const getStatistics = async (range, category) => {
+  try {
+    const response = await axios.get(endpoints.statistics, {
+      withCredentials: true,
+      params: {
+        range: range || null,
+        category: category || null,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 // positions
 
 export const getPositions = async () => {
@@ -834,7 +852,7 @@ export const deleteArticle = async (id) => {
 
 export const getBlogs = async () => {
   try {
-    const response = await axios.get(endpoints.blogs);
+    const response = await axios.get(`${endpoints.blogs}/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -855,8 +873,9 @@ export const getBlogById = async (id) => {
 export const addBlog = async (blogData) => {
   try {
     const response = await axios.post(endpoints.blogs, blogData, {
+      withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -1091,6 +1110,17 @@ export const getAdmins = async () => {
     throw error;
   }
 };
+export const getLoggedInAdmin = async () => {
+  try {
+    const response = await axios.get(`${endpoints.auth}/me`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching account:", error);
+    throw error;
+  }
+};
 export const addAdmin = async (adminData) => {
   try {
     const response = await axios.post(`${endpoints.auth}/admin`, adminData, {
@@ -1102,6 +1132,7 @@ export const addAdmin = async (adminData) => {
     throw error;
   }
 };
+
 export const deleteAdmin = async (id) => {
   try {
     const response = await axios.delete(`${endpoints.auth}/user/${id}`, {

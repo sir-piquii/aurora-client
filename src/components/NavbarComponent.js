@@ -157,451 +157,391 @@ export default function Navbar() {
 	}
 
 	return (
-		<>
-			{/* Top Orange Bar */}
-			<div className="bg-orange-500 text-white">
-				<div className="container mx-auto flex justify-between items-center py-1 px-4 text-sm">
-					<div className="flex items-center space-x-4">
-						<a
-							href="https://wa.me/263771683662"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<div className="flex items-center space-x-1">
-								<FaWhatsapp size={16} />
-								<span className="hidden md:inline">
-									+263 771 683 662
-								</span>
-							</div>
-						</a>
-						<a
-							href="tel:+263242783999"
-							className="flex items-center space-x-1"
-						>
-							<FaPhone size={16} />
-							<span className="hidden md:inline">
-								+263 242 783 999
-							</span>
-						</a>
-						<a
-							href="mailto:info@auroraenergy.co.zw"
-							className="flex items-center space-x-1"
-						>
-							<Mail size={16} />
-							<span className="hidden md:inline">
-								info@auroraenergy.co.zw
-							</span>
-						</a>
-					</div>
-					<div className="flex space-x-3">
-						<a href="#">
-							<FaFacebook size={16} />
-						</a>
-						<a href="#">
-							<FaXTwitter size={16} />
-						</a>
-						<a href="#">
-							<FaInstagram size={16} />
-						</a>
-						<a href="#">
-							<FaLinkedin size={16} />
-						</a>
-						<a href="#">
-							<FaYoutube size={16} />
-						</a>
-						<a href="#">
-							<FaTiktok size={16} />
-						</a>
-					</div>
-				</div>
-			</div>
+    <>
+      {/* Top Orange Bar */}
+      <div className="bg-orange-500 text-white">
+        <div className="container mx-auto flex justify-between items-center py-1 px-4 text-sm">
+          <div className="flex items-center space-x-4">
+            <a
+              href="https://wa.me/263771683662"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex items-center space-x-1">
+                <FaWhatsapp size={16} />
+                <span className="hidden md:inline">+263 771 683 662</span>
+              </div>
+            </a>
+            <a href="tel:+263242783999" className="flex items-center space-x-1">
+              <FaPhone size={16} />
+              <span className="hidden md:inline">+263 242 783 999</span>
+            </a>
+            <a
+              href="mailto:info@auroraenergy.co.zw"
+              className="flex items-center space-x-1"
+            >
+              <Mail size={16} />
+              <span className="hidden md:inline">info@auroraenergy.co.zw</span>
+            </a>
+          </div>
+          <div className="flex space-x-3">
+            <a href="#">
+              <FaFacebook size={16} />
+            </a>
+            <a href="#">
+              <FaXTwitter size={16} />
+            </a>
+            <a href="#">
+              <FaInstagram size={16} />
+            </a>
+            <a href="#">
+              <FaLinkedin size={16} />
+            </a>
+            <a href="#">
+              <FaYoutube size={16} />
+            </a>
+            <a href="#">
+              <FaTiktok size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
 
-			{/* Main Navbar */}
-			<nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
-				<div className="container mx-auto flex items-center justify-between p-4">
-					<a href="/">
-						<img src={Logo} alt="Logo" style={{ width: '175px' }} />
-					</a>
+      {/* Main Navbar */}
+      <nav className="relative bg-gradient-to-r from-white to-navy-900 shadow-md z-50">
+        <div className="container mx-auto flex items-center justify-between p-4">
+          <a href="/">
+            <img src={Logo} alt="Logo" style={{ width: "175px" }} />
+          </a>
 
-					{/* Mobile Toggle */}
-					<button
-						className="md:hidden"
-						onClick={() => setIsOpen(!isOpen)}
-					>
-						{isOpen ? (
-							<FaX size={28} className="text-orange-500" />
-						) : (
-							<Menu size={28} className="text-orange-500" />
-						)}
-					</button>
+          {/* Mobile Toggle */}
+          <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? (
+              <FaX size={28} className="text-orange-500" />
+            ) : (
+              <Menu size={28} className="text-orange-500" />
+            )}
+          </button>
 
-					{/* Desktop Menu */}
-					<ul className="hidden md:flex space-x-6 text-white font-medium items-center">
-						<li className="hover:text-orange-500">
-							<a href="/">Home</a>
-						</li>
-						<li className="hover:text-orange-500">
-							<a href="/about">About Us</a>
-						</li>
-						<li
-							className="relative"
-							onMouseEnter={handleMouseEnter}
-							onMouseLeave={handleMouseLeave}
-						>
-							<div className="flex items-center">
-								<a
-									href="/products"
-									onClick={handleProductsClick}
-									className="hover:text-orange-500"
-								>
-									Products
-								</a>
-								<button
-									onClick={(e) => {
-										e.preventDefault();
-										setIsDropdownOpen((prev) => !prev);
-									}}
-									className="ml-1"
-								>
-									<ChevronDown
-										size={18}
-										className="hover:text-orange-500"
-									/>
-								</button>
-							</div>
-							{isDropdownOpen && (
-								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
-									{[
-										'Solar Panels',
-										'Hybrid Inverters',
-										'Energy Storage',
-										'Mounting Equipment',
-										'Cabling',
-										'Accessories',
-										'Switch Gear',
-									].map((item, i) => (
-										<li
-											key={i}
-											className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500"
-										>
-											<a
-												href={`/category/${item
-													.toLowerCase()
-													.replace(/ /g, '-')}`}
-											>
-												{item}
-											</a>
-										</li>
-									))}
-								</ul>
-							)}
-						</li>
-						<li
-							className="relative"
-							onMouseEnter={() => {
-								clearTimeout(insightsCloseTimer.current);
-								setInsightsDropdownOpen(true);
-							}}
-							onMouseLeave={() => {
-								insightsCloseTimer.current = setTimeout(
-									() => setInsightsDropdownOpen(false),
-									200,
-								);
-							}}
-						>
-							<div className="flex items-center">
-								<a
-									href="/insights"
-									onClick={handleInsightsClick}
-									className="hover:text-orange-500"
-								>
-									Insights & News
-								</a>
-								<button
-									onClick={(e) => {
-										e.preventDefault();
-										setInsightsDropdownOpen(
-											(prev) => !prev,
-										);
-									}}
-									className="ml-1"
-								>
-									<ChevronDown
-										size={18}
-										className="hover:text-orange-500"
-									/>
-								</button>
-							</div>
-							{insightsDropdownOpen && (
-								<ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
-									<li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
-										<a href="/blogs">Blogs</a>
-									</li>
-									<li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
-										<a href="/case-studies">Case Studies</a>
-									</li>
-								</ul>
-							)}
-						</li>
-						<li className="hover:text-orange-500">
-							<a href="/contact">Contact Us</a>
-						</li>
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex space-x-6 text-white font-medium items-center">
+            <li className="hover:text-orange-500">
+              <a href="/">Home</a>
+            </li>
+            <li className="hover:text-orange-500">
+              <a href="/about">About Us</a>
+            </li>
+            <li
+              className="relative"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="flex items-center">
+                <a
+                  href="/products"
+                  onClick={handleProductsClick}
+                  className="hover:text-orange-500"
+                >
+                  Products
+                </a>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsDropdownOpen((prev) => !prev);
+                  }}
+                  className="ml-1"
+                >
+                  <ChevronDown size={18} className="hover:text-orange-500" />
+                </button>
+              </div>
+              {isDropdownOpen && (
+                <ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
+                  {[
+                    "Solar Panels",
+                    "Hybrid Inverters",
+                    "Energy Storage",
+                    "Mounting Equipment",
+                    "Cabling",
+                    "Accessories",
+                    "Switch Gear",
+                  ].map((item, i) => (
+                    <li
+                      key={i}
+                      className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500"
+                    >
+                      <a
+                        href={`/category/${item
+                          .toLowerCase()
+                          .replace(/ /g, "-")}`}
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+            <li
+              className="relative"
+              onMouseEnter={() => {
+                clearTimeout(insightsCloseTimer.current);
+                setInsightsDropdownOpen(true);
+              }}
+              onMouseLeave={() => {
+                insightsCloseTimer.current = setTimeout(
+                  () => setInsightsDropdownOpen(false),
+                  200
+                );
+              }}
+            >
+              <div className="flex items-center">
+                <a
+                  href="/insights"
+                  onClick={handleInsightsClick}
+                  className="hover:text-orange-500"
+                >
+                  Insights & News
+                </a>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setInsightsDropdownOpen((prev) => !prev);
+                  }}
+                  className="ml-1"
+                >
+                  <ChevronDown size={18} className="hover:text-orange-500" />
+                </button>
+              </div>
+              {insightsDropdownOpen && (
+                <ul className="absolute left-0 top-full mt-1 w-48 bg-navy-900 shadow-lg rounded-md py-2 z-50">
+                  <li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
+                    <a href="/blogs">Blogs</a>
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 hover:text-orange-500">
+                    <a href="/case-studies">Case Studies</a>
+                  </li>
+                </ul>
+              )}
+            </li>
+            <li className="hover:text-orange-500">
+              <a href="/contact">Contact Us</a>
+            </li>
 
-						{/* Auth Links */}
-						{!user ? (
-							<>
-								<li>
-									<a
-										href="/login"
-										className="bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white"
-									>
-										Login
-									</a>
-								</li>
-								<li>
-									<a
-										href="/signup"
-										className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
-									>
-										Sign Up
-									</a>
-								</li>
-							</>
-						) : (
-							<>
-								<li className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white">
-									<a href="/dealer" className="text-white">
-										Dashboard
-									</a>
-									<div className="ml-2 w-8 h-8 rounded-full bg-white text-navy-900 flex items-center justify-center text-sm font-semibold shadow">
-										<img
-											src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-												getInitials(fullName),
-											)}&background=orange&color=fff`}
-											alt="User Initials"
-											className="w-8 h-8 rounded-full object-cover"
-										/>
-									</div>
-								</li>
+            {/* Auth Links */}
+            {!user ? (
+              <>
+                <li>
+                  <a
+                    href="/login"
+                    className="bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white"
+                  >
+                    Login
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/signup"
+                    className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
+                  >
+                    Sign Up
+                  </a>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-navy-900 px-3 py-1 rounded hover:text-orange-300 transition text-white">
+                  <a href="/dealer" className="text-white">
+                    Dashboard
+                  </a>
+                  <div className="ml-2 w-8 h-8 rounded-full bg-white text-navy-900 flex items-center justify-center text-sm font-semibold shadow">
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        getInitials(fullName)
+                      )}&background=orange&color=fff`}
+                      alt="User Initials"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  </div>
+                </li>
 
-								<li>
-									<a
-										href="/"
-										onClick={() => {
-											localStorage.removeItem(
-												'authToken',
-											);
-											localStorage.removeItem('user');
-											window.location.reload();
-										}}
-										className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
-									>
-										Logout
-									</a>
-								</li>
-							</>
-						)}
-						<li>
-							{' '}
-							<a
-								href="/cart"
-								className="flex items-center space-x-1 hover:text-orange-500 text-white"
-							>
-								<FaCartShopping size={16} />
-								<span>{basketCount}</span>
-							</a>
-						</li>
-					</ul>
-				</div>
+                <li>
+                  <a
+                    href="/"
+                    onClick={() => {
+                      localStorage.removeItem("authToken");
+                      localStorage.removeItem("user");
+                      window.location.reload();
+                    }}
+                    className="bg-gradient-to-r from-navy-900 to-orange-500 px-3 py-1 rounded hover:text-orange-300 transition text-white"
+                  >
+                    Logout
+                  </a>
+                </li>
+              </>
+            )}
+            <li>
+              {" "}
+              <a
+                href="/cart"
+                className="flex items-center space-x-1 hover:text-orange-500 text-white"
+              >
+                <FaCartShopping size={16} />
+                <span>{basketCount}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-				{/* Mobile Menu */}
-				<AnimatePresence>
-					{isOpen && (
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ duration: 0.3 }}
-							className="fixed inset-0 z-50 bg-black bg-opacity-50"
-							onClick={() => setIsOpen(false)}
-						>
-							<motion.div
-								onClick={(e) => e.stopPropagation()}
-								initial={{ x: '-100%' }}
-								animate={{ x: 0 }}
-								exit={{ x: '-100%' }}
-								transition={{ duration: 0.3 }}
-								className="w-4/5 h-full bg-navy-900 p-6 flex flex-col space-y-4 overflow-y-auto"
-							>
-								<button
-									className="self-end"
-									onClick={() => setIsOpen(false)}
-								>
-									<FaX
-										size={28}
-										className="text-orange-500"
-									/>
-								</button>
-								{[
-									{ name: 'Home', href: '/' },
-									{ name: 'About Us', href: '/about' },
-									{
-										name: 'Products',
-										href: '/products',
-										subItems: [
-											'Solar Panels',
-											'Hybrid Inverters',
-											'Energy Storage',
-											'Mounting Equipment',
-											'Cabling',
-											'Accessories',
-											'Switch Gear',
-										],
-									},
-									{
-										name: 'Insights & News',
-										href: '/insights',
-										subItems: [
-											{ name: 'Blogs', href: '/blogs' },
-											{
-												name: 'Case Studies',
-												href: '/case-studies',
-											},
-										],
-									},
-									{ name: 'Contact Us', href: '/contact' },
-								].map((item, idx) => (
-									<div key={idx}>
-										<div
-											className="flex justify-between items-center py-2 border-b"
-											onClick={handleLinkClick}
-										>
-											<a
-												href={item.href}
-												className="text-white text-lg"
-											>
-												{item.name}
-											</a>
-											{item.subItems && (
-												<button
-													onClick={() => {
-														if (
-															item.name ===
-															'Products'
-														)
-															setMobileProductsDropdownOpen(
-																(prev) => !prev,
-															);
-														if (
-															item.name ===
-															'Insights & News'
-														)
-															setMobileInsightsDropdownOpen(
-																(prev) => !prev,
-															);
-													}}
-												>
-													<ChevronDown className="text-white" />
-												</button>
-											)}
-										</div>
-										{item.subItems &&
-											item.name === 'Products' &&
-											mobileProductsDropdownOpen && (
-												<ul className="pl-4 text-white">
-													{item.subItems.map(
-														(sub, i) => (
-															<li
-																key={i}
-																className="py-2 border-b"
-																onClick={
-																	handleLinkClick
-																}
-															>
-																<a
-																	href={`/category/${sub
-																		.toLowerCase()
-																		.replace(
-																			/ /g,
-																			'-',
-																		)}`}
-																>
-																	{sub}
-																</a>
-															</li>
-														),
-													)}
-												</ul>
-											)}
-										{item.subItems &&
-											item.name === 'Insights & News' &&
-											mobileInsightsDropdownOpen && (
-												<ul className="pl-4 text-white">
-													{item.subItems.map(
-														(sub, i) => (
-															<li
-																key={i}
-																className="py-2 border-b"
-																onClick={
-																	handleLinkClick
-																}
-															>
-																<a
-																	href={
-																		sub.href
-																	}
-																>
-																	{sub.name}
-																</a>
-															</li>
-														),
-													)}
-												</ul>
-											)}
-									</div>
-								))}
-								{/* Auth */}
-								{!user ? (
-									<>
-										<a
-											href="/login"
-											className="block text-white bg-orange-500 text-center py-2 rounded"
-										>
-											Login
-										</a>
-										<a
-											href="/signup"
-											className="block text-white bg-orange-500 text-center py-2 rounded"
-										>
-											Sign Up
-										</a>
-									</>
-								) : (
-									<button
-										onClick={() => {
-											localStorage.removeItem(
-												'authToken',
-											);
-											localStorage.removeItem('user');
-											window.location.reload();
-										}}
-										className="block text-white bg-navy-900 border border-orange-500 text-center py-2 rounded"
-									>
-										Logout
-									</button>
-								)}
-								<a
-									href="/cart"
-									className="flex items-center space-x-2 text-white py-2"
-								>
-									<FaCartShopping size={18} />
-									<span>{basketCount}</span>
-								</a>
-							</motion.div>
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</nav>
-		</>
-	);
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 bg-black bg-opacity-50"
+              onClick={() => setIsOpen(false)}
+            >
+              <motion.div
+                onClick={(e) => e.stopPropagation()}
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.3 }}
+                className="w-4/5 h-full bg-navy-900 p-6 flex flex-col space-y-4 overflow-y-auto"
+              >
+                <button className="self-end" onClick={() => setIsOpen(false)}>
+                  <FaX size={28} className="text-orange-500" />
+                </button>
+                {[
+                  { name: "Home", href: "/" },
+                  { name: "About Us", href: "/about" },
+                  {
+                    name: "Products",
+                    href: "/products",
+                    subItems: [
+                      "Solar Panels",
+                      "Hybrid Inverters",
+                      "Energy Storage",
+                      "Mounting Equipment",
+                      "Cabling",
+                      "Accessories",
+                      "Switch Gear",
+                    ],
+                  },
+                  {
+                    name: "Insights & News",
+                    href: "/insights",
+                    subItems: [
+                      { name: "Blogs", href: "/blogs" },
+                      {
+                        name: "Case Studies",
+                        href: "/case-studies",
+                      },
+                    ],
+                  },
+                  { name: "Contact Us", href: "/contact" },
+                ].map((item, idx) => (
+                  <div key={idx}>
+                    <div
+                      className="flex justify-between items-center py-2 border-b"
+                      onClick={handleLinkClick}
+                    >
+                      <a href={item.href} className="text-white text-lg">
+                        {item.name}
+                      </a>
+                      {item.subItems && (
+                        <button
+                          onClick={() => {
+                            if (item.name === "Products")
+                              setMobileProductsDropdownOpen((prev) => !prev);
+                            if (item.name === "Insights & News")
+                              setMobileInsightsDropdownOpen((prev) => !prev);
+                          }}
+                        >
+                          <ChevronDown className="text-white" />
+                        </button>
+                      )}
+                    </div>
+                    {item.subItems &&
+                      item.name === "Products" &&
+                      mobileProductsDropdownOpen && (
+                        <ul className="pl-4 text-white">
+                          {item.subItems.map((sub, i) => (
+                            <li
+                              key={i}
+                              className="py-2 border-b"
+                              onClick={handleLinkClick}
+                            >
+                              <a
+                                href={`/category/${sub
+                                  .toLowerCase()
+                                  .replace(/ /g, "-")}`}
+                              >
+                                {sub}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    {item.subItems &&
+                      item.name === "Insights & News" &&
+                      mobileInsightsDropdownOpen && (
+                        <ul className="pl-4 text-white">
+                          {item.subItems.map((sub, i) => (
+                            <li
+                              key={i}
+                              className="py-2 border-b"
+                              onClick={handleLinkClick}
+                            >
+                              <a href={sub.href}>{sub.name}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                  </div>
+                ))}
+                {/* Auth */}
+                {!user ? (
+                  <>
+                    <a
+                      href="/login"
+                      className="block text-white bg-orange-500 text-center py-2 rounded"
+                    >
+                      Login
+                    </a>
+                    <a
+                      href="/signup"
+                      className="block text-white bg-orange-500 text-center py-2 rounded"
+                    >
+                      Sign Up
+                    </a>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("authToken");
+                      localStorage.removeItem("user");
+                      window.location.reload();
+                    }}
+                    className="block text-white bg-navy-900 border border-orange-500 text-center py-2 rounded"
+                  >
+                    Logout
+                  </button>
+                )}
+                <a
+                  href="/cart"
+                  className="flex items-center space-x-2 text-white py-2"
+                >
+                  <FaCartShopping size={18} />
+                  <span>{basketCount}</span>
+                </a>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </>
+  );
 }

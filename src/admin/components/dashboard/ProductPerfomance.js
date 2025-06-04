@@ -10,8 +10,17 @@ import {
 import { TrendingUp, ArrowUpRight } from "lucide-react";
 
 const ProductPerformance = ({ data }) => {
+  // Transform incoming data to match expected keys and types
+  const transformedData = data.map((item) => ({
+    category: item.category_name,
+    revenue: Number(item.total_revenue),
+    growth: Number(item.percentage_of_total),
+    itemsSold: Number(item.total_items_sold),
+    transactionCount: Number(item.transaction_count),
+  }));
+
   // Sort data by revenue in descending order
-  const sortedData = [...data].sort((a, b) => b.revenue - a.revenue);
+  const sortedData = [...transformedData].sort((a, b) => b.revenue - a.revenue);
   const topCategories = sortedData.slice(0, 5);
 
   return (

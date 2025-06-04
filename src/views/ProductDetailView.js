@@ -117,6 +117,7 @@ function ProductDetailView() {
         {
           product_id: product.product_id,
           quantity: parseInt(quoteForm.quantity, 10),
+          name: product.product_name,
         },
       ],
     };

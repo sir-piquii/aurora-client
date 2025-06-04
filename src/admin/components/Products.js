@@ -9,7 +9,7 @@ import {
   updateProductImages,
 } from "../../api";
 import ProductListings from "./ProductListings";
-import { Plus, Loader } from "lucide-react";
+import { Plus, Loader, Search } from "lucide-react";
 import { toast } from "sonner";
 import ProductFormModal from "./ProductModalForm";
 // products header
@@ -218,52 +218,59 @@ const Products = () => {
   return (
     <>
       <ProductHeader onAddProduct={addNewProduct} />
-      <div className="mx-auto px-4 mt-4">
-        {/* Category filter */}
-        <div>
-          <nav>
-            <ul className="flex space-x-2">
-              <li>
+      <div className="px-4 space-y-4 mb-6">
+        {/* Category filter - scrollable on mobile */}
+        <div className="relative mt-5">
+          <div className="overflow-x-auto pb-2 -mx-1 hide-scrollbar">
+            <nav className="flex whitespace-nowrap px-1">
+              <button
+                onClick={() => {
+                  setCurrentPage(1);
+                  setSelectedCategory(0);
+                }}
+                className={`px-4 py-2 rounded-md mr-2 min-w-max text-sm font-medium transition-colors duration-200 ${
+                  selectedCategory === 0
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                All Products
+              </button>
+
+              {productCategories.map((category) => (
                 <button
-                  onClick={() => setSelectedCategory(0)}
-                  className={`px-4 py-2 rounded-md ${
-                    selectedCategory === 0
+                  key={category.id}
+                  onClick={() => {
+                    setCurrentPage(1);
+                    setSelectedCategory(category.id);
+                  }}
+                  className={`px-4 py-2 rounded-md mr-2 min-w-max text-sm font-medium transition-colors duration-200 ${
+                    selectedCategory === category.id
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-200 text-gray-700"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
                 >
-                  All
+                  {category.category}
                 </button>
-              </li>
-              {productCategories.map((category) => (
-                <li key={category.id}>
-                  <button
-                    onClick={() => {
-                      setCurrentPage(1);
-                      setSelectedCategory(category.id);
-                    }}
-                    className={`px-4 py-2 rounded-md text-sm ${
-                      selectedCategory === category.id
-                        ? "bg-orange-500 text-white"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
-                  >
-                    {category.category}
-                  </button>
-                </li>
               ))}
-            </ul>
-          </nav>
+            </nav>
+          </div>
         </div>
-        {/* Search bar */}
-        <div className="mt-4 flex justify-end">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="border border-gray-300 rounded-md px-4 py-2 w-full md:w-1/3 lg:w-1/4 xl:w-1/5"
-          />
+
+        {/* Search bar - fully responsive */}
+        <div className="relative">
+          <div className="relative w-full sm:max-w-md ml-auto">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+          </div>
         </div>
       </div>
       <ProductListings

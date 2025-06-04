@@ -30,13 +30,15 @@ import { Toaster } from "sonner";
 import { SidebarContext, SidebarProvider } from "../context/SidebarContext";
 import { Menu } from "lucide-react";
 import { useContext } from "react";
+import Sales from "../admin/components/Sales";
+import Profile from "../admin/Profile";
 const AdminRoutes = () => {
   const { toggle } = useContext(SidebarContext);
   //const  = useSidebar;
   return (
     <ProtectedRoute>
       <SidebarProvider>
-        <div className="flex h-screen bg-gray-50 w-screen">
+        <div className="flex bg-gray-50 w-screen">
           {/* Sidebar */}
           <Sidebar />
           {/* Main Content */}
@@ -44,9 +46,10 @@ const AdminRoutes = () => {
             {/* Top Navigation */}
             <Navbar />
             {/* Page Content */}
-            <main className="flex-1 p-4 md:p-6 overflow-y-auto">
+            <main className="flex-1 h-screen max-w-screen p-4 md:p-6 overflow-y-auto">
               <Routes>
                 <Route path="/" element={<DashboardCards />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/products" element={<Products />} />
                 <Route
                   path="/featured-products"
@@ -54,6 +57,7 @@ const AdminRoutes = () => {
                 />
                 <Route path="/articles" element={<Articles />} />
                 <Route path="/blogs" element={<Blogs />} />
+                <Route path="/sales" element={<Sales />} />
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/certificates" element={<Certificates />} />
                 <Route path="/awards" element={<Awards />} />

@@ -13,7 +13,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user")) ?? null;
 
   if (user?.user.role === "admin" || user?.user.role === "super") {
@@ -23,7 +23,6 @@ export default function Login() {
   } else if (user?.user.role === "user") {
     setTimeout(() => navigate("/", { replace: true }), 0);
   }
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setLoginData({
@@ -35,19 +34,16 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
       if (loginData.password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }
-
+      setLoading(true);
       const user = await authenticateUser(
         loginData.identifier,
         loginData.password
       );
-
       login(user);
-
       if (user.user.role === "admin" || user.user.role === "super") {
         setTimeout(() => navigate("/admin", { replace: true }), 0);
       } else if (user.user.role === "dealer") {
@@ -56,14 +52,25 @@ export default function Login() {
         setTimeout(() => navigate("/", { replace: true }), 0);
       }
     } catch (err) {
-      setError(err.message);
+      setError(err?.response?.data?.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     document.title = "Login | Aurora";
   }, []);
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="w-12 h-12 border-4 border-t-orange-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600">logging in...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-full h-24 flex items-center justify-center text-navy-900">

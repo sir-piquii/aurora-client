@@ -18,6 +18,7 @@ import {
   Shield,
   CheckCircle,
   X,
+  ShoppingCart,
 } from "lucide-react";
 // side bar item
 const SidebarItem = ({ item, isActive }) => {
@@ -56,6 +57,7 @@ const SidebarItem = ({ item, isActive }) => {
 // side bar
 const Sidebar = () => {
   const { isOpen, close } = useContext(SidebarContext);
+  console.log(isOpen);
   const location = useLocation();
   // Close sidebar on navigation in mobile view
   useEffect(() => {
@@ -99,6 +101,11 @@ const Sidebar = () => {
       name: "Quotations",
       path: "/admin/quotations",
       icon: <FileText size={20} />,
+    },
+    {
+      name: "Sales",
+      path: "/admin/sales",
+      icon: <ShoppingCart size={20} />,
     },
     {
       name: "User Management",

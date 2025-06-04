@@ -1,7 +1,10 @@
 import { Users, ShoppingBag, ClipboardList, Award } from "lucide-react";
-const StatCard = ({ title, value, icon, color, increase }) => {
+const StatCard = ({ title, value, icon, color, increase, url }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+    <a
+      href={url}
+      className="bg-white rounded-xl shadow-sm cursor-pointer p-6 transition-all duration-300 hover:shadow-md"
+    >
       <div className="flex items-center">
         <div
           className={`h-12 w-12 rounded-lg ${color} flex items-center justify-center`}
@@ -11,42 +14,41 @@ const StatCard = ({ title, value, icon, color, increase }) => {
         <div className="ml-4">
           <p className="text-sm font-medium text-gray-500">{title}</p>
           <h2 className="text-2xl font-bold text-gray-900 mt-1">{value}</h2>
-          {increase && (
-            <p className="text-xs font-medium text-green-600 mt-1">
-              {increase} increase
-            </p>
-          )}
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 const StatsSummary = ({ data }) => {
   const stats = [
     {
       title: "Total Products",
-      value: data.Products,
+      url: "/admin/products",
+      value: data.products,
       icon: <ShoppingBag className="h-6 w-6 text-white" />,
       color: "bg-blue-500",
       increase: "12%",
     },
     {
       title: "System Users",
-      value: data.System_Users,
+      url: "/admin/user-management",
+      value: data.system_users,
       icon: <Users className="h-6 w-6 text-white" />,
       color: "bg-green-500",
       increase: "8%",
     },
     {
       title: "Quotations",
-      value: data.Quotations,
+      url: "/admin/quotations",
+      value: data.quotations,
       icon: <ClipboardList className="h-6 w-6 text-white" />,
       color: "bg-purple-500",
       increase: "5%",
     },
     {
       title: "Approved Dealers",
-      value: data.Approved_Dealers,
+      url: "/admin/dealers",
+      value: data.approved_dealers,
       icon: <Award className="h-6 w-6 text-white" />,
       color: "bg-amber-500",
     },

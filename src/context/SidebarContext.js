@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const SidebarContext = createContext({
   isOpen: false,
@@ -9,15 +9,18 @@ export const SidebarProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Initialize sidebar state based on screen size
+    // Set initial state based on screen size
+    setIsOpen(window.innerWidth >= 1024);
+    let lastIsDesktop = window.innerWidth >= 1024;
     const handleResize = () => {
-      setIsOpen(window.innerWidth >= 1024);
+      const isDesktop = window.innerWidth >= 1024;
+      // Only open sidebar if switching from mobile to desktop
+      if (isDesktop && !lastIsDesktop) {
+        setIsOpen(true);
+      }
+      lastIsDesktop = isDesktop;
     };
-    // Set initial state
-    handleResize();
-    // Add event listener
     window.addEventListener("resize", handleResize);
-    // Clean up
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 

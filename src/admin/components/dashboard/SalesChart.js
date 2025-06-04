@@ -11,6 +11,29 @@ import {
 } from "recharts";
 import { Calendar } from "lucide-react";
 const SalesChart = ({ data }) => {
+  // Transform the incoming data to fit the chart's expected format
+  // Group by month_year, sum monthly_revenue per category
+  const chartDataMap = {};
+
+  data.forEach((item) => {
+    const month = item.month_year;
+    if (!chartDataMap[month]) {
+      chartDataMap[month] = { month };
+    }
+    // Use category_name as key, parseFloat for revenue
+    chartDataMap[month][item.category_name] = parseFloat(item.monthly_revenue);
+  });
+
+  // Convert map to array and sort by month_number (assuming all months are in the same year or sorted)
+  const chartData = Object.values(chartDataMap).sort((a, b) => {
+    // Extract month_number from one of the items (find in original data)
+    const aMonth =
+      data.find((d) => d.month_year === a.month)?.month_number || "01";
+    const bMonth =
+      data.find((d) => d.month_year === b.month)?.month_number || "01";
+    return parseInt(aMonth) - parseInt(bMonth);
+  });
+
   const [timeRange, setTimeRange] = useState("6m");
   const filterMap = {
     "1m": 1,
@@ -18,7 +41,24 @@ const SalesChart = ({ data }) => {
     "6m": 6,
     "1y": 12,
   };
-  const filteredData = data.slice(-filterMap[timeRange]);
+  const filteredData = chartData.slice(-filterMap[timeRange]);
+  // Get all unique categories for dynamic lines
+  const categories = Array.from(
+    new Set(data.map((item) => item.category_name))
+  );
+
+  // Assign colors for up to 8 categories
+  const colors = [
+    "#3b82f6",
+    "#10b981",
+    "#f59e0b",
+    "#8b5cf6",
+    "#ef4444",
+    "#6366f1",
+    "#14b8a6",
+    "#f472b6",
+  ];
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
       <div className="flex items-center justify-between mb-6">
@@ -75,35 +115,17 @@ const SalesChart = ({ data }) => {
               }}
             />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="Solar Panels"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="Inverters"
-              stroke="#10b981"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="Batteries"
-              stroke="#f59e0b"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="Accessories"
-              stroke="#8b5cf6"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-            />
+            {categories.map((cat, idx) => (
+              <Line
+                key={cat}
+                type="monotone"
+                dataKey={cat}
+                stroke={colors[idx % colors.length]}
+                strokeWidth={2}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </div>

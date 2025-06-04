@@ -37,14 +37,11 @@ const Dealers = () => {
 
   const filteredDealers = dealers.filter((dealer) => {
     const matchesSearch =
-      dealer.user_full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      dealer.user_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      dealer.trading_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      dealer.user_username.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      statusFilter === "" ||
-      dealer.reg_status.toLowerCase().includes(statusFilter.toLowerCase());
-    return matchesSearch && matchesStatus;
+      dealer.user_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dealer.user_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dealer.trading_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dealer.user_username?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
   });
 
   const totalPages = Math.ceil(count / itemsToShow);
@@ -122,10 +119,16 @@ const Dealers = () => {
               >
                 All Statuses
               </button>
-              {["Approved", "Pending", "Rejected"].map((option, index) => (
+              {[
+                "Approved",
+                "Pending_Approval",
+                "Suspended",
+                "Pending Documents",
+              ].map((option, index) => (
                 <button
                   key={index}
                   onClick={() => {
+                    setStatusFilter(option);
                     setIsFilterOpen(false);
                   }}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

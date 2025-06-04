@@ -5,9 +5,9 @@ import Footer from "../components/FooterComponent";
 import "@fontsource/anta";
 const PublicLayout = () => {
   return (
-    <div className="grid min-h-screen overflow-x-hidden grid-rows-[auto_1fr_auto] p-0 m-0 box-border">
+    <div className="grid w-screen overflow-x-hidden grid-rows-[auto_1fr_auto] p-0 m-0 box-border">
       <Navbar />
-      <main>
+      <main className="min-h-screen w-screen">
         <Outlet />
       </main>
       <Footer />
