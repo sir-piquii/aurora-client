@@ -22,7 +22,7 @@ const UserForm = ({ isOpen, onClose, onSubmit }) => {
     );
     formDataToSubmit.append("role", formData.role);
     if (formData.profile) {
-      formDataToSubmit.append("profile", formData.profile);
+      formDataToSubmit.append("image", formData.profile);
     }
     onSubmit(formDataToSubmit);
     setFormData({

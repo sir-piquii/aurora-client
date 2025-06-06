@@ -1,6 +1,6 @@
 import axios from "axios";
 export const BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:3500"; //https://dev-api.auroraenergy.co.zw
+  process.env.REACT_APP_API_URL || "https://api.auroraenergy.co.zw"; //https://dev-api.auroraenergy.co.zw
 
 const endpoints = {
   products: `${BASE_URL}/products`,
@@ -38,6 +38,28 @@ export const getSales = async (range, category) => {
     throw error;
   }
 };
+export const addSale = async (sale) => {
+  try {
+    await axios.post(`${endpoints.sales}/`, sale, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const getProductsBasicInfo = async () => {
+  try {
+    const response = await axios.get(`${endpoints.sales}/products`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 // statistics
 export const getStatistics = async (range, category) => {
   try {
@@ -452,12 +474,29 @@ export const getFeaturedProducts = async () => {
     throw error;
   }
 };
+export const getFeaturedProductsById = async (id) => {
+  try {
+    const response = await axios.get(
+      `${endpoints.featured}/get-featured/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching featured products:", error);
+    throw error;
+  }
+};
 
 export const addFeaturedProduct = async (formData) => {
   try {
     const response = await axios.post(
       `${endpoints.featured}/add-featured`,
-      formData
+      formData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -482,7 +521,13 @@ export const updateFeaturedProduct = async (id, formData) => {
   try {
     const response = await axios.put(
       `${endpoints.featured}/update-featured/${id}`,
-      formData
+      formData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -519,7 +564,7 @@ export const getProductById = async (id) => {
   try {
     const response = await axios.get(
       `${endpoints.products}/get-product-by-id/${id}`,
-      { credentials: true }
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {

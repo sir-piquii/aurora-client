@@ -1,17 +1,7 @@
 import { getQuotationsByUser } from "../../api";
 import { useState, useCallback, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import {
-  FileText,
-  Plus,
-  Filter,
-  ChevronDown,
-  ChevronUp,
-  Printer,
-  Download,
-  ExternalLink,
-  Loader,
-} from "lucide-react";
+import { FileText, ChevronDown, ChevronUp, Loader } from "lucide-react";
 import StatusBadge from "./ui/StatusBadge";
 
 // Quotations Card
@@ -117,7 +107,10 @@ const QuotationCard = ({ quotation }) => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {quotation.products.map((product, index) => (
+                    {(typeof quotation.products === "string"
+                      ? JSON.parse(quotation.products)
+                      : quotation.products
+                    ).map((product, index) => (
                       <tr key={index}>
                         <td className="px-3 py-2 text-sm text-gray-900">
                           {product.product}
@@ -157,7 +150,7 @@ const QuotationCard = ({ quotation }) => {
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2 justify-end">
+          {/* <div className="mt-4 flex flex-wrap gap-2 justify-end">
             <button className="inline-flex items-center px-3 py-1.5 border border-indigo-600 text-xs font-medium rounded text-indigo-600 bg-white hover:bg-indigo-50 transition-colors duration-200">
               <Printer size={16} className="mr-1" />
               Print
@@ -170,7 +163,7 @@ const QuotationCard = ({ quotation }) => {
               <ExternalLink size={16} className="mr-1" />
               View Full Quotation
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

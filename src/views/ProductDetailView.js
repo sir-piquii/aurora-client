@@ -140,7 +140,6 @@ function ProductDetailView() {
       alert("Failed to submit quote. Please try again.");
     }
   };
-
 	const displayPrice =
 		userRole === 'dealer' &&
 		(product.price_usd !== '0.00' || product.price_zwl !== '0.00');

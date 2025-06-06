@@ -1,4 +1,4 @@
-import { getSales } from "../../api";
+import { getSales, addSale } from "../../api";
 import Spinner from "../../components/Spinner";
 import { useState, useEffect, useCallback } from "react";
 import { Plus } from "lucide-react";
@@ -7,6 +7,7 @@ import SaleForm from "../components/sales/SaleForm";
 import DeleteConfirmation from "../components/sales/DeleteConfirmation";
 import Button from "../UI/Button";
 import Modal from "../UI/Modal";
+import { toast } from "sonner";
 
 const Sales = () => {
   const [sales, setSales] = useState(null);
@@ -29,9 +30,17 @@ const Sales = () => {
     fetchSales();
   }, [fetchSales]);
   // Add sale handler
-  const handleAddSale = (newSale) => {
-    setSales((prev) => [...prev, newSale]);
-    setIsAddModalOpen(false);
+  const handleAddSale = async (newSale) => {
+    try {
+      setLoading(true);
+      await addSale(newSale);
+      toast.success("Sale Added!");
+    } catch (error) {
+      console.error(error);
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Edit sale handlers
@@ -67,13 +76,10 @@ const Sales = () => {
   if (loading) {
     return <Spinner />;
   }
-  if (sales === null) {
-    return <span>No sales Recorder yet!</span>;
-  }
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-4 sm:p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Sales Management
@@ -95,11 +101,15 @@ const Sales = () => {
         </div>
 
         {/* Sales Table */}
-        <SalesTable
-          sales={sales}
-          onEdit={handleEditClick}
-          onDelete={handleDeleteClick}
-        />
+        {sales ? (
+          <SalesTable
+            sales={sales}
+            onEdit={handleEditClick}
+            onDelete={handleDeleteClick}
+          />
+        ) : (
+          <span>No sales Recorder yet!</span>
+        )}
       </div>
 
       {/* Add Sale Modal */}

@@ -25,6 +25,7 @@ const DealerRegistration = () => {
   const [dealer, setDealer] = useState(initialDealer);
   const useAuth = useContext(AuthContext);
   const { user: userData } = useAuth;
+  console.log(initialDealer);
   const dealer_status = dealer?.reg_status ? dealer.reg_status : "Not Started";
   // Check if company details are completed
   const isCompanyDetailsComplete = () => {
@@ -76,7 +77,6 @@ const DealerRegistration = () => {
         TIN: data.TIN,
       };
       const response = await addDealer(companyDetails, userData.user.id);
-      console.log(response);
       toast.success("Your company details have been successfully saved.");
       setActiveSection(null);
       setTimeout(() => {
@@ -129,7 +129,6 @@ const DealerRegistration = () => {
   const handleInstallationsSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Simulate API call
       const installationsArray = JSON.parse(data.dealer_installations);
       installationsArray.forEach(async (installation) => {
         await addDealerInstallation(installation, dealer.dealer_id);
@@ -137,9 +136,9 @@ const DealerRegistration = () => {
       toast.success("Your installation details have been successfully saved.");
       // Close the section
       setActiveSection(null);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while saving your installation details.");

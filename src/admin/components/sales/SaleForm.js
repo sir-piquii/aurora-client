@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import Button from "../../UI/Button";
 import ProductRow from "./ProductRow";
-
+import { getProductsBasicInfo } from "../../../api";
 const DEFAULT_PRODUCT = {
+  id: 0,
   price: 0,
-  product: "",
   quantity: 1,
   subtotal: 0,
 };
@@ -25,10 +25,57 @@ const INITIAL_SALE = {
 };
 
 const SaleForm = ({ sale, onSubmit, onCancel }) => {
+  console.log(sale);
   const [formData, setFormData] = useState(sale || INITIAL_SALE);
   const [currentTab, setCurrentTab] = useState("customer");
   const [errors, setErrors] = useState({});
+  const [products, setProducts] = useState([]);
 
+  // When products are loaded and sale is present, map product names to IDs
+  useEffect(() => {
+    let isMounted = true;
+    if (!SaleForm.productsCache) {
+      getProductsBasicInfo().then((data) => {
+        if (isMounted) {
+          setProducts(data);
+          SaleForm.productsCache = data;
+        }
+      });
+    } else {
+      setProducts(SaleForm.productsCache);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Map sale products to use product IDs if updating
+  useEffect(() => {
+    if (sale && products.length > 0) {
+      const mappedProducts = sale.products.map((prod) => {
+        // If product is a string (name), find the matching product by name
+        if (typeof prod.product === "string") {
+          const found = products.find((p) => p.name === prod.product);
+          if (found) {
+            return {
+              ...prod,
+              product: found.id,
+              id: found.id,
+              price: parseFloat(found.price),
+              name: found.name,
+              subtotal: parseFloat(found.price) * prod.quantity,
+            };
+          }
+        }
+        // If already using ID, just return as is
+        return prod;
+      });
+      setFormData((prev) => ({
+        ...sale,
+        products: mappedProducts,
+      }));
+    }
+  }, [sale, products]);
   // Generate a random transaction ID if creating a new sale
   useEffect(() => {
     if (!sale) {
@@ -170,6 +217,7 @@ const SaleForm = ({ sale, onSubmit, onCancel }) => {
       {/* Customer Information Tab */}
       {currentTab === "customer" && (
         <div className="space-y-4 animate-fadeIn">
+          {/* ...unchanged customer fields... */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
@@ -306,36 +354,104 @@ const SaleForm = ({ sale, onSubmit, onCancel }) => {
           </div>
         </div>
       )}
-
       {/* Products Tab */}
       {currentTab === "products" && (
         <div className="space-y-4 animate-fadeIn">
-          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            {errors.products && (
-              <p className="mb-2 text-sm text-red-600">{errors.products}</p>
-            )}
-
-            <div className="grid grid-cols-12 gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <div className="col-span-5">Product</div>
-              <div className="col-span-2">Price</div>
-              <div className="col-span-2">Quantity</div>
-              <div className="col-span-2">Subtotal</div>
-              <div className="col-span-1"></div>
-            </div>
-
-            <div className="space-y-2">
-              {formData.products.map((product, index) => (
-                <ProductRow
-                  key={index}
-                  product={product}
-                  index={index}
-                  onChange={handleProductChange}
-                  onRemove={handleRemoveProduct}
-                  isLast={index === formData.products.length - 1}
-                />
-              ))}
-            </div>
-
+          <div>
+            {formData.products.map((product, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-12 gap-2 items-end mb-4 border-b pb-4 border-gray-200 dark:border-gray-700"
+              >
+                {/* Product Select */}
+                <div className="col-span-2">
+                  <select
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    value={product.product || ""}
+                    onChange={(e) => {
+                      const selectedId = parseInt(e.target.value, 10);
+                      const selected = products.find(
+                        (p) => p.id === selectedId
+                      );
+                      handleProductChange(index, {
+                        ...product,
+                        product: selectedId,
+                        id: selectedId,
+                        price: selected ? parseFloat(selected.price) : 0,
+                        name: selected ? selected.name : "",
+                        subtotal: selected
+                          ? parseFloat(selected.price) * product.quantity
+                          : 0,
+                      });
+                    }}
+                  >
+                    <option value="">Select Product</option>
+                    {products.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Price */}
+                <div className="col-span-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    value={product.price}
+                    readOnly
+                  />
+                </div>
+                {/* Quantity */}
+                <div className="col-span-2">
+                  <input
+                    type="number"
+                    min="1"
+                    max={(() => {
+                      const selected = products.find(
+                        (p) => p.id === product.product
+                      );
+                      return selected ? selected.quantity : undefined;
+                    })()}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    value={product.quantity}
+                    onChange={(e) => {
+                      const qty = parseInt(e.target.value, 10) || 1;
+                      handleProductChange(index, {
+                        ...product,
+                        quantity: qty,
+                        subtotal: product.price * qty,
+                      });
+                    }}
+                    disabled={!product.product}
+                  />
+                </div>
+                {/* Subtotal */}
+                <div className="col-span-2">
+                  <input
+                    type="number"
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    value={product.subtotal.toFixed(2)}
+                    readOnly
+                  />
+                </div>
+                {/* Remove Button */}
+                <div className="col-span-1 flex justify-center">
+                  {formData.products.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => handleRemoveProduct(index)}
+                      className="text-red-600"
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
             <Button
               type="button"
               variant="ghost"
@@ -345,7 +461,6 @@ const SaleForm = ({ sale, onSubmit, onCancel }) => {
             >
               Add Another Product
             </Button>
-
             <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-medium text-gray-700 dark:text-gray-300">

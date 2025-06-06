@@ -252,9 +252,7 @@ const SalesTable = ({ sales, onEdit, onDelete }) => {
                               <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Recorder:
                               </p>
-                              <p>
-                                {sale.recorder} (ID: {sale.recorder_id})
-                              </p>
+                              <p>{sale.recorder_name}</p>
                             </div>
                             <div>
                               <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -293,7 +291,10 @@ const SalesTable = ({ sales, onEdit, onDelete }) => {
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {sale.products.map((product, idx) => (
+                                {(typeof sale.products === "string"
+                                  ? JSON.parse(sale.products)
+                                  : sale.products
+                                )?.map((product, idx) => (
                                   <tr
                                     key={idx}
                                     className="hover:bg-gray-50 dark:hover:bg-gray-800"

@@ -199,7 +199,6 @@ const DealerVerification = () => {
       </div>
     );
   }
-  console.log(dealer);
   const documentIds = dealer?.national_ID_Copies_of_the_Directors
     ? dealer?.national_ID_Copies_of_the_Directors?.split(",")
     : [];
@@ -434,7 +433,10 @@ const DealerVerification = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {dealer.installations.map((installation, index) => (
+                  {(typeof dealer.installations === "string"
+                    ? JSON.parse(dealer.installations)
+                    : dealer.installations
+                  )?.map((installation, index) => (
                     <InstallationCard
                       key={installation.installation_id}
                       installation={installation}

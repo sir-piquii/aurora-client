@@ -43,7 +43,11 @@ const QuotationCard = ({ quotation, onStatusChange }) => {
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  const totalPrice = quotation.products?.reduce(
+  const products =
+    typeof quotation.products === "string"
+      ? JSON.parse(quotation.products)
+      : quotation.products;
+  const totalPrice = products?.reduce(
     (price, item) => price + item.quantity * item.price,
     0
   );
@@ -146,7 +150,7 @@ const QuotationCard = ({ quotation, onStatusChange }) => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {quotation.products.map((product, index) => (
+                    {products.map((product, index) => (
                       <tr key={index}>
                         <td className="px-3 py-2 text-sm text-gray-900">
                           {product.product}
