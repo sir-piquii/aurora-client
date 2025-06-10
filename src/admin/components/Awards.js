@@ -1,3 +1,24 @@
+/**
+ * AwardCard component displays an individual award with image, name, and controls for editing or deleting.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.award - The award object to display.
+ * @param {Function} props.onEdit - Callback function to handle editing the award.
+ * @param {Function} props.onDelete - Callback function to handle deleting the award.
+ * @returns {JSX.Element}
+ */
+
+/**
+ * Awards component manages the list of awards, including fetching, adding, editing, and deleting awards.
+ *
+ * @component
+ * @returns {JSX.Element}
+ *
+ * @example
+ * // Renders the awards management UI
+ * <Awards />
+ */
 import { useEffect, useState, useCallback } from "react";
 import {
   getAwards,

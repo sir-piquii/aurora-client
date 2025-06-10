@@ -1,6 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
+/**
+ * Modal component that displays a centered dialog overlay.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isOpen - Controls whether the modal is visible.
+ * @param {Function} props.onClose - Callback function to close the modal.
+ * @param {string} props.title - Title text displayed at the top of the modal.
+ * @param {React.ReactNode} props.children - Content to be rendered inside the modal body.
+ * @param {'sm'|'md'|'lg'|'xl'} [props.size='md'] - Size of the modal (small, medium, large, extra-large).
+ *
+ * @example
+ * <Modal
+ *   isOpen={isModalOpen}
+ *   onClose={() => setModalOpen(false)}
+ *   title="My Modal"
+ *   size="lg"
+ * >
+ *   <p>Modal content goes here.</p>
+ * </Modal>
+ *
+ * @returns {JSX.Element|null} The modal dialog if open, otherwise null.
+ */
 const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
   const modalRef = useRef(null);
 

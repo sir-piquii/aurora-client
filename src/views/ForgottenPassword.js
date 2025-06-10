@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../api';
 
+/**
+ * ForgottenPassword React component renders a password reset form.
+ *
+ * Allows users to request a password reset by entering their registered email address.
+ * Validates the email input, displays error or success messages, and triggers the password reset process.
+ * On successful request, notifies the user and redirects to the login page after a delay.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered password reset form UI.
+ *
+ * @example
+ * // Usage in a React Router route
+ * <Route path="/forgot-password" element={<ForgottenPassword />} />
+ */
 function ForgottenPassword() {
 	const [email, setEmail] = useState('');
 	const [error, setError] = useState('');

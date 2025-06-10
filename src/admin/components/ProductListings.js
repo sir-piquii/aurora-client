@@ -1,10 +1,26 @@
+/**
+ * ProductListings component displays a grid of product cards with options to view details, edit, or delete each product.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Array<Object>} props.products - Array of product objects to display.
+ * @param {function} props.onDelete - Callback function to handle product deletion. Receives the product ID as an argument.
+ * @param {function} props.onUpdate - Callback function to handle product updates. Receives the updated product object as an argument.
+ *
+ * @returns {JSX.Element} The rendered product listings grid with modals for details and editing.
+ *
+ * @example
+ * <ProductListings
+ *   products={productsArray}
+ *   onDelete={handleDeleteProduct}
+ *   onUpdate={handleUpdateProduct}
+ * />
+ */
 import { useState } from "react";
 import { Edit, Trash2, Info } from "lucide-react";
 import ProductDetailsModal from "./ProductDetailModal";
 import ProductFormModal from "./ProductModalForm";
 import { BASE_URL } from "../../api";
-
-//import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 const ProductListings = ({ products, onDelete, onUpdate }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);

@@ -3,6 +3,44 @@ import { registerUser } from '../api';
 import { useNavigate } from 'react-router-dom';
 import signUpImg from './../assets/sign-up.jpg';
 
+/**
+ * SignUp component renders a user registration form with fields for full name, username, email, password, and confirm password.
+ * Handles form state, validation, error display, and submission logic.
+ * On successful registration, navigates to the verification page.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered sign up form component.
+ *
+ * @example
+ * // Usage in a React Router route
+ * <Route path="/signup" element={<SignUp />} />
+ *
+ * @function
+ *
+ * @typedef {Object} SignupData
+ * @property {string} fullName - The user's full name.
+ * @property {string} username - The user's chosen username.
+ * @property {string} email - The user's email address.
+ * @property {string} password - The user's password.
+ *
+ * @state {SignupData} signupData - State for storing form input values.
+ * @state {string} confirmPassword - State for storing the confirm password input.
+ * @state {string} error - State for storing error messages.
+ * @state {boolean} isSubmitting - State indicating if the form is being submitted.
+ *
+ * @callback handleChange
+ * Handles changes to form input fields and updates the corresponding state.
+ *
+ * @callback handleConfirmPasswordChange
+ * Handles changes to the confirm password input field.
+ *
+ * @callback handleSubmit
+ * Handles form submission, validates input, and calls the registerUser API.
+ *
+ * @effect
+ * Sets the document title to "Sign Up | Aurora" on component mount.
+ */
 export default function SignUp() {
 	const navigate = useNavigate();
 	const [signupData, setSignupData] = useState({

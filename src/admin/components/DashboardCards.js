@@ -1,3 +1,29 @@
+/**
+ * DashboardCharts component displays the main dashboard charts and statistics for the admin panel.
+ *
+ * Features:
+ * - Fetches and displays overview statistics (products, quotations, approved dealers, system users).
+ * - Fetches and displays detailed statistics including monthly trends, sales by category, product performance, inventory status, and key matrices.
+ * - Shows a loading spinner while data is being fetched.
+ * - Renders summary, sales chart, product performance, and inventory status components.
+ *
+ * State:
+ * @typedef {Object} Overview
+ * @property {number} products - Total number of products.
+ * @property {number} quotations - Total number of quotations.
+ * @property {number} approved_dealers - Total number of approved dealers.
+ * @property {number} system_users - Total number of system users.
+ *
+ * @typedef {Object} Stats
+ * @property {?Object} monthlyTrend - Monthly trend data.
+ * @property {?Object} monthlySalesByCategory - Sales data by category.
+ * @property {?Object} categoryPerformance - Performance data by category.
+ * @property {?Object} categoryStockDetails - Stock details by category.
+ * @property {?Object} keyMatrices - Key matrices data.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered dashboard charts and statistics.
+ */
 import { useEffect, useState, useCallback } from "react";
 import StatsSummary from "./dashboard/StatsSummary";
 import SalesChart from "./dashboard/SalesChart";

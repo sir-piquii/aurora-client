@@ -1,3 +1,12 @@
+/**
+ * Badge component for displaying status or labels with different visual variants.
+ *
+ * @param {Object} props - Component props.
+ * @param {'default'|'success'|'warning'|'danger'|'info'} [props.variant='default'] - Visual style of the badge.
+ * @param {React.ReactNode} props.children - Content to display inside the badge.
+ * @param {string} [props.className=''] - Additional CSS classes to apply to the badge.
+ * @returns {JSX.Element} The rendered badge component.
+ */
 const Badge = ({ variant = "default", children, className = "" }) => {
   const variantClasses = {
     default: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",

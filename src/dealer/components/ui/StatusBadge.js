@@ -1,3 +1,11 @@
+/**
+ * Renders a status badge with styles and text based on the provided status.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.status - The status to display. Supported values: "pending", "approved", "rejected", "expired".
+ * @returns {JSX.Element} A styled badge representing the status.
+ */
 const StatusBadge = ({ status }) => {
   const getStatusStyles = () => {
     switch (status) {

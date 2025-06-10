@@ -1,16 +1,22 @@
-import { useContext, useRef, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Home,
-  User,
-  FileText,
-  Package,
-  Settings,
-  LogOut,
-  Award,
-} from "lucide-react";
+import { Home, User, FileText, LogOut, Award } from "lucide-react";
 
+/**
+ * Sidebar component for the dealer dashboard.
+ *
+ * Renders a sidebar with navigation links, a logo, and a logout button.
+ * Navigation items are conditionally rendered based on the user's role.
+ * Includes options for dealers, pending dealers, and users who can register as dealers.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isSidebarOpen - Determines if the sidebar is open (visible) on mobile.
+ * @param {Function} props.closeSideBar - Function to close the sidebar (used on navigation link click).
+ *
+ * @returns {JSX.Element} The rendered sidebar component.
+ */
 const Sidebar = ({ isSidebarOpen, closeSideBar }) => {
   const location = useLocation();
   const useAuth = useContext(AuthContext);

@@ -1,7 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { getBlogs, getBlogById, deleteBlog } from '../../api';
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+/**
+ * Blogs component for the admin panel.
+ *
+ * Displays a paginated list of blogs with options to add, edit, and delete blogs.
+ * Fetches blogs from the API on mount and handles blog deletion with confirmation.
+ *
+ * Features:
+ * - Fetches and displays blogs in a table.
+ * - Pagination for navigating through blogs.
+ * - Add, edit, and delete actions for each blog.
+ * - Shows toast notifications for errors and successful deletions.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Blogs management component.
+ */
+import React, { useEffect, useState } from "react";
+import { getBlogs, getBlogById, deleteBlog } from "../../api";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Blogs = () => {

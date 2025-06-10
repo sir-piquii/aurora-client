@@ -5,6 +5,17 @@ export const SidebarContext = createContext({
   toggle: () => {},
   close: () => {},
 });
+/**
+ * Provides sidebar open/close state and controls to its children via context.
+ *
+ * - Initializes sidebar state based on screen size (open on desktop, closed on mobile).
+ * - Listens for window resize events to automatically open sidebar when switching to desktop view.
+ * - Exposes `isOpen`, `toggle`, and `close` methods through context.
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - The child components that will have access to the sidebar context.
+ * @returns {JSX.Element} Sidebar context provider with state and controls.
+ */
 export const SidebarProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 

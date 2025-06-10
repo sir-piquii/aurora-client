@@ -1,3 +1,29 @@
+/**
+ * StatCard component displays a single statistical summary card with an icon, title, value, and optional increase percentage.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.title - The title of the statistic.
+ * @param {number|string} props.value - The value to display.
+ * @param {React.ReactNode} props.icon - The icon to display in the card.
+ * @param {string} props.color - Tailwind CSS color class for the icon background.
+ * @param {string} [props.increase] - Optional percentage increase to display.
+ * @param {string} props.url - The URL to navigate to when the card is clicked.
+ * @returns {JSX.Element} The rendered StatCard component.
+ */
+
+/**
+ * StatsSummary component displays a grid of statistical summary cards for the admin dashboard.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.data - The data object containing statistics.
+ * @param {number|string} props.data.products - Total number of products.
+ * @param {number|string} props.data.system_users - Total number of system users.
+ * @param {number|string} props.data.quotations - Total number of quotations.
+ * @param {number|string} props.data.approved_dealers - Total number of approved dealers.
+ * @returns {JSX.Element} The rendered StatsSummary component.
+ */
 import { Users, ShoppingBag, ClipboardList, Award } from "lucide-react";
 const StatCard = ({ title, value, icon, color, increase, url }) => {
   return (
@@ -19,6 +45,7 @@ const StatCard = ({ title, value, icon, color, increase, url }) => {
     </a>
   );
 };
+
 const StatsSummary = ({ data }) => {
   const stats = [
     {

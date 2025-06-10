@@ -10,6 +10,25 @@ import { Toaster } from "sonner";
 import DealerRegPortal from "./components/DealerRegPortal";
 import Orders from "./components/Orders";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+/**
+ * DealerPanel component serves as the main layout for the dealer registration section.
+ * 
+ * - Sets the document title to "Dealer Registration" on mount.
+ * - Manages the sidebar open/close state for responsive navigation.
+ * - Provides a toggle button for the sidebar, visible on small screens.
+ * - Wraps content with DealerProvider for context management.
+ * - Renders a Sidebar and main content area with nested routes:
+ *    - Dashboard (default)
+ *    - LandingPage (index)
+ *    - Profile
+ *    - DealerRegPortal (register)
+ *    - Quotations
+ *    - Orders
+ * - Displays toast notifications via the Toaster component.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered DealerPanel layout with sidebar and routed content.
+ */
 function DealerPanel() {
   useEffect(() => {
     document.title = "Dealer Registration";

@@ -5,6 +5,18 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { getTestimonials, BASE_URL } from "../api";
 
+/**
+ * TestimonialCarousel is a React functional component that displays a carousel of testimonials.
+ * 
+ * - Fetches testimonial data asynchronously on mount using the `getTestimonials` API.
+ * - Uses the `react-slick` Slider component to render testimonials in a responsive carousel.
+ * - Each testimonial displays an image (or a fallback icon), the person's role, and their message.
+ * - Carousel settings include autoplay, infinite looping, and responsive breakpoints for different screen sizes.
+ * - Utilizes Tailwind CSS classes for styling and transitions.
+ * 
+ * @component
+ * @returns {JSX.Element} A styled, responsive testimonial carousel.
+ */
 function TestimonialCarousel() {
   const [testimonials, setTestimonials] = useState([]);
 
@@ -60,13 +72,14 @@ function TestimonialCarousel() {
             key={testimonial.id}
             className="px-4 transform transition-transform duration-300 hover:scale-105 py-8"
           >
-            <div className="bg-navy-900 text-white rounded-lg shadow-lg h-[510px] flex flex-col p-6 transform transition-transform">
+            <div className="bg-navy-900 text-white rounded-lg shadow-lg h-[600px] flex flex-col p-6 transform transition-transform ">
               {/* Image Section */}
               <div className="flex justify-center mb-4">
                 {testimonial.image ? (
                   <img
                     src={`${BASE_URL}/testimonials/${testimonial.image}`}
                     alt={testimonial.person}
+                    loading="lazy"
                     className="w-24 h-24 object-cover rounded-full transition-transform duration-300 group-hover:scale-110 hover:rotate-[20deg]"
                   />
                 ) : (
@@ -76,12 +89,14 @@ function TestimonialCarousel() {
               {/* Card Content */}
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-orange-500">
-                  {testimonial.person}
-                </h3>
-                <p className="text-sm text-gray-300">
                   {testimonial.person_role}
+                </h3>
+                <p
+                  className="text-sm mt-2 text-ellipsis line-clamp-[19]"
+                  title={testimonial.message}
+                >
+                  {testimonial.message}
                 </p>
-                <p className="text-sm mt-4">{testimonial.message}</p>
               </div>
             </div>
           </div>

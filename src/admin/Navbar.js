@@ -1,7 +1,25 @@
 import { useContext } from "react";
 import { Menu, LogOut } from "lucide-react";
 import { SidebarContext } from "../context/SidebarContext";
-
+import { BASE_URL } from "../api";
+/**
+ * Navbar component for the admin dashboard.
+ *
+ * Renders a sticky header with:
+ * - A sidebar toggle button (visible on mobile)
+ * - The dashboard title
+ * - User profile section with avatar and full name
+ * - Logout button
+ *
+ * Avatar is generated using ui-avatars.com if no profile image is set.
+ * Handles user logout by clearing localStorage and reloading the page.
+ *
+ * Context:
+ * - Uses `SidebarContext` to toggle sidebar visibility.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
 const Navbar = () => {
   const useSidebar = useContext(SidebarContext);
   const user = JSON.parse(localStorage.getItem("user")) ?? null;
@@ -11,7 +29,7 @@ const Navbar = () => {
       ? `https://ui-avatars.com/api/?name=${encodeURIComponent(
           user?.user.name || "User"
         )}&background=0D8ABC&color=fff`
-      : `https://dev-api.auroraenergy.co.zw/profiles/${user.user.profile}`;
+      : `${BASE_URL}/profiles/${user.user.profile}`;
   const { toggle } = useSidebar;
 
   return (

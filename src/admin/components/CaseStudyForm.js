@@ -1,3 +1,32 @@
+/**
+ * YoutubeInput component for validating and previewing YouTube video links.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.value - The current YouTube URL value.
+ * @param {function(string):void} props.onChange - Callback when the input value changes.
+ * @returns {JSX.Element}
+ */
+
+/**
+ * ImageUpload component for uploading and previewing images.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string[]} [props.images=[]] - Array of existing image filenames.
+ * @param {File[]} [props.newImages=[]] - Array of new image files to be uploaded.
+ * @param {function(File[]):void} props.onAddNewImages - Callback to update new images.
+ * @param {function(string[]):void} props.onChange - Callback to update existing images.
+ * @param {number} [props.maxImages=5] - Maximum number of images allowed.
+ * @returns {JSX.Element}
+ */
+
+/**
+ * CaseStudyForm component for adding or editing a case study.
+ *
+ * @component
+ * @returns {JSX.Element}
+ */
 import {
   getCaseStudyById,
   updateCaseStudy,
@@ -257,6 +286,7 @@ const ImageUpload = ({
   );
 };
 // case study form
+
 const CaseStudyForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);

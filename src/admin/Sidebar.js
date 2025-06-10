@@ -55,6 +55,27 @@ const SidebarItem = ({ item, isActive }) => {
   );
 };
 // side bar
+/**
+ * Sidebar component for the admin dashboard.
+ *
+ * Renders a responsive sidebar with navigation links, a logo, and a footer.
+ * The sidebar can be toggled open or closed, and automatically closes on navigation
+ * when viewed on mobile devices. Displays a backdrop overlay on mobile when open.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered sidebar component.
+ *
+ * @example
+ * // Usage in a layout
+ * <Sidebar />
+ *
+ * @remarks
+ * - Uses `SidebarContext` for open/close state management.
+ * - Uses `useLocation` from react-router for navigation detection.
+ * - Menu items are defined statically within the component.
+ * - Responsive design: fixed on desktop, slides in/out on mobile.
+ */
 const Sidebar = () => {
   const { isOpen, close } = useContext(SidebarContext);
   console.log(isOpen);

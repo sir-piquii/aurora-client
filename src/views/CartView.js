@@ -4,6 +4,21 @@ import { FaTrash } from 'react-icons/fa';
 import InputNumber from 'rc-input-number';
 import 'rc-input-number/assets/index.css';
 
+/**
+ * Cart component for displaying and managing the user's shopping cart.
+ *
+ * - Loads cart items from localStorage and handles cart expiration.
+ * - Groups duplicate products by productId and aggregates their quantities.
+ * - Allows users to update product quantities and remove items from the cart.
+ * - Handles checkout logic:
+ *    - If the user is not authenticated or not a dealer, generates a WhatsApp order message and redirects.
+ *    - If the user is a dealer, navigates to the checkout page.
+ * - Displays error messages for failed cart operations.
+ * - Renders a responsive UI with a cart items section and an order summary.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Cart view.
+ */
 export default function Cart() {
 	const navigate = useNavigate();
 	const [cartItems, setCartItems] = useState([]);

@@ -4,7 +4,23 @@ import { AuthContext } from "../../context/AuthContext";
 import { FileText, ChevronDown, ChevronUp, Loader } from "lucide-react";
 import StatusBadge from "./ui/StatusBadge";
 
-// Quotations Card
+/**
+ * QuotationCard component displays a summary and detailed view of a quotation.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.quotation - The quotation data to display.
+ * @param {string} props.quotation.requester_name - Name of the requester.
+ * @param {string} props.quotation.requester_address - Address of the requester.
+ * @param {string} props.quotation.requester_phone - Phone number of the requester.
+ * @param {string} props.quotation.requester_email - Email address of the requester.
+ * @param {string} [props.quotation.notes] - Additional notes for the quotation.
+ * @param {string|Array<Object>} props.quotation.products - List of products (as array or JSON string).
+ * @param {string} props.quotation.created_At - Creation date of the quotation.
+ * @param {string} [props.quotation.status] - Status of the quotation (e.g., "approved").
+ *
+ * @returns {JSX.Element} The rendered QuotationCard component.
+ */
 const QuotationCard = ({ quotation }) => {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => {

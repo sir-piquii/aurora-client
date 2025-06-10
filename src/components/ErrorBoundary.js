@@ -32,6 +32,17 @@ class ErrorBoundary extends Component {
 }
 
 // Error fallback component
+/**
+ * ErrorFallback is a React component that displays a user-friendly error message
+ * when an error is caught by an error boundary. It provides an option to reset
+ * the error state and navigate the user to a safe route (e.g., home page).
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Error} props.error - The error object caught by the error boundary.
+ * @param {Function} props.resetError - Function to reset the error boundary state.
+ * @returns {JSX.Element} A styled error message UI with a button to reset and navigate home.
+ */
 const ErrorFallback = ({ error, resetError }) => {
   const navigate = useNavigate();
 

@@ -2,6 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import contactImg from './../assets/contact.jpg';
 
+/**
+ * ContactPage component renders the Contact Us page for Aurora.
+ * 
+ * Features:
+ * - Displays company contact details (address, emails, phone numbers).
+ * - Provides a contact form for users to submit their information and message.
+ * - Includes checkboxes for service requests (e.g., Request a Quote).
+ * - Shows a Google Maps embed of the company location.
+ * - Animates input fields on mount and sets the document title.
+ * 
+ * State:
+ * - formData: Object containing form field values (fullName, email, phoneNumber, notes, checkbox1, checkbox2).
+ * 
+ * Handlers:
+ * - handleChange: Updates formData state on input change.
+ * - handleSubmit: Prevents default form submission and logs form data.
+ * 
+ * Effects:
+ * - useEffect: Sets the document title and adds animation class to input fields on mount.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Contact Us page.
+ */
 export default function ContactPage() {
 	const [formData, setFormData] = useState({
 		fullName: '',

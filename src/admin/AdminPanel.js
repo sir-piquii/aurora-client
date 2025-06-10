@@ -30,6 +30,19 @@ import UserManagement from "./components/UserManagement";
 import Quotations from "./components/Quotations";
 import Navbar from "./Navbar";
 
+/**
+ * AdminPanel component renders the main admin dashboard layout, including the sidebar,
+ * navbar, and all admin routes for managing products, articles, blogs, FAQs, certificates,
+ * awards, case studies, team, testimonials, dealers, user management, and quotations.
+ *
+ * - Sets the document title to "Admin Panel" on mount.
+ * - Provides a responsive sidebar toggle button for mobile devices.
+ * - Uses React Router's <Routes> to render different admin sections based on the URL.
+ * - Displays a toast notification container.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered admin panel layout with navigation and route-based content.
+ */
 function AdminPanel() {
   const { toggle } = useSidebar();
   useEffect(() => {

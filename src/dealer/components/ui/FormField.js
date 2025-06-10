@@ -1,3 +1,16 @@
+/**
+ * FormField is a reusable input component for forms.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.label - The label text for the input field.
+ * @param {string} props.name - The name and id for the input field.
+ * @param {string|number} props.value - The current value of the input field.
+ * @param {function} props.onChange - Callback function to handle input changes.
+ * @param {string} [props.error] - Optional error message to display below the input.
+ * @param {string} [props.type="text"] - The type of the input (e.g., "text", "email", "password").
+ * @param {boolean} [props.required=false] - Whether the field is required.
+ * @returns {JSX.Element} The rendered form field component.
+ */
 const FormField = ({
   label,
   name,

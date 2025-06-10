@@ -16,6 +16,38 @@ import {
 import { Mail } from 'lucide-react';
 import Logo from './../logo.png';
 
+/**
+ * Navbar component for Aurora Energy client.
+ * 
+ * Renders a responsive navigation bar with:
+ * - Top contact/social bar
+ * - Main navigation links (Home, About, Products, Insights, Contact)
+ * - Dropdown menus for Products and Insights (desktop and mobile)
+ * - User authentication links (Login, Signup, Dashboard, Logout)
+ * - Shopping cart icon with item count
+ * - Admin-specific navbar when user is admin/super
+ * 
+ * Features:
+ * - Responsive design with mobile menu (animated with Framer Motion)
+ * - Dropdowns for Products and Insights, with mouse and click handlers
+ * - Avatar and initials for logged-in users
+ * - Basket/cart count synced with localStorage and custom events
+ * - Social/contact links in top bar
+ * 
+ * State:
+ * - isOpen: Whether mobile menu is open
+ * - isDropdownOpen: Products dropdown (desktop)
+ * - insightsDropdownOpen: Insights dropdown (desktop)
+ * - mobileProductsDropdownOpen: Products dropdown (mobile)
+ * - mobileInsightsDropdownOpen: Insights dropdown (mobile)
+ * - basketCount: Number of items in cart
+ * 
+ * Side Effects:
+ * - Syncs basket count with localStorage and custom 'cartUpdated' event
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Navbar component
+ */
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);

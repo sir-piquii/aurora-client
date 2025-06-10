@@ -2,6 +2,27 @@ import React, { useState } from "react";
 
 import { Upload, X, FileText, Check, Loader2 } from "lucide-react";
 
+/**
+ * DocumentUploadsForm component allows users to upload required dealer documents.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.dealer - Dealer object containing existing document file names.
+ * @param {string} [props.dealer.tax_clearance] - Existing tax clearance document file name.
+ * @param {string} [props.dealer.certificate_of_incorporation] - Existing certificate of incorporation file name.
+ * @param {string|string[]} [props.dealer.national_ID_Copies_of_the_Directors] - Existing national ID copies file name(s).
+ * @param {Function} props.onSubmit - Callback function called with selected files when the form is submitted and valid.
+ * @param {boolean} props.isLoading - Indicates if the form is in a loading state (e.g., during upload).
+ *
+ * @returns {JSX.Element} The rendered document upload form.
+ *
+ * @example
+ * <DocumentUploadsForm
+ *   dealer={dealer}
+ *   onSubmit={handleSubmit}
+ *   isLoading={isUploading}
+ * />
+ */
 const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
   const [files, setFiles] = useState({
     tax_clearance: null,

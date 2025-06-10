@@ -1,3 +1,18 @@
+/**
+ * A customizable Button component with support for multiple variants, sizes, loading state, and icons.
+ *
+ * @param {object} props - The props for the Button component.
+ * @param {React.ReactNode} props.children - The content to display inside the button.
+ * @param {'primary' | 'secondary' | 'danger' | 'success' | 'outline' | 'ghost'} [props.variant='primary'] - The visual style of the button.
+ * @param {'sm' | 'md' | 'lg'} [props.size='md'] - The size of the button.
+ * @param {boolean} [props.isLoading=false] - If true, shows a loading spinner and disables the button.
+ * @param {React.ReactNode} [props.leftIcon] - Optional icon to display on the left side of the button.
+ * @param {React.ReactNode} [props.rightIcon] - Optional icon to display on the right side of the button.
+ * @param {string} [props.className] - Additional CSS classes to apply to the button.
+ * @param {boolean} [props.disabled] - If true, disables the button.
+ * @param {...object} props - Additional props are spread onto the underlying button element.
+ * @returns {JSX.Element} The rendered Button component.
+ */
 const Button = ({
   children,
   variant = "primary",

@@ -1,9 +1,31 @@
+/**
+ * Dealers component for managing and verifying dealer applications.
+ *
+ * Features:
+ * - Fetches dealer data from the API with support for filtering by status, searching, and pagination.
+ * - Allows searching dealers by name, email, trading name, or username.
+ * - Provides a filter dropdown to filter dealers by status (Approved, Pending_Approval, Suspended, Pending Documents).
+ * - Displays dealer cards in a responsive grid layout.
+ * - Includes pagination controls and items-per-page selector.
+ * - Shows a loading spinner while fetching data and error toast on failure.
+ *
+ * State:
+ * @typedef {Object} Dealer
+ * @property {number|string} id - Unique identifier for the dealer.
+ * @property {string} user_full_name - Full name of the dealer.
+ * @property {string} user_email - Email address of the dealer.
+ * @property {string} trading_name - Trading name of the dealer.
+ * @property {string} user_username - Username of the dealer.
+ * @property {string} status - Status of the dealer.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Dealers management UI.
+ */
 import { useState, useCallback, useEffect } from "react";
 import { Search, Filter, ChevronDown, Loader } from "lucide-react";
 import DealerCard from "./DealerCard";
 import { getDealers } from "../../api";
 import { toast } from "sonner";
-
 
 const Dealers = () => {
   const [searchTerm, setSearchTerm] = useState("");

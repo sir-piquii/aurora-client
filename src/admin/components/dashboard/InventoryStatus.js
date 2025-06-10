@@ -1,3 +1,21 @@
+/**
+ * InventoryStatus component displays a summary and detailed table of inventory status.
+ *
+ * @component
+ * @param {Object[]} inventoryData - Array of inventory data objects for each category.
+ * @param {string} inventoryData[].category_name - Name of the inventory category.
+ * @param {number} inventoryData[].current_inventory - Current inventory count for the category.
+ * @param {number} inventoryData[].low_stock_items - Number of items low in stock for the category.
+ * @param {number} inventoryData[].stock_in - Number of items stocked in for the category.
+ * @param {number} inventoryData[].stock_out - Number of items stocked out for the category.
+ * @param {number} inventoryData[].stock_adjusted - Number of items adjusted for the category.
+ * @param {'increasing'|'decreasing'|'stable'} inventoryData[].stock_trend - Stock trend status for the category.
+ * @param {Object} summaryData - Summary data for the inventory.
+ * @param {number} summaryData.low_stock_items - Total number of items low in stock across all categories.
+ * @param {number} summaryData.current_inventory - Total current inventory across all categories.
+ *
+ * @returns {JSX.Element} The rendered InventoryStatus component.
+ */
 import {
   AlertCircle as CircleAlert,
   PackageCheck,
@@ -7,6 +25,7 @@ import {
   ArrowUp,
   MinusCircle,
 } from "lucide-react";
+
 const InventoryStatus = ({ inventoryData, summaryData }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm transition-all duration-300 hover:shadow-md overflow-hidden">

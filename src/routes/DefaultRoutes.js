@@ -20,6 +20,20 @@ import FAQs from "../views/FAQsView";
 import DealerPanel from "../dealer/DealerPanel";
 import DealerRoute from "../router/DealerRoute";
 import ForgottenPassword from "../views/ForgottenPassword";
+/**
+ * Defines the default public and protected routes for the application.
+ *
+ * - Wraps all routes with the `PublicLayout` component.
+ * - Provides routes for home, contact, about, blogs, case studies, products, categories, cart, FAQs, and insights.
+ * - Handles dynamic routes for individual blogs, case studies, categories, and products.
+ * - Redirects authenticated users away from the signup page to the home page.
+ * - Protects dealer routes using the `DealerRoute` component.
+ * - Includes a route for forgotten password functionality.
+ * - Redirects all unknown paths to the home page.
+ *
+ * @component
+ * @returns {JSX.Element} The set of default application routes.
+ */
 const DefaultRoutes = () => {
   const { user } = useContext(AuthContext);
   const Navigate = useNavigate();

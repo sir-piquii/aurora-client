@@ -5,6 +5,22 @@ import Navbar from "../admin/Navbar";
 import { Menu } from "lucide-react";
 import { useSidebar } from "../context/SidebarContext";
 import ProtectedRoute from "../router/ProtectedRoute";
+/**
+ * AdminLayout is a protected layout component for the admin section of the application.
+ * It provides a sidebar, top navigation bar, main content area, and footer.
+ * 
+ * Features:
+ * - Wraps content in a ProtectedRoute to ensure only authorized users can access.
+ * - Displays a Sidebar for navigation (visible on large screens).
+ * - Renders a Navbar at the top of the main content area.
+ * - Uses <Outlet /> to render nested routes/pages.
+ * - Includes a Toaster for notifications.
+ * - Shows a footer with copyright.
+ * - Provides a floating button to toggle the sidebar on mobile devices.
+ * 
+ * @component
+ * @returns {JSX.Element} The admin layout structure with sidebar, navbar, content, and footer.
+ */
 const AdminLayout = () => {
   const { toggle } = useSidebar();
   return (

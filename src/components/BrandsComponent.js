@@ -17,6 +17,25 @@ const brands = [
 	{ name: 'Brand 6', logo: brand6, link: '/brands/brand6' },
 ];
 
+/**
+ * Renders a section displaying a grid of brand logos with links.
+ *
+ * The component displays a heading and a responsive grid of brand cards.
+ * Each card contains a brand logo and links to the brand's page.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered brands section.
+ *
+ * @example
+ * // Usage
+ * <OurBrands />
+ *
+ * @remarks
+ * Expects a `brands` array to be available in the scope, where each brand object should have:
+ * - `name` (string): The name of the brand.
+ * - `logo` (string): The URL to the brand's logo image.
+ * - `link` (string): The URL or route to the brand's page.
+ */
 export default function OurBrands() {
 	return (
 		<section className="container mx-auto px-4 py-12">

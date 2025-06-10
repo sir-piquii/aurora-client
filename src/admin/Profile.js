@@ -14,6 +14,38 @@ import {
   CheckCircle,
 } from "lucide-react";
 
+/**
+ * Admin Profile component for displaying and editing the logged-in admin's account details.
+ *
+ * Features:
+ * - Fetches and displays admin profile information, including name, email, username, and activity stats.
+ * - Allows editing of profile details (full name, email, username) with form validation and feedback.
+ * - Enables password change with validation for matching new passwords.
+ * - Shows loading state while fetching data and error messages on failure.
+ * - Displays activity overview and last activity date.
+ *
+ * State:
+ * - isEditingProfile: Whether the profile edit form is open.
+ * - isLoading: Whether the profile data is being loaded.
+ * - user: The current admin user object.
+ * - isChangingPassword: Whether the password change form is open.
+ * - profileForm: Form state for editing profile details.
+ * - passwordForm: Form state for changing password.
+ *
+ * Side Effects:
+ * - Fetches account details on mount.
+ * - Updates state and shows toast notifications on profile/password update.
+ *
+ * Dependencies:
+ * - React hooks: useState, useEffect, useCallback
+ * - External functions: getLoggedInAdmin, updateProfile, changePassword
+ * - UI icons: Edit3, Key, User, Mail, Calendar, Activity, Users, Shield, CheckCircle
+ * - Utility: format (for date formatting)
+ * - toast (for notifications)
+ *
+ * @component
+ * @returns {JSX.Element} The rendered admin profile page.
+ */
 const Profile = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

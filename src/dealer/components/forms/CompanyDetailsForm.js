@@ -2,6 +2,22 @@ import React, { useState } from "react";
 
 import { Loader2 } from "lucide-react";
 import FormField from "../ui/FormField";
+/**
+ * CompanyDetailsForm component renders a form for editing or submitting company details for a dealer.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.dealer - The dealer object containing initial company details.
+ * @param {string} [props.dealer.registered_company] - The registered company name.
+ * @param {string} [props.dealer.trading_name] - The trading name of the company.
+ * @param {string} [props.dealer.company_reg_number] - The company registration number.
+ * @param {string} [props.dealer.VAT_number] - The VAT number (optional).
+ * @param {string} [props.dealer.TIN] - The TIN (optional).
+ * @param {Function} props.onSubmit - Callback function to handle form submission. Receives form data as argument.
+ * @param {boolean} props.isLoading - Indicates if the form is in a loading/submitting state.
+ *
+ * @returns {JSX.Element} The rendered company details form.
+ */
 const CompanyDetailsForm = ({ dealer, onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
     registered_company: dealer.registered_company || "",

@@ -23,6 +23,18 @@ import ForgottenPassword from "./views/ForgottenPassword";
 import Spinner from "./components/Spinner";
 import ErrorBoundary from "./components/ErrorBoundary";
 const AdminRoutes = lazy(() => import("./routes/AdminRoutes"));
+/**
+ * Main application component that defines the routing structure for the app.
+ *
+ * - Handles both public and protected (admin, dealer) routes.
+ * - Wraps admin routes with Suspense and ErrorBoundary for lazy loading and error handling.
+ * - Uses AuthContext to determine user authentication state for conditional navigation.
+ * - Redirects authenticated users away from signup and login pages.
+ * - Provides fallback navigation for unknown routes.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered application routes.
+ */
 const App = () => {
   const { user } = useContext(AuthContext);
   return (

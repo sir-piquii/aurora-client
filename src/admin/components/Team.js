@@ -1,3 +1,24 @@
+/**
+ * Team component for managing team members in the admin panel.
+ *
+ * Features:
+ * - Fetches and displays a paginated list of team members.
+ * - Allows adding, editing, and deleting team members.
+ * - Supports updating member images.
+ * - Displays loading state and success/error notifications.
+ *
+ * State:
+ * @typedef {Object} TeamMember
+ * @property {number|string} id - Unique identifier for the team member.
+ * @property {string} name - Name of the team member.
+ * @property {string} position - Position/title of the team member.
+ * @property {string} bio - Short biography of the team member.
+ * @property {string} [picture] - Filename or URL of the member's picture.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered Team management UI.
+ */
 import React, { useEffect, useState, useCallback } from "react";
 import {
   getTeam,

@@ -1,3 +1,28 @@
+/**
+ * StatusBadge component displays a styled badge based on the quotation status.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.status - The status of the quotation ("Pending", "Approved", "Rejected", etc.).
+ * @returns {JSX.Element} The styled status badge.
+ */
+
+/**
+ * QuotationCard component displays a single quotation with expandable details and status action buttons.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.quotation - The quotation object containing details and products.
+ * @param {Function} props.onStatusChange - Callback function to handle status changes.
+ * @returns {JSX.Element} The quotation card UI.
+ */
+
+/**
+ * Quotations component displays a paginated, filterable list of quotations with status overview and actions.
+ *
+ * @component
+ * @returns {JSX.Element} The quotations management UI.
+ */
 import { getQuotations, changeQuotationStatus } from "../../api";
 import { useState, useCallback, useEffect } from "react";
 import {

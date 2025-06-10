@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import { getBlogById } from '../api';
 
+/**
+ * BlogDetail component fetches and displays the details of a single blog post based on the blogId from the URL.
+ *
+ * Utilizes React hooks to manage state and side effects:
+ * - Fetches blog data asynchronously when the component mounts or when blogId changes.
+ * - Sets the document title to "Blog Detail | Aurora".
+ * - Displays a loading state while fetching data.
+ *
+ * @function
+ * @returns {JSX.Element} The rendered blog detail view, including title, author, date, and story content.
+ */
 function BlogDetail() {
 	const { blogId } = useParams();
 	const [blog, setBlog] = useState([]);

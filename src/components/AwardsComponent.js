@@ -16,6 +16,7 @@ const AwardCard = ({ award }) => {
               src={`${BASE_URL}/awards/${award.image}`}
               alt={award.name}
               style={{ mixBlendMode: "multiply" }}
+              loading="lazy"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
@@ -42,6 +43,16 @@ const AwardCard = ({ award }) => {
   );
 };
 
+/**
+ * Awards component fetches and displays a list of awards.
+ *
+ * - Fetches awards data asynchronously on mount.
+ * - Shows a loading spinner while data is being fetched.
+ * - Renders a list of AwardCard components for each award.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Awards component.
+ */
 function Awards() {
   const [awards, setAwards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

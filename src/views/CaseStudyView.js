@@ -2,6 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getCaseStudyById } from '../api';
 
+/**
+ * Displays the details of a single case study, including project information,
+ * an image carousel, and an embedded YouTube video.
+ *
+ * - Fetches case study data by ID if not provided via navigation state.
+ * - Allows navigation back to the case studies list.
+ * - Shows project name, location, and system capacity.
+ * - Provides an image carousel for case study images.
+ * - Embeds a YouTube video related to the case study.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered case study detail view.
+ *
+ * @example
+ * // Usage in a route
+ * <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
+ */
 export default function CaseStudyDetail() {
 	const location = useLocation();
 	const navigate = useNavigate();

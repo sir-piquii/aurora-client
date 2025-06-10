@@ -1,5 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+/**
+ * FeaturedProductForm component allows admin users to add or edit a featured product.
+ *
+ * Features:
+ * - Handles both creation and editing of featured products.
+ * - Fetches product data for editing based on route parameter `id`.
+ * - Supports image upload with preview functionality.
+ * - Submits form data using FormData for file handling.
+ * - Navigates back to the featured products list after submission or cancellation.
+ *
+ * State:
+ * - formData: { id: string, name: string, image: File|string|null, imagePreview: string|null }
+ * - isEditMode: boolean - Determines if the form is in edit mode.
+ * - loading: boolean - Indicates if a request is in progress.
+ *
+ * Dependencies:
+ * - React, useState, useEffect
+ * - react-router-dom: useNavigate, useParams
+ * - API functions: addFeaturedProduct, updateFeaturedProduct, getFeaturedProductsById, BASE_URL
+ *
+ * @component
+ * @returns {JSX.Element} The FeaturedProductForm component UI.
+ */
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   addFeaturedProduct,
   updateFeaturedProduct,
@@ -113,7 +136,11 @@ const FeaturedProductForm = () => {
             <div className="mt-2">
               <p className="text-sm text-gray-600 mb-1">Preview:</p>
               <img
-                src={typeof(formData.image) === "string" ? `${BASE_URL}/featuredProducts/${formData.image}` : URL.createObjectURL(formData.image)}
+                src={
+                  typeof formData.image === "string"
+                    ? `${BASE_URL}/featuredProducts/${formData.image}`
+                    : URL.createObjectURL(formData.image)
+                }
                 alt="Preview"
                 className="w-32 h-32 object-cover rounded"
               />

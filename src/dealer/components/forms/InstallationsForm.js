@@ -3,6 +3,25 @@ import React, { useState } from "react";
 import { Plus, Trash2, Loader2 } from "lucide-react";
 import FormField from "../ui/FormField";
 
+/**
+ * InstallationsForm component allows users to add, edit, and remove multiple installation entries
+ * for a dealer, each with system description, size, email, and phone number fields.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {Object} props.dealer - The dealer object containing existing installations (as array or JSON string).
+ * @param {Function} props.onSubmit - Callback function called with the installations data when the form is submitted and valid.
+ * @param {boolean} props.isLoading - Indicates if the form is in a loading/submitting state.
+ * 
+ * @example
+ * <InstallationsForm
+ *   dealer={dealer}
+ *   onSubmit={handleInstallationsSubmit}
+ *   isLoading={isSubmitting}
+ * />
+ * 
+ * @returns {JSX.Element} The rendered installations form.
+ */
 const InstallationsForm = ({ dealer, onSubmit, isLoading }) => {
   // Parse existing installations if available
   const parseInstallations = () => {

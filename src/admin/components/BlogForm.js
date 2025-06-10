@@ -1,3 +1,28 @@
+/**
+ * BlogForm component for adding and editing blog posts.
+ *
+ * Features:
+ * - Handles both creation and editing of blogs based on URL param `id`.
+ * - Supports uploading, previewing, and removing up to 2 images per blog.
+ * - Allows removal of existing images in edit mode.
+ * - Uses FormData for submitting text and image data.
+ * - Displays loading state while fetching or submitting data.
+ *
+ * @component
+ * @returns {JSX.Element} Blog form UI
+ */
+
+/**
+ * ImageUploader component for handling image uploads and previews.
+ *
+ * @param {Object} props
+ * @param {number} props.maxImages - Maximum number of images allowed.
+ * @param {File[]} props.images - Array of new image files selected by the user.
+ * @param {function} props.setImages - Setter for updating the images array.
+ * @param {string[]} [props.existingImageUrls=[]] - URLs of images already associated with the blog.
+ * @param {function} [props.onRemoveExistingImage] - Callback for removing an existing image by URL.
+ * @returns {JSX.Element} Image uploader UI
+ */
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBlogById, updateBlog, addBlog } from "../../api";
@@ -180,6 +205,7 @@ const ImageUploader = ({
   );
 };
 // blog form
+
 const BlogForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();

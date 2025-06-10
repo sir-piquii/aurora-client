@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getBlogs } from '../api';
 
+/**
+ * BlogsView component displays a list of blog articles fetched from an API.
+ *
+ * - Sets the document title to "Blogs | Aurora" on mount.
+ * - Fetches blog data asynchronously and stores it in local state.
+ * - Renders a responsive grid of blog cards, each showing the title, creation date, and a story excerpt.
+ * - Each blog card links to a detailed view of the blog post.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered BlogsView component.
+ */
 function BlogsView() {
 	const [blogs, setBlogs] = useState([]);
 

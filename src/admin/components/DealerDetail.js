@@ -159,6 +159,29 @@ const InstallationCard = ({ installation, number }) => {
 };
 
 // dealer verification
+/**
+ * DealerVerification component displays detailed information about a dealer,
+ * including personal and company information, required documents, and installations.
+ * It allows an admin to approve, suspend, or reinstate a dealer's status.
+ *
+ * Features:
+ * - Fetches dealer data by ID from the backend.
+ * - Shows loading state while fetching or updating data.
+ * - Displays personal and company information of the dealer.
+ * - Previews required documents (certificate of incorporation, tax clearance, director IDs).
+ * - Lists installations associated with the dealer.
+ * - Provides actions to approve, suspend, or reinstate the dealer based on current status.
+ *
+ * Dependencies:
+ * - React hooks: useState, useEffect, useCallback
+ * - React Router: useParams
+ * - UI components: Loader, ArrowLeft, StatusBadge, CheckCircle, XCircle, AlertCircle, User, Mail, Building2, FileText, DocumentPreview, InstallationCard
+ * - Utility functions: getDealerById, changeDealerStatus
+ * - Notification: toast
+ *
+ * @component
+ * @returns {JSX.Element} The rendered DealerVerification component.
+ */
 const DealerVerification = () => {
   const [loading, setLoading] = useState(true);
   const [dealer, setDealer] = useState();

@@ -1,3 +1,33 @@
+/**
+ * SalesTable component displays a searchable, sortable, and expandable table of sales records.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Array<Object>} props.sales - Array of sales objects to display.
+ * @param {Function} props.onEdit - Callback function called when a sale is edited. Receives the sale object as argument.
+ * @param {Function} props.onDelete - Callback function called when a sale is deleted. Receives the sale object as argument.
+ *
+ * @example
+ * <SalesTable
+ *   sales={[{ transaction: 'abc123', customer_name: 'John Doe', ... }]}
+ *   onEdit={handleEdit}
+ *   onDelete={handleDelete}
+ * />
+ *
+ * Each sale object should have the following shape:
+ * {
+ *   transaction: string,
+ *   transaction_date: string (ISO date),
+ *   customer_name: string,
+ *   customer_company: string,
+ *   total_amount: number|string,
+ *   sale_type: string,
+ *   recorder_name: string,
+ *   customer_email: string,
+ *   customer_phone: string,
+ *   products: Array<{ product: string, price: number, quantity: number, subtotal: number }> | string (JSON),
+ * }
+ */
 import React, { useState } from "react";
 import {
   ChevronDown,
@@ -10,6 +40,7 @@ import {
 } from "lucide-react";
 import Button from "../../UI/Button";
 import Badge from "../../UI/Badge";
+
 const SalesTable = ({ sales, onEdit, onDelete }) => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

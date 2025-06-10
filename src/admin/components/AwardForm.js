@@ -1,6 +1,27 @@
+/**
+ * AwardForm component for adding or editing an award.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} [props.award] - The award object to edit. If not provided, the form is for adding a new award.
+ * @param {Function} props.onSubmit - Callback function called with FormData when the form is submitted.
+ * @param {Function} props.onCancel - Callback function called when the form is cancelled.
+ * @param {boolean} props.isOpen - Controls the visibility of the form modal.
+ *
+ * @returns {JSX.Element|null} The AwardForm modal component, or null if not open.
+ *
+ * @example
+ * <AwardForm
+ *   award={award}
+ *   onSubmit={handleSubmit}
+ *   onCancel={handleCancel}
+ *   isOpen={isModalOpen}
+ * />
+ */
 import { useState, useEffect } from "react";
 import { X, Award as AwardIcon, UploadCloudIcon } from "lucide-react";
 import { BASE_URL } from "../../api";
+
 const AwardForm = ({ award, onSubmit, onCancel, isOpen }) => {
   const [formData, setFormData] = useState({
     name: "",

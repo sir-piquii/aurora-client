@@ -94,6 +94,34 @@ const RegistrationSteps = () => {
     </div>
   );
 };
+/**
+ * LandingPage component for the Dealer portal.
+ *
+ * Renders a landing page that promotes the benefits of becoming a certified dealer,
+ * outlines the registration process, and provides calls-to-action for registration.
+ * The page includes a hero section, a list of dealer benefits, a registration process
+ * section, and conditional rendering of registration buttons based on user authentication
+ * and role.
+ *
+ * Context:
+ * - Uses AuthContext to determine the current user's authentication and role.
+ *
+ * Features:
+ * - Hero section with promotional messaging and CTA buttons.
+ * - Benefits section displaying key advantages for dealers.
+ * - Registration process steps.
+ * - Conditional rendering of registration CTAs for unauthenticated users or users with role_id === 1.
+ *
+ * Dependencies:
+ * - React, useContext
+ * - AuthContext for user authentication
+ * - Link from react-router-dom for navigation
+ * - Icon components: TrendingUp, Users, Zap, DollarSign, Shield, ArrowRight, CheckCircle
+ * - BenefitsCard and RegistrationSteps components
+ *
+ * @component
+ * @returns {JSX.Element} The rendered landing page for dealer registration and information.
+ */
 const LandingPage = () => {
   const { user: userData } = useContext(AuthContext);
   const user = userData.user;

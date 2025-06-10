@@ -42,6 +42,20 @@ const StatusBadge = ({ status, className = "" }) => {
   );
 };
 
+/**
+ * DealerCard component displays a card with dealer information and a link to the dealer's details page.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.dealer - Dealer object containing user and trading information.
+ * @param {number|string} props.dealer.id - Unique identifier for the dealer.
+ * @param {string} props.dealer.user_full_name - Full name of the dealer's user.
+ * @param {string} props.dealer.user_username - Username of the dealer's user.
+ * @param {string} props.dealer.user_email - Email address of the dealer's user.
+ * @param {string} props.dealer.trading_name - Trading name of the dealer.
+ * @param {string} props.dealer.reg_status - Registration status of the dealer.
+ * @returns {JSX.Element} A clickable card displaying dealer details and a status badge.
+ */
 const DealerCard = ({ dealer }) => {
   return (
     <a

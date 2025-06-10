@@ -1,4 +1,24 @@
+/**
+ * ProductRow component renders a single row for a product in a sales form.
+ * Allows editing of product name, price, quantity, and displays subtotal.
+ * Also provides a button to remove the product row.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.product - The product object containing details for the row
+ * @param {string} props.product.product - The name of the product
+ * @param {number} props.product.price - The price of the product
+ * @param {number} props.product.quantity - The quantity of the product
+ * @param {number} props.product.subtotal - The subtotal for the product (price * quantity)
+ * @param {number} props.index - The index of the product row in the list
+ * @param {function} props.onChange - Callback when any product field changes (index, updatedProduct) => void
+ * @param {function} props.onRemove - Callback when the product row is removed (index) => void
+ * @param {boolean} props.isLast - Whether this is the last product row (affects styling)
+ *
+ * @returns {JSX.Element} The rendered product row
+ */
 import { Trash } from "lucide-react";
+
 const ProductRow = ({ product, index, onChange, onRemove, isLast }) => {
   // Calculate subtotal whenever price or quantity changes
   const calculateSubtotal = (price, quantity) => {

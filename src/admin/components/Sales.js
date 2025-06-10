@@ -1,3 +1,44 @@
+/**
+ * Sales management component for viewing, adding, editing, and deleting sales transactions.
+ *
+ * Fetches sales data from the API and displays it in a table.
+ * Provides modals for adding, editing, and confirming deletion of sales.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered Sales management UI.
+ *
+ * @example
+ * // Usage in a route or parent component
+ * <Sales />
+ *
+ * @dependencies
+ * - getSales: Function to fetch sales data from the API.
+ * - addSale: Function to add a new sale via the API.
+ * - Spinner: Loading spinner component.
+ * - SalesTable: Table component for displaying sales.
+ * - SaleForm: Form component for adding/editing a sale.
+ * - DeleteConfirmation: Confirmation dialog for deleting a sale.
+ * - Button: UI button component.
+ * - Modal: Modal dialog component.
+ * - toast: Notification utility from 'sonner'.
+ *
+ * @state
+ * - sales: Array of sales data or null.
+ * - isAddModalOpen: Boolean for add sale modal visibility.
+ * - isEditModalOpen: Boolean for edit sale modal visibility.
+ * - isDeleteModalOpen: Boolean for delete confirmation modal visibility.
+ * - currentSale: The sale object currently being edited or deleted.
+ * - loading: Boolean for loading state.
+ *
+ * @functions
+ * - fetchSales: Fetches sales data from the API.
+ * - handleAddSale: Handles adding a new sale.
+ * - handleEditClick: Opens the edit modal for a selected sale.
+ * - handleUpdateSale: Updates a sale in the state.
+ * - handleDeleteClick: Opens the delete confirmation modal for a selected sale.
+ * - handleConfirmDelete: Removes a sale from the state.
+ */
 import { getSales, addSale } from "../../api";
 import Spinner from "../../components/Spinner";
 import { useState, useEffect, useCallback } from "react";

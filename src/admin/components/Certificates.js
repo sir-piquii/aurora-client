@@ -1,60 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { getCertificates, deleteCertificate } from '../../api';
-import { FaEye, FaTrash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+/**
+ * Certificates component for the admin panel.
+ *
+ * Displays a paginated list of certificates, allows viewing and deleting certificates,
+ * and provides a link to add new certificates.
+ *
+ * Features:
+ * - Fetches certificates from the API on mount.
+ * - Supports pagination with configurable certificates per page.
+ * - Allows deletion of certificates with confirmation.
+ * - Displays certificate title and actions (view, delete).
+ * - Responsive and styled with Tailwind CSS.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Certificates management UI.
+ */
+import { useEffect, useState } from "react";
+import { getCertificates, deleteCertificate } from "../../api";
+import { FaEye, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Certificates = () => {
-	const [certificates, setCertificates] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
-	const certificatesPerPage = 10;
+  const [certificates, setCertificates] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const certificatesPerPage = 10;
 
-	useEffect(() => {
-		document.title = 'Certificates | Admin Panel';
-		const fetchCertificates = async () => {
-			try {
-				const data = await getCertificates();
-				setCertificates(data);
-			} catch (error) {
-				console.error('Error fetching certificates:', error);
-			}
-		};
-		fetchCertificates();
-	}, []);
+  useEffect(() => {
+    document.title = "Certificates | Admin Panel";
+    const fetchCertificates = async () => {
+      try {
+        const data = await getCertificates();
+        setCertificates(data);
+      } catch (error) {
+        console.error("Error fetching certificates:", error);
+      }
+    };
+    fetchCertificates();
+  }, []);
 
-	const indexOfLastCertificate = currentPage * certificatesPerPage;
-	const indexOfFirstCertificate =
-		indexOfLastCertificate - certificatesPerPage;
-	const currentCertificates = certificates.slice(
-		indexOfFirstCertificate,
-		indexOfLastCertificate,
-	);
+  const indexOfLastCertificate = currentPage * certificatesPerPage;
+  const indexOfFirstCertificate = indexOfLastCertificate - certificatesPerPage;
+  const currentCertificates = certificates.slice(
+    indexOfFirstCertificate,
+    indexOfLastCertificate
+  );
 
-	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-	const handleDelete = (certificateId) => {
-		const confirmDelete = window.confirm(
-			'Are you sure you want to delete this certificate?',
-		);
+  const handleDelete = (certificateId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this certificate?"
+    );
 
-		if (confirmDelete) {
-			const deleteCertificateAsync = async () => {
-				try {
-					await deleteCertificate(certificateId);
-					setCertificates(
-						certificates.filter(
-							(certificate) => certificate.id !== certificateId,
-						),
-					);
-					console.log('Certificate deleted successfully.');
-				} catch (error) {
-					console.error('Error deleting certificate:', error);
-				}
-			};
-			deleteCertificateAsync();
-		}
-	};
+    if (confirmDelete) {
+      const deleteCertificateAsync = async () => {
+        try {
+          await deleteCertificate(certificateId);
+          setCertificates(
+            certificates.filter(
+              (certificate) => certificate.id !== certificateId
+            )
+          );
+          console.log("Certificate deleted successfully.");
+        } catch (error) {
+          console.error("Error deleting certificate:", error);
+        }
+      };
+      deleteCertificateAsync();
+    }
+  };
 
-	return (
+  return (
     <div className="max-w-7xl mx-auto my-12 px-4">
       <h2 className="text-2xl font-bold mb-6 text-navy-900">
         Manage Certificates

@@ -2,6 +2,27 @@ import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import carousel1 from './../assets/house_animation.mp4';
 
+/**
+ * Banner component renders a responsive image/video carousel with overlay text and navigation controls.
+ *
+ * Features:
+ * - Displays a carousel of slides, each containing either a video or image, with a title and description.
+ * - Supports navigation between slides using next and previous buttons (if more than one slide).
+ * - Shows overlay text and a call-to-action button, styled differently for desktop and mobile views.
+ * - Includes a decorative "Get a Free Quote" flag linking to WhatsApp.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Banner carousel component.
+ *
+ * @example
+ * <Banner />
+ *
+ * @remarks
+ * - Requires React and useState hook.
+ * - Expects slide media (e.g., `carousel1`) to be imported and available in scope.
+ * - Uses Tailwind CSS for styling.
+ * - Navigation arrows are only visible if there is more than one slide.
+ */
 export default function Banner() {
 	const [currentIndex, setCurrentIndex] = useState(0);
 

@@ -1,3 +1,25 @@
+/**
+ * Modal component to display detailed information about a product.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.product - The product object containing details to display.
+ * @param {string} [props.product.product_name] - Name of the product.
+ * @param {string} [props.product.images] - Comma-separated image filenames for the product.
+ * @param {number|string} [props.product.price_usd] - Product price in USD.
+ * @param {number|string} [props.product.price_zwl] - Product price in ZWL.
+ * @param {number|string} [props.product.discount] - Discount percentage for the product.
+ * @param {number|string} [props.product.quantity] - Quantity of product in stock.
+ * @param {string} [props.product.category_name] - Name of the product category.
+ * @param {string} [props.product.product_description] - Description of the product.
+ * @param {string} [props.product.product_benefits] - Benefits of the product, separated by newlines.
+ * @param {string|number} [props.product.product_warranty] - Warranty period for the product (in years).
+ * @param {string} [props.product.supplier_name] - Name of the product's supplier/brand.
+ * @param {boolean} props.isOpen - Whether the modal is open.
+ * @param {Function} props.onClose - Callback function to close the modal.
+ *
+ * @returns {JSX.Element|null} The modal displaying product details, or null if not open.
+ */
 import { X } from "lucide-react";
 import { BASE_URL } from "../../api";
 

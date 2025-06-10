@@ -16,6 +16,43 @@ import {
 } from "../../api";
 // Initial dealer data
 
+/**
+ * DealerRegistration component provides a multi-step registration portal for dealers.
+ * 
+ * This component manages the registration process, including:
+ *  - Company details submission
+ *  - Required document uploads
+ *  - Dealer installations entry
+ * 
+ * It tracks the completion status of each section, handles form submissions, 
+ * manages loading states, and provides user feedback via toast notifications.
+ * 
+ * Contexts:
+ *  - DealerContext: Provides initial dealer data.
+ *  - AuthContext: Provides authenticated user data.
+ * 
+ * State:
+ *  - activeSection: Currently open registration section.
+ *  - completedSections: Array of completed registration sections.
+ *  - isLoading: Indicates if a submission is in progress.
+ *  - dealer: Current dealer data.
+ * 
+ * Helper Functions:
+ *  - isCompanyDetailsComplete: Checks if company details are complete.
+ *  - isDocumentsComplete: Checks if required documents are uploaded.
+ *  - isInstallationsComplete: Checks if installations are added.
+ *  - handleCompanyDetailsSubmit: Handles company details form submission.
+ *  - handleDocumentUploadsSubmit: Handles document uploads.
+ *  - handleInstallationsSubmit: Handles installations submission.
+ *  - handleUploadTaxCertificate, handleUploadIncorporationCertificate, handleUploadNationalId: Handle specific file uploads.
+ * 
+ * UI:
+ *  - Displays a progress tracker and three collapsible sections for each registration step.
+ *  - Each section shows a form and completion status.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Dealer Registration Portal UI.
+ */
 const DealerRegistration = () => {
   const [activeSection, setActiveSection] = useState(null);
   const [completedSections, setCompletedSections] = useState([]);

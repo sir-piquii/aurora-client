@@ -1,3 +1,23 @@
+/**
+ * TeamForm component for adding or editing a team member.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object|null} props.member - The team member object to edit, or null to add a new member.
+ * @param {boolean} props.isOpen - Whether the form modal is open.
+ * @param {Function} props.onClose - Callback to close the form modal.
+ * @param {Function} props.onSave - Callback to save the form data. Receives an object with `id` and `formDataToSubmit`.
+ *
+ * @returns {JSX.Element|null} The rendered TeamForm modal, or null if not open.
+ *
+ * @example
+ * <TeamForm
+ *   member={selectedMember}
+ *   isOpen={isModalOpen}
+ *   onClose={handleClose}
+ *   onSave={handleSave}
+ * />
+ */
 import { useState, useEffect, useRef } from "react";
 import { X, Upload } from "lucide-react";
 import { BASE_URL, getPositions } from "../../api";

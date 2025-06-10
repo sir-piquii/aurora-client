@@ -1,4 +1,45 @@
-import React, { useState, useEffect, useCallback } from "react";
+/**
+ * Default product object structure for initializing the form.
+ * @typedef {Object} Product
+ * @property {number} product_id - Unique identifier for the product.
+ * @property {string} product_name - Name of the product.
+ * @property {string} product_description - Description of the product.
+ * @property {number} category_id - ID of the product's category.
+ * @property {string} category_name - Name of the product's category.
+ * @property {string|null} datasheet - Filename or reference to the product datasheet.
+ * @property {string} discount - Discount percentage as a string.
+ * @property {string} images - Comma-separated list of image filenames.
+ * @property {string} price_usd - Price in USD as a string.
+ * @property {string} price_zwl - Price in ZWL as a string.
+ * @property {string} product_benefits - Product benefits, separated by newlines.
+ * @property {string} product_warranty - Warranty information.
+ * @property {number} quantity - Quantity in stock.
+ * @property {number} supplier_id - ID of the supplier/brand.
+ * @property {string} supplier_name - Name of the supplier/brand.
+ */
+
+/**
+ * Modal form component for adding or editing a product.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Product} [props.product] - Product object to edit (if in edit mode).
+ * @param {boolean} props.isOpen - Whether the modal is open.
+ * @param {function} props.onClose - Callback to close the modal.
+ * @param {function} props.onSubmit - Callback to submit the form data.
+ * @param {boolean} [props.isEditMode=false] - Whether the form is in edit mode.
+ * @returns {JSX.Element|null} The modal form for product creation or editing.
+ *
+ * @example
+ * <ProductFormModal
+ *   isOpen={isModalOpen}
+ *   onClose={handleClose}
+ *   onSubmit={handleProductSubmit}
+ *   isEditMode={true}
+ *   product={selectedProduct}
+ * />
+ */
+import { useState, useEffect, useCallback } from "react";
 import { X, Upload, FileText } from "lucide-react";
 import { BASE_URL, getProductCategories, getMinBrandsDetails } from "../../api";
 

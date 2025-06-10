@@ -1,3 +1,23 @@
+/**
+ * SalesChart component displays a responsive line chart of monthly sales revenue by product category.
+ *
+ * @component
+ * @param {Object[]} data - Array of sales data objects.
+ * @param {string} data[].month_year - The month and year label (e.g., "Jan 2024").
+ * @param {string} data[].category_name - The name of the product category.
+ * @param {string|number} data[].monthly_revenue - The revenue for the category in the given month.
+ * @param {string|number} data[].month_number - The numeric representation of the month (e.g., "01" for January).
+ *
+ * @example
+ * const data = [
+ *   { month_year: "Jan 2024", category_name: "Electronics", monthly_revenue: "1200", month_number: "01" },
+ *   { month_year: "Jan 2024", category_name: "Books", monthly_revenue: "800", month_number: "01" },
+ *   // ...
+ * ];
+ * <SalesChart data={data} />
+ *
+ * @returns {JSX.Element} A styled card containing a filterable, multi-line sales chart.
+ */
 import React, { useState } from "react";
 import {
   LineChart,
@@ -10,6 +30,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Calendar } from "lucide-react";
+
 const SalesChart = ({ data }) => {
   // Transform the incoming data to fit the chart's expected format
   // Group by month_year, sum monthly_revenue per category

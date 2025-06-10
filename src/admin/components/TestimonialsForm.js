@@ -1,12 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
-	getTestimonialById,
-	addTestimonial,
-	updateTestimonial,
-} from '../../api';
+  getTestimonialById,
+  addTestimonial,
+  updateTestimonial,
+} from "../../api";
 import { toast } from "sonner";
 
+/**
+ * TestimonialForm component for adding or editing testimonials.
+ *
+ * This form allows users to input a person's name, role, testimonial message, and upload an image.
+ * It supports both creation and editing modes, determined by the presence of an `id` parameter in the route.
+ * On submit, it sends the data as a FormData object to the appropriate API endpoint.
+ *
+ * State:
+ * - testimonial: Object containing person, person_role, and message fields.
+ * - imageFile: File object for the uploaded image.
+ * - imagePreview: URL for previewing the selected image.
+ * - isEditing: Boolean indicating if the form is in edit mode.
+ *
+ * Effects:
+ * - Fetches testimonial data if editing (when `id` is present).
+ *
+ * Handlers:
+ * - handleChange: Updates testimonial fields.
+ * - handleImageChange: Handles image file selection and preview.
+ * - handleSubmit: Submits the form data for add or update.
+ *
+ * UI:
+ * - Input fields for name, role, message, and image upload.
+ * - Image preview for the selected/uploaded image.
+ * - Submit and cancel buttons.
+ *
+ * Dependencies:
+ * - React hooks (useState, useEffect)
+ * - React Router hooks (useParams, useNavigate)
+ * - API functions: getTestimonialById, updateTestimonial, addTestimonial
+ * - toast for notifications
+ *
+ * @component
+ */
 const TestimonialForm = () => {
   const [testimonial, setTestimonial] = useState({
     person: "",

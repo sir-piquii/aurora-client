@@ -1,4 +1,68 @@
-import React, { useEffect, useState } from "react";
+/**
+ * ProductHeader component renders the header section for the product management page,
+ * including the title, description, and "Add Product" button.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onAddProduct - Callback to open the add product modal.
+ * @returns {JSX.Element}
+ */
+
+/**
+ * Products component manages the product listing, filtering, searching, pagination,
+ * and CRUD operations for products in the admin panel.
+ *
+ * @component
+ * @returns {JSX.Element}
+ *
+ * @example
+ * <Products />
+ *
+ * @description
+ * - Fetches products and categories from the API.
+ * - Supports filtering by category, searching by product name, and pagination.
+ * - Handles adding, updating, and deleting products.
+ * - Displays a modal form for adding new products.
+ * - Shows loading spinner while fetching or processing data.
+ *
+ * @state
+ * @property {boolean} isFormModalOpen - Controls visibility of the add product modal.
+ * @property {boolean} isLoading - Indicates if data is being loaded or processed.
+ * @property {Array<Object>} products - List of products to display.
+ * @property {Array<Object>} productCategories - List of product categories.
+ * @property {number} selectedCategory - Currently selected category ID for filtering.
+ * @property {number} currentPage - Current page number for pagination.
+ * @property {number} pageCount - Total number of products (for pagination).
+ * @property {number} productsPerPage - Number of products per page.
+ * @property {string} search - Search query for filtering products by name.
+ *
+ * @function handleDelete
+ * @param {number} productId - ID of the product to delete.
+ * @description Handles deletion of a product after user confirmation.
+ *
+ * @function handleUpdateProduct
+ * @param {Object} product - Product data to update.
+ * @description Handles updating product details, images, and datasheet.
+ *
+ * @function handleUpdateProductImages
+ * @param {number} productId - ID of the product.
+ * @param {Array<File>} newImages - Array of new image files to upload.
+ * @description Handles uploading new product images.
+ *
+ * @function handleUploadDatasheet
+ * @param {number} productId - ID of the product.
+ * @param {File} datasheetFile - Datasheet file to upload.
+ * @description Handles uploading a new datasheet for the product.
+ *
+ * @function handleAddProduct
+ * @param {Object} product - New product data from the form.
+ * @description Handles adding a new product and uploading its datasheet if provided.
+ *
+ * @function paginate
+ * @param {number} pageNumber - Page number to navigate to.
+ * @description Sets the current page for pagination.
+ */
+import { useEffect, useState } from "react";
 import {
   addProduct,
   getAllProducts,
@@ -13,6 +77,7 @@ import { Plus, Loader, Search } from "lucide-react";
 import { toast } from "sonner";
 import ProductFormModal from "./ProductModalForm";
 // products header
+
 const ProductHeader = ({ onAddProduct }) => {
   return (
     <div className="bg-navy-800 text-white py-6">

@@ -3,6 +3,26 @@ import { getFaqs, deleteFaqs } from '../../api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+/**
+ * FAQs component for the admin panel.
+ * 
+ * Displays a paginated list of Frequently Asked Questions (FAQs) with options to add, edit, and delete entries.
+ * 
+ * Features:
+ * - Fetches FAQs from the backend on mount.
+ * - Supports pagination with configurable FAQs per page.
+ * - Allows deletion of FAQs with confirmation.
+ * - Provides navigation to add and edit FAQ pages.
+ * 
+ * State:
+ * @typedef {Object} FAQ
+ * @property {number|string} id - Unique identifier for the FAQ.
+ * @property {string} question - The FAQ question.
+ * @property {string} answer - The FAQ answer.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered FAQs management table with pagination and actions.
+ */
 const FAQs = () => {
 	const [faqs, setFaqs] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);

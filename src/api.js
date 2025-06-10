@@ -2,6 +2,30 @@ import axios from "axios";
 export const BASE_URL =
   process.env.REACT_APP_API_URL || "https://api.auroraenergy.co.zw"; //https://dev-api.auroraenergy.co.zw
 
+/**
+ * An object containing API endpoint URLs for various resources in the application.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} products - Endpoint for product-related operations.
+ * @property {string} featured - Endpoint for featured items.
+ * @property {string} team - Endpoint for team member information.
+ * @property {string} testimonial - Endpoint for testimonials.
+ * @property {string} auth - Endpoint for authentication operations.
+ * @property {string} certificates - Endpoint for certificates.
+ * @property {string} articles - Endpoint for articles.
+ * @property {string} blogs - Endpoint for blogs.
+ * @property {string} caseStudies - Endpoint for case studies.
+ * @property {string} faqs - Endpoint for frequently asked questions.
+ * @property {string} awards - Endpoint for awards.
+ * @property {string} dealer - Endpoint for dealer information.
+ * @property {string} quotations - Endpoint for quotations.
+ * @property {string} overview - Endpoint for overview data.
+ * @property {string} brands - Endpoint for brand information.
+ * @property {string} positions - Endpoint for positions.
+ * @property {string} statistics - Endpoint for statistics.
+ * @property {string} sales - Endpoint for sales data.
+ */
 const endpoints = {
   products: `${BASE_URL}/products`,
   featured: `${BASE_URL}/featured`,
@@ -551,7 +575,7 @@ export const getProductsByCategory = async (id, page, perPage) => {
 
   try {
     const response = await axios.get(
-      `${endpoints.products}/get-product-by-category/${categoryId}?page=${page}&perPage=${perPage}`
+      `${endpoints.products}/get-product-by-category/${categoryId}?page=${page}&pageSize=${perPage}`
     );
     return response.data;
   } catch (error) {

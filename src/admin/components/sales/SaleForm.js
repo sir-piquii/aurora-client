@@ -1,3 +1,24 @@
+/**
+ * SaleForm component for creating or editing a sale record.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} [props.sale] - Existing sale data for editing. If not provided, a new sale is created.
+ * @param {Function} props.onSubmit - Callback function called with form data when the form is submitted and valid.
+ * @param {Function} props.onCancel - Callback function called when the cancel button is clicked.
+ *
+ * @returns {JSX.Element} The rendered sale form component.
+ *
+ * @example
+ * <SaleForm sale={saleData} onSubmit={handleSubmit} onCancel={handleCancel} />
+ *
+ * @description
+ * - Allows entry of customer information and selection of products for a sale.
+ * - Supports adding/removing multiple products, calculates subtotal and total.
+ * - Validates required fields (customer name, email, phone, and product details).
+ * - Uses tabs for switching between customer and product entry.
+ * - Fetches product list from API and caches it for performance.
+ */
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import Button from "../../UI/Button";

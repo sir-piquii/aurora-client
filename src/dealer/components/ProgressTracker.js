@@ -1,5 +1,18 @@
 import React from "react";
 import { CheckCircle, Circle } from "lucide-react";
+/**
+ * ProgressTracker component displays the registration progress for a dealer.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string[]} props.completedSections - Array of completed section identifiers (e.g., ["company", "documents"]).
+ * @param {number} props.totalSections - Total number of registration sections.
+ *
+ * @example
+ * <ProgressTracker completedSections={["company", "documents"]} totalSections={3} />
+ *
+ * @returns {JSX.Element} A styled progress tracker with a progress bar and section indicators.
+ */
 const ProgressTracker = ({ completedSections, totalSections }) => {
   const progress = (completedSections.length / totalSections) * 100;
 

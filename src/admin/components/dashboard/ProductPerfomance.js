@@ -1,3 +1,17 @@
+/**
+ * ProductPerformance component displays a bar chart and summary of top product categories by revenue.
+ *
+ * @component
+ * @param {Object[]} data - Array of product category performance objects.
+ * @param {string} data[].category_name - Name of the product category.
+ * @param {string|number} data[].total_revenue - Total revenue for the category.
+ * @param {string|number} data[].percentage_of_total - Growth percentage of the category.
+ * @param {string|number} data[].total_items_sold - Total items sold in the category.
+ * @param {string|number} data[].transaction_count - Number of transactions for the category.
+ *
+ * @returns {JSX.Element} A card displaying a bar chart of the top 5 categories by revenue,
+ *   and a summary of the top 3 growth leaders.
+ */
 import {
   BarChart,
   Bar,

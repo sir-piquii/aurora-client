@@ -1,6 +1,24 @@
-import { useState, useContext, useEffect } from "react";
-import { User, Mail, Shield, Key, X, Edit2 } from "lucide-react";
+import { useState } from "react";
+import { User, Mail, X, Edit2 } from "lucide-react";
 
+/**
+ * UserForm component renders a modal form for creating a new user account.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isOpen - Controls the visibility of the modal form.
+ * @param {function} props.onClose - Callback to close the modal form.
+ * @param {function} props.onSubmit - Callback invoked with FormData when the form is submitted.
+ *
+ * @returns {JSX.Element|null} The modal form for user creation, or null if not open.
+ *
+ * @example
+ * <UserForm
+ *   isOpen={isModalOpen}
+ *   onClose={handleClose}
+ *   onSubmit={handleUserSubmit}
+ * />
+ */
 const UserForm = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     username: "",

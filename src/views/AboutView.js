@@ -7,6 +7,23 @@ import "./AboutView.css";
 import { getCertificates } from "../api";
 import backgroundImage from "./../assets/aurora_lights.avif"; // Adjust the path as needed
 
+/**
+ * AboutUs component displays the "About Us" page for Aurora Energy.
+ * 
+ * Features:
+ * - Sets the document title to "About Us | Aurora" on mount.
+ * - Fetches and displays a list of certificates from the backend.
+ * - Renders sections including:
+ *   - Our Story: Company background and mission.
+ *   - InfoCards: Key company information.
+ *   - CeoMessage: Message from the CEO.
+ *   - Team: Team member profiles.
+ *   - Awards: Company awards and recognitions.
+ *   - Certifications: Downloadable company certificates.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered About Us page.
+ */
 export default function AboutUs() {
   const [certificates, setCertificates] = useState([]);
 

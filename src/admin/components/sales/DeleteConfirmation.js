@@ -1,5 +1,19 @@
+/**
+ * DeleteConfirmation component displays a confirmation dialog for deleting a sale.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Object} props.sale - The sale object containing details to display.
+ * @param {string} props.sale.customer_name - Name of the customer associated with the sale.
+ * @param {string|number} props.sale.transaction - Transaction ID of the sale.
+ * @param {string|number} props.sale.total_amount - Total amount of the sale.
+ * @param {Function} props.onConfirm - Callback function invoked when the user confirms deletion.
+ * @param {Function} props.onCancel - Callback function invoked when the user cancels the action.
+ * @returns {JSX.Element} The rendered confirmation dialog.
+ */
 import { AlertTriangle } from "lucide-react";
 import Button from "../../UI/Button";
+
 const DeleteConfirmation = ({ sale, onConfirm, onCancel }) => {
   return (
     <div className="text-center">

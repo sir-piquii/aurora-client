@@ -13,6 +13,40 @@ import FormField from "./ui/FormField";
 import { DealerContext } from "../../context/Context.js";
 import { toast } from "sonner";
 import { updateProfile, changePassword, BASE_URL } from "../../api.js";
+/**
+ * Profile component for displaying and editing dealer profile information.
+ *
+ * This component allows a dealer to view and update their personal details, company details,
+ * uploaded documents, and installations. It also provides functionality to change the account password.
+ *
+ * Features:
+ * - View and edit personal details (email, username, full name).
+ * - View company details (registered company, trading name, registration number, VAT number, TIN).
+ * - View uploaded documents (tax clearance, certificate of incorporation, national ID copies).
+ * - View installations associated with the dealer.
+ * - Change account password with validation.
+ *
+ * State:
+ * - isEditingProfile: Controls whether the profile edit form is shown.
+ * - isChangingPassword: Controls whether the change password form is shown.
+ * - isLoading: Indicates if a form submission is in progress.
+ * - profileData: Stores editable profile fields.
+ * - passwordData: Stores password change fields.
+ *
+ * Context:
+ * - DealerContext: Provides dealer information.
+ *
+ * Dependencies:
+ * - updateProfile: Function to update dealer profile.
+ * - changePassword: Function to change dealer password.
+ * - toast: Notification system for success/error messages.
+ * - BASE_URL: Base URL for document images.
+ * - FormField: Reusable form field component.
+ * - Various icon components for UI.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Profile component.
+ */
 const Profile = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -29,7 +63,6 @@ const Profile = () => {
     newPassword: "",
     confirmPassword: "",
   });
-
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));

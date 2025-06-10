@@ -2,6 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArticles } from '../api';
 
+/**
+ * InsightsAndNews component displays categorized articles such as Recent Articles, Trending Topics,
+ * Expert Opinions, and News. It fetches articles on mount, filters them by category, and renders
+ * each category in its own section. Each article displays a title, truncated description, and a link
+ * to read more. The component also updates the document title on mount.
+ *
+ * State:
+ * - recentArticles: Array of articles in the 'Recent' category.
+ * - trendingTopics: Array of articles in the 'Trending' category.
+ * - expertOpinions: Array of articles in the 'Expert Opinion' category.
+ * - newsArticles: Array of articles in the 'News' category.
+ *
+ * Side Effects:
+ * - Fetches articles from the API on mount and updates state.
+ * - Sets the document title to 'Insights & News | Aurora' on mount.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Insights & News view with categorized articles.
+ */
 export default function InsightsAndNews() {
 	const [recentArticles, setRecentArticles] = useState([]);
 	const [trendingTopics, setTrendingTopics] = useState([]);

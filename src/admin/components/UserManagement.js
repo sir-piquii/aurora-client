@@ -56,7 +56,6 @@ const AdminListItem = ({ admin, onDeleteClick }) => {
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        {" "}
         <button
           onClick={onDeleteClick}
           className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
@@ -69,6 +68,42 @@ const AdminListItem = ({ admin, onDeleteClick }) => {
   );
 };
 
+/**
+ * UserManagement component for managing admin users.
+ *
+ * This component displays a list of admin users, allows adding new admins,
+ * and supports deleting existing admins. It fetches the list of admins from
+ * the backend, displays them in a table, and provides UI controls for
+ * management actions.
+ *
+ * State:
+ * - users: Array of admin user objects.
+ * - showForm: Boolean indicating if the add admin form is visible.
+ * - loading: Boolean indicating if data is being loaded.
+ *
+ * Effects:
+ * - Fetches admin users on mount and after add/delete actions.
+ *
+ * Handlers:
+ * - handleDeleteClick: Deletes an admin after confirmation.
+ * - handleSubmit: Adds a new admin and refreshes the list.
+ *
+ * UI:
+ * - Displays a table of admins with actions.
+ * - Shows a loader while fetching data.
+ * - Renders a form modal for adding new admins.
+ *
+ * Dependencies:
+ * - getAdmins: Function to fetch admin users.
+ * - deleteAdmin: Function to delete an admin.
+ * - addAdmin: Function to add a new admin.
+ * - toast: Notification utility for success/error messages.
+ * - Loader, Users, Plus: UI icons/components.
+ * - AdminListItem: Component for rendering each admin row.
+ * - UserForm: Modal form for adding admins.
+ *
+ * @component
+ */
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);

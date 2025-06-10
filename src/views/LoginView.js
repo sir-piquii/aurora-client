@@ -4,6 +4,39 @@ import { AuthContext } from "../context/AuthContext";
 import { authenticateUser } from "../api";
 import loginImg from "./../assets/login.jpg";
 
+/**
+ * Login component for user authentication.
+ *
+ * Renders a login form allowing users to sign in using their email/username and password.
+ * Handles authentication, error display, loading state, and redirects users based on their role.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered login view.
+ *
+ * @example
+ * // Usage in a React Router route
+ * <Route path="/login" element={<Login />} />
+ *
+ * @function
+ *
+ * @typedef {Object} LoginData
+ * @property {string} identifier - The user's email or username.
+ * @property {string} password - The user's password.
+ * @property {boolean} rememberMe - Whether to remember the user.
+ *
+ * @typedef {Object} User
+ * @property {Object} user
+ * @property {string} user.role - The role of the user ('admin', 'super', 'dealer', 'user').
+ *
+ * @hook
+ * @uses useState to manage form data, error messages, and loading state.
+ * @uses useContext to access authentication context.
+ * @uses useNavigate to programmatically navigate after login.
+ * @uses useEffect to set the document title.
+ *
+ * @see AuthContext for authentication logic.
+ * @see authenticateUser for user authentication API call.
+ */
 export default function Login() {
   const [loginData, setLoginData] = useState({
     identifier: "",
@@ -72,7 +105,7 @@ export default function Login() {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex lg:h-full w-full flex-col justify-center items-center">
       <div className="w-full h-24 flex items-center justify-center text-navy-900">
         <h1 className="text-5xl font-bold">Login</h1>
       </div>

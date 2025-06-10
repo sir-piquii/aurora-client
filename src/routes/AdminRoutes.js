@@ -32,6 +32,19 @@ import { Menu } from "lucide-react";
 import { useContext } from "react";
 import Sales from "../admin/components/Sales";
 import Profile from "../admin/Profile";
+/**
+ * AdminRoutes component defines the protected admin dashboard layout and routing structure.
+ *
+ * - Wraps all admin routes with authentication protection via `ProtectedRoute`.
+ * - Provides sidebar context using `SidebarProvider`.
+ * - Renders a responsive sidebar, top navigation bar, and main content area.
+ * - Defines all admin-related routes using React Router's `Routes` and `Route` components.
+ * - Includes a floating mobile menu button to toggle the sidebar on smaller screens.
+ * - Displays a footer and a global `Toaster` for notifications.
+ *
+ * @component
+ * @returns {JSX.Element} The admin dashboard layout with nested routes and sidebar navigation.
+ */
 const AdminRoutes = () => {
   const { toggle } = useContext(SidebarContext);
   //const  = useSidebar;
