@@ -78,7 +78,7 @@ const DealerRegistration = () => {
     return (
       dealer.tax_clearance !== null &&
       dealer.certificate_of_incorporation !== null &&
-      dealer.national_ID_Copies_of_the_Directors.split(",").length >= 3
+      dealer.national_ID_Copies_of_the_Directors
     );
   };
 
@@ -113,7 +113,7 @@ const DealerRegistration = () => {
         VATNumber: data.VAT_number,
         TIN: data.TIN,
       };
-      const response = await addDealer(companyDetails, userData.user.id);
+      await addDealer(companyDetails, userData.user.id);
       toast.success("Your company details have been successfully saved.");
       setActiveSection(null);
       setTimeout(() => {

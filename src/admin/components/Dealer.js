@@ -116,66 +116,71 @@ const Dealers = () => {
           />
         </div>
 
-        <div className="relative"></div>
-        <button
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className="flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-        >
-          <div className="flex items-center">
-            <Filter size={18} className="mr-2 text-gray-400" />
-            {statusFilter
-              ? statusFilter || "Filter by status"
-              : "Filter by status"}
-          </div>
-          <ChevronDown size={16} className="text-gray-400" />
-        </button>
-        {isFilterOpen && (
-          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-            <div className="py-1" role="menu" aria-orientation="vertical">
-              <button
-                onClick={() => {
-                  setStatusFilter("");
-                  setIsFilterOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                All Statuses
-              </button>
-              {[
-                "Approved",
-                "Pending_Approval",
-                "Suspended",
-                "Pending Documents",
-              ].map((option, index) => (
+        <div className="relative">
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          >
+            <div className="flex items-center">
+              <Filter size={18} className="mr-2 text-gray-400" />
+              {statusFilter
+                ? statusFilter || "Filter by status"
+                : "Filter by status"}
+            </div>
+            <ChevronDown size={16} className="text-gray-400" />
+          </button>
+          {isFilterOpen && (
+            <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+              <div className="py-1" role="menu" aria-orientation="vertical">
                 <button
-                  key={index}
                   onClick={() => {
-                    setStatusFilter(option);
+                    setStatusFilter("");
                     setIsFilterOpen(false);
                   }}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  {option}
+                  All Statuses
                 </button>
-              ))}
+                {[
+                  { label: "Not Started", value: "NOT STARTED" },
+                  { label: "Pending Documents", value: "PENDING DOCUMENTS" },
+                  {
+                    label: "Pending Installations",
+                    value: "PENDING INSTALLATIONS",
+                  },
+                  { label: "Pending Approval", value: "PENDING APPROVAL" },
+                  { label: "Approved", value: "APPROVED" },
+                  { label: "Rejected", value: "REJECTED" },
+                  { label: "Suspended", value: "SUSPENDED" },
+                ].map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setStatusFilter(option.value);
+                      setIsFilterOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
+          )}
+        </div>
+      </div>
+      {/* Dealer cards grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-6">
+        {filteredDealers.length === 0 ? (
+          <div className="col-span-full text-center text-gray-500 py-10">
+            No dealers found.
           </div>
+        ) : (
+          filteredDealers.map((dealer) => (
+            <DealerCard key={dealer.id} dealer={dealer} />
+          ))
         )}
       </div>
-      {filteredDealers.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
-            No dealers found matching your criteria
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredDealers.map((dealer) => (
-            <DealerCard key={dealer.id} dealer={dealer} />
-          ))}
-        </div>
-      )}
-      {/* Pagination controls and items per page selector */}
       <div className="sticky bottom-0 flex flex-col mt-5 sm:flex-row items-center justify-between mb-4 gap-2">
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-700">Show</span>

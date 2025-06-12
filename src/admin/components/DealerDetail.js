@@ -70,42 +70,43 @@ const DocumentPreview = ({ filename, foldername, label }) => {
 };
 
 // status badge
+const STATUS_MAP = {
+  1: { label: "NOT STARTED", color: "bg-gray-100 text-gray-800" },
+  2: { label: "PENDING DOCUMENTS", color: "bg-yellow-100 text-yellow-800" },
+  3: { label: "PENDING INSTALLATIONS", color: "bg-blue-100 text-blue-800" },
+  5: { label: "PENDING APPROVAL", color: "bg-indigo-100 text-indigo-800" },
+  4: { label: "APPROVED", color: "bg-green-100 text-green-800" },
+  6: { label: "REJECTED", color: "bg-red-100 text-red-800" },
+  7: { label: "SUSPENDED", color: "bg-orange-100 text-orange-800" },
+};
+
+const STATUS_LABEL_TO_CODE = {
+  "not started": "1",
+  "pending documents": "2",
+  "pending installations": "3",
+  "pending approval": "5",
+  approved: "4",
+  rejected: "6",
+  suspended: "7",
+};
+
 const StatusBadge = ({ status, className = "" }) => {
-  // Convert status from string format "Pending_Approval" to code format "3"
-  const getStatusCode = (statusString) => {
-    const statusLower = statusString.toLowerCase();
+  let code = STATUS_LABEL_TO_CODE[String(status).toLowerCase()] || status;
+  let statusObj = STATUS_MAP[code];
 
-    if (
-      statusLower === "pending_documents" ||
-      statusLower === "pending documents"
-    )
-      return "1";
-    if (
-      statusLower === "pending_installations" ||
-      statusLower === "pending installations"
-    )
-      return "2";
-    if (
-      statusLower === "pending_approval" ||
-      statusLower === "pending approval"
-    )
-      return "3";
-    if (statusLower === "approved") return "4";
-    if (statusLower === "registered") return "5";
-    if (statusLower === "suspended") return "6";
-
-    return "3"; // Default to pending approval
-  };
-
-  //const statusCode = getStatusCode(status);
-  const colorClasses = "bg-gray-100 text-gray-800";
-  const label = status;
+  // fallback if status is not mapped
+  if (!statusObj) {
+    statusObj = {
+      label: String(status).toUpperCase(),
+      color: "bg-gray-100 text-gray-800",
+    };
+  }
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClasses} ${className}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusObj.color} ${className}`}
     >
-      {label}
+      {statusObj.label}
     </span>
   );
 };
@@ -244,13 +245,15 @@ const DealerVerification = () => {
                 {dealer.user_full_name}
               </h1>
               <div className="flex items-center mt-1">
-                <StatusBadge status={dealer.reg_status} />
+                <StatusBadge status={dealer.reg_status || "NOT STARTED"} />
               </div>
             </div>
 
             <div className="mt-4 sm:mt-0 flex space-x-3">
-              {dealer.reg_status !== "Approved" &&
-                dealer.reg_status !== "Registered" && (
+              {/* Approve button */}
+              {dealer.reg_status !== "APPROVED" &&
+                dealer.reg_status !== "REJECTED" &&
+                dealer.reg_status !== "SUSPENDED" && (
                   <button
                     onClick={() => handleStatusChange(4)}
                     disabled={loading}
@@ -261,24 +264,42 @@ const DealerVerification = () => {
                   </button>
                 )}
 
-              {dealer.reg_status !== "Suspended" && (
-                <button
-                  onClick={() => handleStatusChange(6)}
-                  disabled={loading}
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <XCircle size={16} className="mr-2" />
-                  Suspend
-                </button>
-              )}
+              {/* Reject button */}
+              {dealer.reg_status &&
+                dealer.reg_status === "PENDING APPROVAL" && (
+                  <button
+                    onClick={() => handleStatusChange(6)}
+                    disabled={loading}
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <XCircle size={16} className="mr-2" />
+                    Reject
+                  </button>
+                )}
 
-              {dealer.reg_status === "Suspended" && (
+              {/* Suspend button */}
+              {dealer.reg_status !== "SUSPENDED" &&
+                dealer.reg_status !== "REJECTED" &&
+                dealer.reg_status !== "NOT STARTED" &&
+                dealer.reg_status === "APPROVED" && (
+                  <button
+                    onClick={() => handleStatusChange(7)}
+                    disabled={loading}
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <AlertCircle size={16} className="mr-2" />
+                    Suspend
+                  </button>
+                )}
+
+              {/* Reinstate (Re-approve) button */}
+              {dealer.reg_status === "SUSPENDED" && (
                 <button
-                  onClick={() => handleStatusChange(3)}
+                  onClick={() => handleStatusChange(4)}
                   disabled={loading}
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <AlertCircle size={16} className="mr-2" />
+                  <CheckCircle size={16} className="mr-2" />
                   Reinstate
                 </button>
               )}

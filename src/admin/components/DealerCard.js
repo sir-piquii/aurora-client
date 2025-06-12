@@ -2,40 +2,40 @@ import { ChevronRight, Building2, Mail, User } from "lucide-react";
 
 //status badge
 
+const STATUS_MAP = {
+  1: { label: "NOT STARTED", color: "bg-gray-200 text-gray-700" },
+  2: { label: "PENDING DOCUMENTS", color: "bg-yellow-100 text-yellow-800" },
+  3: { label: "PENDING INSTALLATIONS", color: "bg-blue-100 text-blue-800" },
+  4: { label: "APPROVED", color: "bg-green-100 text-green-800" },
+  5: { label: "PENDING APPROVAL", color: "bg-orange-100 text-orange-800" },
+  6: { label: "REJECTED", color: "bg-red-100 text-red-800" },
+  7: { label: "SUSPENDED", color: "bg-gray-400 text-white" },
+};
+
+const STATUS_LABEL_TO_ID = {
+  "not started": "1",
+  "pending documents": "2",
+  pending_installations: "3",
+  "pending installations": "3",
+  approved: "4",
+  "pending approval": "5",
+  pending_approval: "5",
+  rejected: "6",
+  suspended: "7",
+};
+
 const StatusBadge = ({ status, className = "" }) => {
-  // Convert status from string format "Pending_Approval" to code format "3"
-  const getStatusCode = (statusString) => {
-    const statusLower = statusString.toLowerCase();
-
-    if (
-      statusLower === "pending_documents" ||
-      statusLower === "pending documents"
-    )
-      return "1";
-    if (
-      statusLower === "pending_installations" ||
-      statusLower === "pending installations"
-    )
-      return "2";
-    if (
-      statusLower === "pending_approval" ||
-      statusLower === "pending approval"
-    )
-      return "3";
-    if (statusLower === "approved") return "4";
-    if (statusLower === "registered") return "5";
-    if (statusLower === "suspended") return "6";
-
-    return "3"; // Default to pending approval
-  };
-
-  //const statusCode = getStatusCode(status);
-  const colorClasses = "bg-gray-100 text-gray-800";
-  const label = status;
+  // Normalize status to id
+  let statusId = STATUS_LABEL_TO_ID[String(status).toLowerCase()] || status;
+  if (!STATUS_MAP[statusId]) {
+    // fallback to "NOT STARTED"
+    statusId = "1";
+  }
+  const { label, color } = STATUS_MAP[statusId];
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClasses} ${className}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${color} ${className}`}
     >
       {label}
     </span>
@@ -81,7 +81,10 @@ const DealerCard = ({ dealer }) => {
               <span>{dealer.trading_name}</span>
             </div>
           </div>
-          <StatusBadge status={dealer.reg_status} className="ml-2" />
+          <StatusBadge
+            status={dealer.reg_status || "NOT STARTED"}
+            className="ml-2"
+          />
         </div>
       </div>
       <div className="px-5 py-3 bg-gray-50 flex justify-end items-center border-t border-gray-100">
