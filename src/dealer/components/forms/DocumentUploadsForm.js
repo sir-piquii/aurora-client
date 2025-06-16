@@ -90,12 +90,7 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
     }
   };
 
-  const renderFileUpload = (
-    field,
-    label,
-    accept = ".pdf,.doc,.docx,.jpg,.jpeg,.png",
-    multiple
-  ) => {
+  const renderFileUpload = (field, label, accept = "image/*", multiple) => {
     const fileName = fileNames[field];
     const error = errors[field];
 
@@ -200,7 +195,7 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
                   Click to upload or drag and drop
                 </span>
                 <span className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                  PDF, DOC, DOCX, JPG, JPEG, PNG (max 10MB)
+                  Images only (JPG, JPEG, PNG, GIF, etc., max 3MB)
                 </span>
               </label>
             </div>
@@ -218,21 +213,21 @@ const DocumentUploadsForm = ({ dealer, onSubmit, isLoading }) => {
         {renderFileUpload(
           "tax_clearance",
           "Tax Clearance",
-          ".pdf,.doc,.docx,.jpg,.jpeg,.png",
+          ".jpg,.jpeg,.png",
           false
         )}
 
         {renderFileUpload(
           "certificate_of_incorporation",
           "Certificate of Incorporation",
-          ".pdf,.doc,.docx,.jpg,.jpeg,.png",
+          ".jpg,.jpeg,.png",
           false
         )}
 
         {renderFileUpload(
           "national_ID_Copies_of_the_Directors",
-          "National ID Copies of Directors (at least 3)",
-          ".pdf,.jpg,.jpeg,.png",
+          "National ID Copies of Directors",
+          ".jpg,.jpeg,.png",
           true
         )}
       </div>

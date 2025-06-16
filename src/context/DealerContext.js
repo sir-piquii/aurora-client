@@ -26,6 +26,11 @@ export const DealerProvider = ({ children }) => {
   const { user: userData } = useAuth;
   const [loading, setLoading] = useState(true);
   const fetchDealer = useCallback(async () => {
+    if (!userData || !userData.user || !userData.user.id) {
+      // Redirect to login if userData is missing
+      window.location.href = "/login";
+      return;
+    }
     try {
       setLoading(true);
       const data = await getDealerById(userData.user.id);
@@ -36,7 +41,7 @@ export const DealerProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [userData?.user?.id]);
   useEffect(() => {
     fetchDealer();
   }, [fetchDealer]);

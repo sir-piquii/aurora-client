@@ -26,6 +26,15 @@ const QuotationCard = ({ quotation }) => {
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
+  const totalPrice =
+    (typeof quotation.products === "string"
+      ? JSON.parse(quotation.products)
+      : quotation.products
+    )?.reduce((total, product) => {
+      const price = parseFloat(product.price) || 0;
+      const quantity = parseInt(product.quantity, 10) || 0;
+      return total + price * quantity;
+    }, 0) || 0;
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden transform transition-all duration-200 hover:shadow-md">
@@ -40,7 +49,7 @@ const QuotationCard = ({ quotation }) => {
 
           <div>
             <div className="flex items-center gap-3">
-              {quotation.status && <StatusBadge status={"approved"} />}
+              {quotation.status && <StatusBadge status={quotation.status} />}
             </div>
             <p className="text-sm text-gray-500 mt-1">
               {quotation.requester_name}
@@ -138,14 +147,7 @@ const QuotationCard = ({ quotation }) => {
                           {product.price || "N/A"}
                         </td>
                         <td className="px-3 py-2 text-sm font-medium text-gray-900 text-right">
-                          {/* {product.price
-                            ? formatCurrency(
-                                calculateProductTotal(
-                                  product.quantity,
-                                  product.price
-                                )
-                              )
-                            : "N/A"} */}
+                          {product.price * product.quantity}
                         </td>
                       </tr>
                     ))}
@@ -158,7 +160,9 @@ const QuotationCard = ({ quotation }) => {
                       >
                         Total
                       </td>
-                      <td className="px-3 py-2 text-sm font-bold text-indigo-700 text-right"></td>
+                      <td className="px-3 py-2 text-sm font-bold text-indigo-700 text-right">
+                        {totalPrice}
+                      </td>
                     </tr>
                   </tfoot>
                 </table>
@@ -230,7 +234,7 @@ const Quotations = () => {
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Your Quotations</h1>
+          <h1 className="text-2xl font-bold text-gray-900">My Quotations</h1>
           <p className="text-sm text-gray-500 mt-1">
             View and manage all your quotation requests
           </p>

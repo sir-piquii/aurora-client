@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import DealerRegPortal from "./components/DealerRegPortal";
 import Orders from "./components/Orders";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
 /**
  * DealerPanel component serves as the main layout for the dealer registration section.
  * 
@@ -25,6 +26,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  *    - Quotations
  *    - Orders
  * - Displays toast notifications via the Toaster component.
+ * - Updated to work with fixed navbar and provide proper scrolling
  * 
  * @component
  * @returns {JSX.Element} The rendered DealerPanel layout with sidebar and routed content.
@@ -33,67 +35,62 @@ function DealerPanel() {
   useEffect(() => {
     document.title = "Dealer Registration";
   }, []);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+
   return (
     <DealerProvider>
-      <div className="relative flex gap-2">
+      <div className="relative flex min-h-screen">
+        {/* Sidebar - fixed on the left, positioned below navbar */}
+        <div className="fixed top-[118px] left-0 h-[calc(100vh-118px)] z-40">
+          <Sidebar
+            isSidebarOpen={isSidebarOpen}
+            closeSideBar={() => {
+              setIsSidebarOpen(false);
+            }}
+          />
+        </div>
+
+        {/* Mobile overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-12 top-[118px]"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        {/* Toggle button for sidebar (on small screens) */}
         <button
-          className="lg:hidden fixed top-30 left-0 z-50 z-[1000] p-2 rounded-md bg-white shadow-md"
+          className={`lg:hidden fixed top-[150px] left-2 ${isSidebarOpen ? "z-0": "z-40"} p-2 rounded-md bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors`}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? (
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} className="text-gray-600" />
           ) : (
-            <ChevronRight size={24} />
+            <ChevronRight size={20} className="text-gray-600" />
           )}
         </button>
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          closeSideBar={() => {
-            setIsSidebarOpen(false);
-          }}
-        />
-        {/* Content Area */}
-        <Routes>
-          <Route path="/" element={<Dashboard />}>
-            <Route index element={<LandingPage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="register" element={<DealerRegPortal />} />
-            <Route path="quotations/" element={<Quotations />} />
-            <Route path="orders/" element={<Orders />} />
-          </Route>
-        </Routes>
+
+        {/* Main content area */}
+        <div className="flex-1 lg:ml-64 min-h-[calc(100vh-118px)] mt-[20px]">
+          <div className="h-full overflow-y-auto">
+            <div className="p-4 lg:p-6">
+              <Routes>
+                <Route path="/" element={<Dashboard />}>
+                  <Route index element={<LandingPage />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="register" element={<DealerRegPortal />} />
+                  <Route path="quotations/" element={<Quotations />} />
+                  <Route path="orders/" element={<Orders />} />
+                </Route>
+              </Routes>
+            </div>
+          </div>
+        </div>
       </div>
-      <Toaster />
+      <Toaster position="top-right" />
     </DealerProvider>
   );
 }
 
 export default DealerPanel;
-/**
- * <div className="dealer-content flex-1 p-6">
-				<Routes>
-					<Route path="add-dealer/:id" element={<AddDealer />} />
-					<Route
-						path="add-installations/:id"
-						element={<AddInstallations />}
-					/>
-					<Route
-						path="upload-certificate/:id"
-						element={<UploadCertificateOfIncorporation />}
-					/>
-					<Route
-						path="upload-tax-clearance/:id"
-						element={<UploadTaxClearanceCertificate />}
-					/>
-					<Route
-						path="upload-ids-of-directors/:id"
-						element={<UploadIdsOfDirectors />}
-					/>
-				</Routes>
-				<Routes>
-					<Route path="quotations/:id" element={<Quotations />} />
-				</Routes>
-			</div>
- * 
- */
