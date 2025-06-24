@@ -1,0 +1,29 @@
+@keyframes glow {
+	0% {
+		box-shadow: 0 0 5px rgba(255, 165, 0, 0.8),
+			0 0 10px rgba(255, 165, 0, 0.6), 0 0 15px rgba(255, 165, 0, 0.4);
+	}
+	100% {
+		box-shadow: 0 0 15px rgba(255, 165, 0, 1),
+			0 0 30px rgba(255, 165, 0, 0.8), 0 0 50px rgba(255, 165, 0, 0.6);
+	}
+}
+
+.hover\:glow-effect:hover {
+	animation: glow 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollUp {
+	0% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+footer {
+	animation: scrollUp 1s ease-out forwards;
+}
