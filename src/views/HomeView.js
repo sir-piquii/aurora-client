@@ -4,6 +4,16 @@ import Products from '../components/ProductsComponent';
 // import Brands from '../components/BrandsComponent';
 import Testimonials from '../components/TestimonialComponent';
 
+/**
+ * HomeView component renders the main homepage view.
+ * 
+ * - Sets the document title to "Home | Aurora" on mount.
+ * - Attempts to autoplay an audio file on first visit (per session).
+ * - Displays an image carousel, audio player, products, and testimonials.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered HomeView component.
+ */
 function HomeView() {
 	useEffect(() => {
 		document.title = 'Home | Aurora';

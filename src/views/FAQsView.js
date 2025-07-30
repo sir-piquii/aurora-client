@@ -1,5 +1,14 @@
 import React from 'react';
 
+/**
+ * FAQsPage component displays a Frequently Asked Questions (FAQs) section.
+ *
+ * Renders a styled page with a header and a list of FAQs, each containing a question and its answer.
+ * The FAQs data is currently hardcoded but could be fetched from an API.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered FAQs page with questions and answers.
+ */
 function FAQsPage() {
   // Simulated FAQs data (could be fetched from an API)
   const faqs = [

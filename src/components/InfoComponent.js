@@ -17,6 +17,15 @@ const InfoCard = ({ Icon, title, children }) => {
 	);
 };
 
+/**
+ * Renders a set of informational cards displaying the company's vision, mission, and values.
+ *
+ * Each card uses the `InfoCard` component and displays an icon, a title, and relevant content.
+ * The layout is responsive, using a grid that adapts to different screen sizes.
+ *
+ * @component
+ * @returns {JSX.Element} A responsive grid of informational cards.
+ */
 const InfoCards = () => {
 	return (
 		<div className="w-9/12 mx-auto mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

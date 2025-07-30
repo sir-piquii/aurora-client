@@ -2,6 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getFAQById, addFaqs, updateFaqs } from '../../api';
 
+/**
+ * FAQForm component for adding or editing Frequently Asked Questions (FAQs).
+ *
+ * This component renders a form that allows users to create a new FAQ or edit an existing one.
+ * It determines the mode (add or edit) based on the presence of an `id` parameter in the URL.
+ * When editing, it fetches the existing FAQ data and populates the form fields.
+ * On submission, it either adds a new FAQ or updates the existing one, then navigates back to the FAQ list.
+ *
+ * State:
+ * - question: The FAQ question text.
+ * - answer: The FAQ answer text.
+ * - isEditMode: Boolean indicating if the form is in edit mode.
+ *
+ * Side Effects:
+ * - Fetches FAQ data by ID when in edit mode.
+ *
+ * Handlers:
+ * - handleSubmit: Handles form submission for adding or updating an FAQ.
+ *
+ * UI:
+ * - Renders input fields for question and answer.
+ * - Shows "Add FAQ" or "Edit FAQ" based on mode.
+ * - Provides "Cancel" button to navigate back.
+ *
+ * Dependencies:
+ * - React hooks: useState, useEffect
+ * - React Router: useParams, useNavigate
+ * - Data functions: getFAQById, updateFaqs, addFaqs
+ *
+ * @component
+ */
 const FAQForm = () => {
 	const [question, setQuestion] = useState('');
 	const [answer, setAnswer] = useState('');

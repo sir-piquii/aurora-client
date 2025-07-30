@@ -42,6 +42,21 @@ const products = [
 	},
 ];
 
+/**
+ * Renders a section displaying a grid of product cards.
+ * Each card links to a product page and displays an icon and name.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered product section with a title and a responsive grid of products.
+ *
+ * @example
+ * // Usage in a parent component
+ * <ProductSection />
+ *
+ * @remarks
+ * - Expects a `products` array in scope, where each product has `link`, `icon`, and `name` properties.
+ * - Uses Tailwind CSS classes for styling and responsive layout.
+ */
 export default function ProductSection() {
 	return (
 		<section className="container mx-auto px-4 py-12">

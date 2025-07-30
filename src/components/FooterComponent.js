@@ -12,6 +12,30 @@ import {
 	FaTiktok,
 } from 'react-icons/fa6';
 
+/**
+ * Footer component for Aurora Energy website.
+ * 
+ * This component displays the footer section with animated appearance on scroll.
+ * It includes contact cards (WhatsApp/Phone, Email, Address, Google Maps embed)
+ * and a sidebar with social media links. Uses IntersectionObserver to animate
+ * the footer into view when it enters the viewport.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered footer component.
+ * 
+ * @example
+ * // Usage in a React application
+ * import Footer from './FooterComponent';
+ * 
+ * function App() {
+ *   return (
+ *     <div>
+ *       // Other components
+ *       <Footer />
+ *     </div>
+ *   );
+ * }
+ */
 export default function Footer() {
 	const footerRef = useRef(null);
 	const [isInView, setIsInView] = useState(false);
