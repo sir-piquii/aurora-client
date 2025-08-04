@@ -5,6 +5,8 @@ import Navbar from "../admin/Navbar";
 import { Menu } from "lucide-react";
 import { useSidebar } from "../context/SidebarContext";
 import ProtectedRoute from "../router/ProtectedRoute";
+import FloatingTourButton from "../components/tours/FloatingTourButton";
+
 /**
  * AdminLayout is a protected layout component for the admin section of the application.
  * It provides a sidebar, top navigation bar, main content area, and footer.
@@ -50,6 +52,8 @@ const AdminLayout = () => {
         >
           <Menu size={20} />
         </button>
+        {/* Floating Tour Button */}
+        <FloatingTourButton userRole="admin" />
       </div>
     </ProtectedRoute>
   );

@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 <<<<<<< HEAD
 =======
 import DealerManualPage from "./components/DealerManualPage";
+import FloatingTourButton from "../components/tours/FloatingTourButton";
 >>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
 
 /**
@@ -95,6 +96,8 @@ function DealerPanel() {
             </div>
           </div>
         </div>
+        {/* Floating Tour Button */}
+        <FloatingTourButton userRole="dealer" />
       </div>
       <Toaster position="top-right" />
     </DealerProvider>

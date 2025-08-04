@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
+import { TourProvider as ReactTourProvider, useTour as useReactTour } from '@reactour/tour';
 
 const TourContext = createContext();
 
@@ -7,26 +7,26 @@ const TourContext = createContext();
  * TourProvider component that manages guided tours throughout the application.
  * 
  * Provides context for starting tours, managing tour state, and handling tour events.
- * Uses react-joyride to create interactive step-by-step guides for users.
+ * Uses @reactour/tour to create interactive step-by-step guides for users.
  * 
  * @component
  * @param {Object} props
  * @param {React.ReactNode} props.children - Child components that will have access to tour context
- * @returns {JSX.Element} Tour context provider with Joyride component
+ * @returns {JSX.Element} Tour context provider with ReactTour component
  */
 export const TourProvider = ({ children }) => {
   const [tourState, setTourState] = useState({
-    run: false,
+    isOpen: false,
     steps: [],
-    stepIndex: 0,
+    currentStep: 0,
     tourType: null,
   });
 
   const startTour = (steps, tourType) => {
     setTourState({
-      run: true,
+      isOpen: true,
       steps,
-      stepIndex: 0,
+      currentStep: 0,
       tourType,
     });
   };
@@ -34,99 +34,64 @@ export const TourProvider = ({ children }) => {
   const stopTour = () => {
     setTourState(prev => ({
       ...prev,
-      run: false,
+      isOpen: false,
     }));
   };
 
-  const handleJoyrideCallback = (data) => {
-    const { action, index, status, type } = data;
-
-    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      setTourState(prev => ({
-        ...prev,
-        stepIndex: index + (action === ACTIONS.PREV ? -1 : 1),
-      }));
-    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      stopTour();
-    }
-  };
-
   const tourStyles = {
-    options: {
-      primaryColor: '#de7a37',
-      backgroundColor: '#ffffff',
-      textColor: '#333333',
-      overlayColor: 'rgba(0, 0, 0, 0.5)',
-      spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-      zIndex: 10000,
-    },
-    tooltip: {
+    popover: (base) => ({
+      ...base,
+      '--reactour-accent': '#de7a37',
       borderRadius: '8px',
       fontSize: '14px',
-    },
-    tooltipContainer: {
-      textAlign: 'left',
-    },
-    tooltipTitle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
-      color: '#001f3f',
-      marginBottom: '8px',
-    },
-    tooltipContent: {
-      fontSize: '14px',
-      lineHeight: '1.5',
-      color: '#555555',
-    },
-    buttonNext: {
-      backgroundColor: '#de7a37',
-      color: '#ffffff',
-      borderRadius: '6px',
-      padding: '8px 16px',
-      border: 'none',
-      fontWeight: '500',
-    },
-    buttonBack: {
-      backgroundColor: '#001f3f',
-      color: '#ffffff',
-      borderRadius: '6px',
-      padding: '8px 16px',
-      border: 'none',
-      fontWeight: '500',
-      marginRight: '8px',
-    },
-    buttonSkip: {
-      backgroundColor: 'transparent',
-      color: '#666666',
-      border: '1px solid #cccccc',
-      borderRadius: '6px',
-      padding: '8px 16px',
-      fontWeight: '500',
-    },
+      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+    }),
+    maskArea: (base) => ({
+      ...base,
+      rx: 8,
+    }),
+    badge: (base) => ({
+      ...base,
+      left: 'auto',
+      right: '-0.8125em',
+    }),
+    controls: (base) => ({
+      ...base,
+      marginTop: '16px',
+    }),
+    close: (base) => ({
+      ...base,
+      right: '16px',
+      top: '16px',
+    }),
   };
 
   return (
     <TourContext.Provider value={{ startTour, stopTour, tourState }}>
-      {children}
-      <Joyride
-        callback={handleJoyrideCallback}
-        continuous
-        hideCloseButton
-        run={tourState.run}
-        scrollToFirstStep
-        showProgress
-        showSkipButton
+      <ReactTourProvider
         steps={tourState.steps}
-        stepIndex={tourState.stepIndex}
+        isOpen={tourState.isOpen}
+        onRequestClose={stopTour}
         styles={tourStyles}
-        locale={{
-          back: 'Previous',
-          close: 'Close',
-          last: 'Finish',
-          next: 'Next',
-          skip: 'Skip Tour',
+        className="tour-popover"
+        showNavigation={true}
+        showPrevNextButtons={true}
+        showCloseButton={true}
+        showBadge={true}
+        scrollSmooth={true}
+        disableInteraction={false}
+        disableKeyboardNavigation={false}
+        padding={{
+          mask: 10,
+          popover: [10, 10],
         }}
-      />
+        beforeClose={() => {
+          stopTour();
+          return true;
+        }}
+      >
+        {children}
+      </ReactTourProvider>
     </TourContext.Provider>
   );
 };

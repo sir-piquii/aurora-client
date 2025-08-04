@@ -43,3 +43,20 @@
 
 @import 'slick-carousel/slick/slick.css';
 @import 'slick-carousel/slick/slick-theme.css';
+
+/* Tour styles */
+.tour-popover {
+  --reactour-accent: #de7a37;
+  font-family: 'Anta', sans-serif;
+}
+
+.tour-popover h3 {
+  color: #001f3f;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tour-popover p {
+  line-height: 1.5;
+  color: #555555;
+}

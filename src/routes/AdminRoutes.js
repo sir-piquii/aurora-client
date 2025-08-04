@@ -33,6 +33,8 @@ import { useContext } from "react";
 import Sales from "../admin/components/Sales";
 import Profile from "../admin/Profile";
 import AdminManualPage from "../admin/components/AdminManualPage";
+import FloatingTourButton from "../components/tours/FloatingTourButton";
+
 /**
  * AdminRoutes component defines the protected admin dashboard layout and routing structure.
  *
@@ -135,6 +137,8 @@ const AdminRoutes = () => {
           >
             <Menu size={20} />
           </button>
+          {/* Floating Tour Button */}
+          <FloatingTourButton userRole="admin" />
         </div>
       </SidebarProvider>
     </ProtectedRoute>
