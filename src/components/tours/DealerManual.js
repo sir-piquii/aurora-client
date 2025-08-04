@@ -154,7 +154,7 @@ const DealerManual = () => {
           <ol className="text-sm text-orange-800 space-y-2">
             <li className="flex items-start">
               <span className="bg-orange-200 text-orange-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5">1</span>
-              Start with the "Registration Overview" tour
+              Start with the "Registration Overview\" tour
             </li>
             <li className="flex items-start">
               <span className="bg-orange-200 text-orange-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5">2</span>
