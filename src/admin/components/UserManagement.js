@@ -167,14 +167,22 @@ const UserManagement = () => {
         </h1>
         <button
           onClick={() => setShowForm(!showForm)}
+<<<<<<< HEAD
           className="flex items-center bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded shadow-md"
+=======
+          className="add-admin-btn flex items-center bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded shadow-md"
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
         >
           <Plus className="mr-2" size={18} />
           Add Admin
         </button>
       </div>
       <div className="overflow-x-auto">
+<<<<<<< HEAD
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+=======
+        <table className="admin-list-table min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th

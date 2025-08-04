@@ -59,7 +59,11 @@ const StatusBadge = ({ status, className = "" }) => {
 const DealerCard = ({ dealer }) => {
   return (
     <a
+<<<<<<< HEAD
       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer border border-gray-100"
+=======
+      className="dealer-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer border border-gray-100"
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
       href={`/admin/dealers/${dealer.id}`}
     >
       <div className="p-5">

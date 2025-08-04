@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
+<<<<<<< HEAD
 import { Home, User, FileText, LogOut, Award, X } from "lucide-react";
+=======
+import { Home, User, FileText, LogOut, Award, X, Book } from "lucide-react";
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
 
 /**
  * Sidebar component for the dealer dashboard.
@@ -28,6 +32,10 @@ const Sidebar = ({ isSidebarOpen, closeSideBar }) => {
   const navItems = [
     { name: "Home", path: "/dealer", icon: <Home size={20} /> },
     { name: "Profile", path: "/dealer/profile", icon: <User size={20} /> },
+<<<<<<< HEAD
+=======
+    { name: "Help Manual", path: "/dealer/manual", icon: <Book size={20} /> },
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
     ...(isDealer
       ? [
           {

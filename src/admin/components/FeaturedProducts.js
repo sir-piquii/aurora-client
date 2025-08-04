@@ -95,7 +95,11 @@ const FeaturedProducts = () => {
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
                     <img
+<<<<<<< HEAD
                       src={`https://dev-api.auroraenergy.co.zw/featuredProducts/${product.image}`}
+=======
+                      src={`https://api.auroraenergy.co.zw/featuredProducts/${product.image}`}
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
                       alt={product.name}
                       className="w-16 h-16 object-cover"
                     />

@@ -18,7 +18,11 @@
  */
 import React, { useState } from "react";
 import { uploadCertificate } from "../../api";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import { useNavigate, useParams } from "react-router-dom";
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
 
 const CertificatesForm = () => {
   const [title, setTitle] = useState("");
@@ -26,7 +30,10 @@ const CertificatesForm = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+<<<<<<< HEAD
 
+=======
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

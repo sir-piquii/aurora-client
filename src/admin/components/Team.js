@@ -155,7 +155,11 @@ const Team = () => {
                 <div className="flex items-center space-x-4">
                   {member.picture && (
                     <img
+<<<<<<< HEAD
                       src={`https://dev-api.auroraenergy.co.zw/team/${member.picture}`}
+=======
+                      src={`https://api.auroraenergy.co.zw/team/${member.picture}`}
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
                       alt={member.name}
                       className="w-14 h-14 object-cover rounded-full"
                     />

@@ -218,6 +218,24 @@ export const uploadCertificate = async (formData) => {
   }
 };
 
+export const updateCertificate = async (id, formData) => {
+  try {
+    const response = await axios.put(
+      `${endpoints.certificates}/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating certificates:", error);
+    throw error;
+  }
+};
+
 export const deleteCertificate = async (id) => {
   try {
     const response = await axios.delete(

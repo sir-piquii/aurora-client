@@ -154,7 +154,11 @@ const Profile = () => {
             </div>
             <button
               onClick={() => setIsEditingProfile(!isEditingProfile)}
+<<<<<<< HEAD
               className="text-sm text-blue-800 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+=======
+              className="change-password-btn text-sm text-blue-800 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
             >
               {isEditingProfile ? "Cancel" : "Edit"}
             </button>
@@ -228,7 +232,11 @@ const Profile = () => {
         </div>
 
         {/* Company Details */}
+<<<<<<< HEAD
         <div className="p-6">
+=======
+        <div className="company-details-section p-6">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
           <div className="flex items-center space-x-2 mb-4">
             <Building2 className="h-5 w-5 text-blue-800 dark:text-blue-400" />
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
@@ -280,7 +288,11 @@ const Profile = () => {
         </div>
 
         {/* Documents */}
+<<<<<<< HEAD
         <div className="p-6">
+=======
+        <div className="documents-section p-6">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
           <div className="flex items-center space-x-2 mb-4">
             <FileText className="h-5 w-5 text-blue-800 dark:text-blue-400" />
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
@@ -348,7 +360,11 @@ const Profile = () => {
         </div>
 
         {/* Installations */}
+<<<<<<< HEAD
         <div className="p-6">
+=======
+        <div className="installations-section p-6">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
           <div className="flex items-center space-x-2 mb-4">
             <Wrench className="h-5 w-5 text-blue-800 dark:text-blue-400" />
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">

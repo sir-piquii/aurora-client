@@ -229,11 +229,19 @@ const DealerRegistration = () => {
         </div>
         <div className="max-w-3xl mx-auto">
           <ProgressTracker
+<<<<<<< HEAD
+=======
+            className="progress-tracker"
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
             completedSections={completedSections}
             totalSections={3}
           />
           <div className="mt-8 space-y-6">
+<<<<<<< HEAD
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+=======
+            <div className="company-details-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
               <button
                 onClick={() =>
                   setActiveSection(
@@ -263,7 +271,11 @@ const DealerRegistration = () => {
               )}
             </div>
 
+<<<<<<< HEAD
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+=======
+            <div className="documents-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
               <button
                 onClick={() =>
                   setActiveSection(
@@ -295,7 +307,11 @@ const DealerRegistration = () => {
               )}
             </div>
 
+<<<<<<< HEAD
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+=======
+            <div className="installations-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
               <button
                 onClick={() =>
                   setActiveSection(
@@ -334,4 +350,8 @@ const DealerRegistration = () => {
   );
 };
 
+<<<<<<< HEAD
 export default DealerRegistration;
+=======
+export default DealerRegistration;
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270

@@ -94,7 +94,11 @@ const Testimonials = () => {
                 <div className="flex items-center space-x-4">
                   {testimonial.image && (
                     <img
+<<<<<<< HEAD
                       src={`https://dev-api.auroraenergy.co.zw/testimonials/${testimonial.image}`}
+=======
+                      src={`https://api.auroraenergy.co.zw/testimonials/${testimonial.image}`}
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
                       alt={testimonial.person}
                       className="w-14 h-14 object-cover rounded-full"
                     />

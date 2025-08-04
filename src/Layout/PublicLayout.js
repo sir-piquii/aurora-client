@@ -18,7 +18,7 @@ const PublicLayout = () => {
   return (
     <div className="grid w-screen overflow-x-hidden grid-rows-[auto_1fr_auto] p-0 m-0 box-border">
       <Navbar />
-      <main className="min-h-screen w-screen pt-[118px]">
+      <main className="min-h-screen w-screen">
         <Outlet />
       </main>
       <Footer />

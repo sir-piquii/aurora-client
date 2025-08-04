@@ -19,6 +19,10 @@ import {
   CheckCircle,
   X,
   ShoppingCart,
+<<<<<<< HEAD
+=======
+  Book,
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
 } from "lucide-react";
 // side bar item
 const SidebarItem = ({ item, isActive }) => {
@@ -78,7 +82,10 @@ const SidebarItem = ({ item, isActive }) => {
  */
 const Sidebar = () => {
   const { isOpen, close } = useContext(SidebarContext);
+<<<<<<< HEAD
   console.log(isOpen);
+=======
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
   const location = useLocation();
   // Close sidebar on navigation in mobile view
   useEffect(() => {
@@ -138,6 +145,14 @@ const Sidebar = () => {
       path: "/admin/dealers",
       icon: <CheckCircle size={20} />,
     },
+<<<<<<< HEAD
+=======
+    {
+      name: "Admin Manual",
+      path: "/admin/manual",
+      icon: <Book size={20} />,
+    },
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
   ];
 
   // Fixed position sidebar classes for large screens and absolute for mobile/tablet
@@ -160,7 +175,11 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <aside className={sidebarClasses}>
+<<<<<<< HEAD
         <div className="h-full flex flex-col overflow-y-auto">
+=======
+        <div className="admin-sidebar h-full flex flex-col overflow-y-auto">
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
           {/* Header with close button on mobile */}
           <div className="p-4 flex items-center justify-between border-b border-gray-100">
             <h2 className="text-2xl font-bold text-navy-900 flex items-center">
@@ -201,4 +220,8 @@ const Sidebar = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Sidebar;
+=======
+export default Sidebar;
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270

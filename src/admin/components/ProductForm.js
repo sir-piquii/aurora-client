@@ -52,6 +52,11 @@ import {
   addProduct,
   getProductCategories,
 } from "../../api";
+<<<<<<< HEAD
+=======
+import InlineTourButton from "../../components/tours/InlineTourButton";
+import { adminProductFormSteps } from "../../components/tours/tourSteps";
+>>>>>>> cfee8f14bef653bc47cb15acc68991b364a19270
 
 const ProductForm = () => {
   const [formData, setFormData] = useState({
