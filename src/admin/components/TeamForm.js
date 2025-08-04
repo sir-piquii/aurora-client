@@ -137,7 +137,7 @@ const TeamForm = ({ member, isOpen, onClose, onSave }) => {
                 />
               </div>
             </div>
-            <div>
+            <div className="role-selection">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Role
               </label>
@@ -170,7 +170,7 @@ const TeamForm = ({ member, isOpen, onClose, onSave }) => {
               </div>
             </div>
             {/*Member Image */}
-            <div>
+            <div className="image-upload-section">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Member Image
               </label>

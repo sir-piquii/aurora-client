@@ -19,6 +19,7 @@ import {
   CheckCircle,
   X,
   ShoppingCart,
+  Book,
 } from "lucide-react";
 // side bar item
 const SidebarItem = ({ item, isActive }) => {
@@ -137,6 +138,11 @@ const Sidebar = () => {
       path: "/admin/dealers",
       icon: <CheckCircle size={20} />,
     },
+    {
+      name: "Admin Manual",
+      path: "/admin/manual",
+      icon: <Book size={20} />,
+    },
   ];
 
   // Fixed position sidebar classes for large screens and absolute for mobile/tablet
@@ -159,7 +165,7 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <aside className={sidebarClasses}>
-        <div className="h-full flex flex-col overflow-y-auto">
+        <div className="admin-sidebar h-full flex flex-col overflow-y-auto">
           {/* Header with close button on mobile */}
           <div className="p-4 flex items-center justify-between border-b border-gray-100">
             <h2 className="text-2xl font-bold text-navy-900 flex items-center">

@@ -22,6 +22,7 @@ import DealerRoute from "./router/DealerRoute";
 import ForgottenPassword from "./views/ForgottenPassword";
 import Spinner from "./components/Spinner";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { TourProvider } from "./components/tours/TourProvider";
 const AdminRoutes = lazy(() => import("./routes/AdminRoutes"));
 /**
  * Main application component that defines the routing structure for the app.
@@ -38,48 +39,50 @@ const AdminRoutes = lazy(() => import("./routes/AdminRoutes"));
 const App = () => {
   const { user } = useContext(AuthContext);
   return (
-    <Routes>
-      {/*Admin routes */}
-      <Route
-        path="/admin/*"
-        element={
-          <Suspense fallback={<Spinner />}>
-            <ErrorBoundary>
-              <AdminRoutes />
-            </ErrorBoundary>
-          </Suspense>
-        }
-      />
-      <Route path="/*" element={<PublicLayout />}>
-        <Route index element={<HomeView />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="about" element={<About />} />
-        <Route path="blog/:blogId" element={<Blog />} />
-        <Route path="blogs" element={<Blogs />} />
-        <Route path="case-study/:caseStudyId" element={<CaseStudy />} />
-        <Route path="case-studies" element={<CaseStudies />} />
-        <Route path="products" element={<Products />} />
-        <Route path="category/:categoryId" element={<Category />} />
-        <Route path="product/:productId" element={<ProductDetail />} />
-        <Route path="insights" element={<Insights />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="faqs" element={<FAQs />} />
-
-        {/* Redirect login & signup if already logged in */}
-        <Route path="login" element={<Login />} />
+    <TourProvider>
+      <Routes>
+        {/*Admin routes */}
         <Route
-          path="signup"
-          element={user ? <Navigate to="/" /> : <Signup />}
+          path="/admin/*"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <ErrorBoundary>
+                <AdminRoutes />
+              </ErrorBoundary>
+            </Suspense>
+          }
         />
-        <Route element={<DealerRoute />}>
-          <Route path="dealer/*" element={<DealerPanel />} />
+        <Route path="/*" element={<PublicLayout />}>
+          <Route index element={<HomeView />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="about" element={<About />} />
+          <Route path="blog/:blogId" element={<Blog />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="case-study/:caseStudyId" element={<CaseStudy />} />
+          <Route path="case-studies" element={<CaseStudies />} />
+          <Route path="products" element={<Products />} />
+          <Route path="category/:categoryId" element={<Category />} />
+          <Route path="product/:productId" element={<ProductDetail />} />
+          <Route path="insights" element={<Insights />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="faqs" element={<FAQs />} />
+
+          {/* Redirect login & signup if already logged in */}
+          <Route path="login" element={<Login />} />
+          <Route
+            path="signup"
+            element={user ? <Navigate to="/" /> : <Signup />}
+          />
+          <Route element={<DealerRoute />}>
+            <Route path="dealer/*" element={<DealerPanel />} />
+          </Route>
+          {/* Forgotten password route */}
+          <Route path="forgot-password" element={<ForgottenPassword />} />
+          {/* Redirect all other paths to home */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Route>
-        {/* Forgotten password route */}
-        <Route path="forgot-password" element={<ForgottenPassword />} />
-        {/* Redirect all other paths to home */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </TourProvider>
   );
 };
 

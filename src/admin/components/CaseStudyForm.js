@@ -517,6 +517,7 @@ const CaseStudyForm = () => {
                   <span className="text-gray-500 text-xs">(up to 5)</span>
                 </label>
                 <ImageUpload
+                  className="case-study-images"
                   images={caseStudy.images || []}
                   newImages={newImages}
                   onChange={handleImagesChange}
@@ -532,6 +533,7 @@ const CaseStudyForm = () => {
                   YouTube Video Link
                 </label>
                 <YoutubeInput
+                  className="youtube-input"
                   value={caseStudy.video || ""}
                   onChange={handleYoutubeLinkChange}
                 />

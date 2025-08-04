@@ -151,7 +151,7 @@ const InstallationsForm = ({ dealer, onSubmit, isLoading }) => {
           <button
             type="button"
             onClick={addInstallation}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="add-installation-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Installation
@@ -238,7 +238,7 @@ const InstallationsForm = ({ dealer, onSubmit, isLoading }) => {
             <button
               type="button"
               onClick={addInstallation}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-800 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-900/20 dark:text-blue-300 dark:hover:bg-blue-900/30 transition-colors"
+              className="add-installation-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-800 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-900/20 dark:text-blue-300 dark:hover:bg-blue-900/30 transition-colors"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Another Installation

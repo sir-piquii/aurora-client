@@ -32,6 +32,7 @@ import { Menu } from "lucide-react";
 import { useContext } from "react";
 import Sales from "../admin/components/Sales";
 import Profile from "../admin/Profile";
+import AdminManualPage from "../admin/components/AdminManualPage";
 /**
  * AdminRoutes component defines the protected admin dashboard layout and routing structure.
  *
@@ -64,6 +65,7 @@ const AdminRoutes = () => {
                 <Route path="/" element={<DashboardCards />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/manual" element={<AdminManualPage />} />
                 <Route
                   path="/featured-products"
                   element={<FeaturedProducts />}

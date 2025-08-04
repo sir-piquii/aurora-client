@@ -229,11 +229,12 @@ const DealerRegistration = () => {
         </div>
         <div className="max-w-3xl mx-auto">
           <ProgressTracker
+            className="progress-tracker"
             completedSections={completedSections}
             totalSections={3}
           />
           <div className="mt-8 space-y-6">
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+            <div className="company-details-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
               <button
                 onClick={() =>
                   setActiveSection(
@@ -263,7 +264,7 @@ const DealerRegistration = () => {
               )}
             </div>
 
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+            <div className="documents-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
               <button
                 onClick={() =>
                   setActiveSection(
@@ -295,7 +296,7 @@ const DealerRegistration = () => {
               )}
             </div>
 
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+            <div className="installations-section bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
               <button
                 onClick={() =>
                   setActiveSection(

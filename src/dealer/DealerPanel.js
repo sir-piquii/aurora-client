@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import DealerRegPortal from "./components/DealerRegPortal";
 import Orders from "./components/Orders";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import DealerManualPage from "./components/DealerManualPage";
 
 /**
  * DealerPanel component serves as the main layout for the dealer registration section.
@@ -82,6 +83,7 @@ function DealerPanel() {
                   <Route path="register" element={<DealerRegPortal />} />
                   <Route path="quotations/" element={<Quotations />} />
                   <Route path="orders/" element={<Orders />} />
+                  <Route path="manual/" element={<DealerManualPage />} />
                 </Route>
               </Routes>
             </div>

@@ -109,7 +109,7 @@ const Dealers = () => {
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            className="search-dealers block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             placeholder="Search dealers..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -119,7 +119,7 @@ const Dealers = () => {
         <div className="relative">
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="status-filter flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             <div className="flex items-center">
               <Filter size={18} className="mr-2 text-gray-400" />
@@ -170,14 +170,14 @@ const Dealers = () => {
         </div>
       </div>
       {/* Dealer cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-6">
+      <div className="dealer-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-6">
         {filteredDealers.length === 0 ? (
           <div className="col-span-full text-center text-gray-500 py-10">
             No dealers found.
           </div>
         ) : (
           filteredDealers.map((dealer) => (
-            <DealerCard key={dealer.id} dealer={dealer} />
+            <DealerCard key={dealer.id} dealer={dealer} className="dealer-card" />
           ))
         )}
       </div>

@@ -351,6 +351,7 @@ const BlogForm = () => {
           setImages={setNewImages}
           existingImageUrls={existingImageUrls}
           onRemoveExistingImage={handleRemoveExistingImage}
+          className="image-upload-area"
         />
 
         <div className="mb-4">

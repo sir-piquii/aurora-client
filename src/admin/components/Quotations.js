@@ -212,7 +212,7 @@ const QuotationCard = ({ quotation, onStatusChange }) => {
                   quotation.status !== "Rejected" && (
                     <button
                       onClick={() => handleStatusChange("Approved")}
-                      className="inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="quotation-actions inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <CheckCircle size={16} className="mr-2" />
                       Approve
@@ -222,7 +222,7 @@ const QuotationCard = ({ quotation, onStatusChange }) => {
                   quotation.status !== "Approved" && (
                     <button
                       onClick={() => handleStatusChange("Rejected")}
-                      className="inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="quotation-actions inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <XCircle size={16} className="mr-2" />
                       Reject
@@ -231,7 +231,7 @@ const QuotationCard = ({ quotation, onStatusChange }) => {
                 {quotation.status === "Rejected" && (
                   <button
                     onClick={() => handleStatusChange("Approved")}
-                    className="inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="quotation-actions inline-flex items-center px-4 py-1 border border-transparent rounded-md shadow-sm text-sm font-small text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <AlertCircle size={16} className="mr-2" />
                     Reapprove
@@ -319,7 +319,7 @@ const Quotations = () => {
         </div>
       </div>
 
-      <div className="bg-[#FFFBF5] rounded-lg p-4 border border-gray-200 shadow-sm mb-6">
+      <div className="quotation-overview bg-[#FFFBF5] rounded-lg p-4 border border-gray-200 shadow-sm mb-6">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
             <FileText className="h-5 w-5 text-orange-600" />
@@ -445,6 +445,7 @@ const Quotations = () => {
               key={quotation.id}
               quotation={quotation}
               onStatusChange={handleStatusChange}
+              className="quotation-card"
             />
           ))}
         </div>
